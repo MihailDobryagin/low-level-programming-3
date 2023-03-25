@@ -38,7 +38,7 @@ enum Type {
     BOOLEAN_TYPE = 2
 }
 
-union Values {
+union Value {
 	1: i32 Integer,
 	2: bool Boolean,
 	3: string String
@@ -75,7 +75,7 @@ union Condition_union {
 struct Condition {
 	1: i8 is_negative,
     2: i8 is_id,
-	3: Condition_union
+	3: Condition_union condition_union;
 }
 
 struct Filter_list {
@@ -83,9 +83,30 @@ struct Filter_list {
     2: list<Condition> and_conditions
 }
 
-struct View {
-    1: enum Crud_operation op,
+struct Request {
+    1: Crud_operation op,
     2: list<string> field_names_to_output,
-    3: list<Filter_list> *tree,
+    3: list<Filter_list> tree,
     4: Entity entity
+}
+
+struct Answer {
+  1: i16 code,
+  2: string error_message,
+  3: optional list<Entity> entities
+}
+
+service DBRequest {
+
+  /**
+   * A method definition looks like C code. It has a return type, arguments,
+   * and optionally a list of exceptions that it may throw. Note that argument
+   * lists and exception lists are specified using the exact same syntax as
+   * field lists in struct or exception definitions.
+   */
+
+   void ping(),
+
+   Answer do_request(1: Request req),
+
 }
