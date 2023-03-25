@@ -108,5 +108,4 @@ service DBRequest {
    void ping(),
 
    Answer do_request(1: Request req),
-
 }
