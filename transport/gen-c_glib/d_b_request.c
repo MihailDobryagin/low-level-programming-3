@@ -16,7 +16,7 @@ d_b_request_if_ping (DBRequestIf *iface, GError **error)
 }
 
 gboolean
-d_b_request_if_do_request (DBRequestIf *iface, Answer ** _return, const Request * req, GError **error)
+d_b_request_if_do_request (DBRequestIf *iface, Answer_TRANSPORT ** _return, const Request_TRANSPORT * req, GError **error)
 {
   return D_B_REQUEST_IF_GET_INTERFACE (iface)->do_request (iface, _return, req, error);
 }
@@ -252,7 +252,7 @@ gboolean d_b_request_client_ping (DBRequestIf * iface, GError ** error)
   return TRUE;
 }
 
-gboolean d_b_request_client_send_do_request (DBRequestIf * iface, const Request * req, GError ** error)
+gboolean d_b_request_client_send_do_request (DBRequestIf * iface, const Request_TRANSPORT * req, GError ** error)
 {
   gint32 cseqid = 0;
   ThriftProtocol * protocol = D_B_REQUEST_CLIENT (iface)->output_protocol;
@@ -297,7 +297,7 @@ gboolean d_b_request_client_send_do_request (DBRequestIf * iface, const Request 
   return TRUE;
 }
 
-gboolean d_b_request_client_recv_do_request (DBRequestIf * iface, Answer ** _return, GError ** error)
+gboolean d_b_request_client_recv_do_request (DBRequestIf * iface, Answer_TRANSPORT ** _return, GError ** error)
 {
   gint32 rseqid;
   gchar * fname = NULL;
@@ -421,7 +421,7 @@ gboolean d_b_request_client_recv_do_request (DBRequestIf * iface, Answer ** _ret
   return TRUE;
 }
 
-gboolean d_b_request_client_do_request (DBRequestIf * iface, Answer ** _return, const Request * req, GError ** error)
+gboolean d_b_request_client_do_request (DBRequestIf * iface, Answer_TRANSPORT ** _return, const Request_TRANSPORT * req, GError ** error)
 {
   if (!d_b_request_client_send_do_request (iface, req, error))
     return FALSE;
@@ -486,7 +486,7 @@ gboolean d_b_request_handler_ping (DBRequestIf * iface, GError ** error)
   return D_B_REQUEST_HANDLER_GET_CLASS (iface)->ping (iface, error);
 }
 
-gboolean d_b_request_handler_do_request (DBRequestIf * iface, Answer ** _return, const Request * req, GError ** error)
+gboolean d_b_request_handler_do_request (DBRequestIf * iface, Answer_TRANSPORT ** _return, const Request_TRANSPORT * req, GError ** error)
 {
   g_return_val_if_fail (IS_D_B_REQUEST_HANDLER (iface), FALSE);
 
@@ -662,8 +662,8 @@ d_b_request_processor_process_do_request (DBRequestProcessor *self,
       (thrift_protocol_read_message_end (input_protocol, error) != -1) &&
       (thrift_transport_read_end (transport, error) != FALSE))
   {
-    Request * req;
-    Answer * return_value;
+    Request_TRANSPORT * req;
+    Answer_TRANSPORT * return_value;
     DBRequestDoRequestResult * result_struct;
 
     g_object_get (args,

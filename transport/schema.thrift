@@ -16,14 +16,14 @@
  * Did you also notice that Thrift supports C style comments?
  */
  
-enum Crud_operation {
+enum Crud_operation_TRANSPORT {
     CRUD_GET = 0,
     CRUD_REMOVE = 1,
     CRUD_NEW = 2,
     CRUD_UPDATE = 3
 }
 
-enum Condition_code {
+enum Condition_code_TRANSPORT {
     OP_EQUAL = 0,
     OP_GREATER = 1,
     OP_LESS = 2,
@@ -32,68 +32,68 @@ enum Condition_code {
     OP_SUBSTR = 5
 }
 
-enum Type {
+enum Type_TRANSPORT {
     STRING_TYPE = 0,
     INTEGER_TYPE = 1,
     BOOLEAN_TYPE = 2
 }
 
-union Value {
+union Value_TRANSPORT {
 	1: i32 Integer,
 	2: bool Boolean,
 	3: string String
 }
 
-struct Field_value {
-	1: Type type,
-	2: Value value
+struct Field_value_TRANSPORT {
+	1: Type_TRANSPORT type,
+	2: Value_TRANSPORT value
 }
 
-struct Field {
+struct Field_TRANSPORT {
 	1: string name,
-    2: Field_value value
+    2: Field_value_TRANSPORT value
 }
 
-struct Entity {
+struct Entity_TRANSPORT {
 	1: i16 fields_count,
 	2: i16 rel_count,
-    3: list<Field> fields,
-    4: list<Field_value> rel_ids
+    3: list<Field_TRANSPORT> fields,
+    4: list<Field_value_TRANSPORT> rel_ids
 }
 
-struct Field_filter {
-	1: Condition_code op,
+struct Field_filter_TRANSPORT {
+	1: Condition_code_TRANSPORT op,
 	2: string field_name,
-	3: Field_value field_value
+	3: Field_value_TRANSPORT field_value
 }
 
-union Condition_union {
-	1: Field_value id,
-	2: Field_filter field_filter
+union Condition_union_TRANSPORT {
+	1: Field_value_TRANSPORT id,
+	2: Field_filter_TRANSPORT field_filter
 }
 
-struct Condition {
+struct Condition_TRANSPORT {
 	1: i8 is_negative,
     2: i8 is_id,
-	3: Condition_union condition_union;
+	3: Condition_union_TRANSPORT condition_union;
 }
 
-struct Filter_list {
+struct Filter_list_TRANSPORT {
     1: i8 is_negative,
-    2: list<Condition> and_conditions
+    2: list<Condition_TRANSPORT> and_conditions
 }
 
-struct Request {
-    1: Crud_operation op,
+struct Request_TRANSPORT {
+    1: Crud_operation_TRANSPORT op,
     2: list<string> field_names_to_output,
-    3: list<Filter_list> tree,
-    4: Entity entity
+    3: list<Filter_list_TRANSPORT> tree,
+    4: Entity_TRANSPORT entity
 }
 
-struct Answer {
+struct Answer_TRANSPORT {
   1: i16 code,
   2: string error_message,
-  3: optional list<Entity> entities
+  3: optional list<Entity_TRANSPORT> entities
 }
 
 service DBRequest {
@@ -107,5 +107,5 @@ service DBRequest {
 
    void ping(),
 
-   Answer do_request(1: Request req),
+   Answer_TRANSPORT do_request(1: Request_TRANSPORT req),
 }

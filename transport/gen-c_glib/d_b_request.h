@@ -19,7 +19,7 @@ struct _DBRequestIfInterface
   GTypeInterface parent;
 
   gboolean (*ping) (DBRequestIf *iface, GError **error);
-  gboolean (*do_request) (DBRequestIf *iface, Answer ** _return, const Request * req, GError **error);
+  gboolean (*do_request) (DBRequestIf *iface, Answer_TRANSPORT ** _return, const Request_TRANSPORT * req, GError **error);
 };
 typedef struct _DBRequestIfInterface DBRequestIfInterface;
 
@@ -30,7 +30,7 @@ GType d_b_request_if_get_type (void);
 #define D_B_REQUEST_IF_GET_INTERFACE(inst) (G_TYPE_INSTANCE_GET_INTERFACE ((inst), TYPE_D_B_REQUEST_IF, DBRequestIfInterface))
 
 gboolean d_b_request_if_ping (DBRequestIf *iface, GError **error);
-gboolean d_b_request_if_do_request (DBRequestIf *iface, Answer ** _return, const Request * req, GError **error);
+gboolean d_b_request_if_do_request (DBRequestIf *iface, Answer_TRANSPORT ** _return, const Request_TRANSPORT * req, GError **error);
 
 /* DBRequest service client */
 struct _DBRequestClient
@@ -59,9 +59,9 @@ GType d_b_request_client_get_type (void);
 gboolean d_b_request_client_ping (DBRequestIf * iface, GError ** error);
 gboolean d_b_request_client_send_ping (DBRequestIf * iface, GError ** error);
 gboolean d_b_request_client_recv_ping (DBRequestIf * iface, GError ** error);
-gboolean d_b_request_client_do_request (DBRequestIf * iface, Answer ** _return, const Request * req, GError ** error);
-gboolean d_b_request_client_send_do_request (DBRequestIf * iface, const Request * req, GError ** error);
-gboolean d_b_request_client_recv_do_request (DBRequestIf * iface, Answer ** _return, GError ** error);
+gboolean d_b_request_client_do_request (DBRequestIf * iface, Answer_TRANSPORT ** _return, const Request_TRANSPORT * req, GError ** error);
+gboolean d_b_request_client_send_do_request (DBRequestIf * iface, const Request_TRANSPORT * req, GError ** error);
+gboolean d_b_request_client_recv_do_request (DBRequestIf * iface, Answer_TRANSPORT ** _return, GError ** error);
 void d_b_request_client_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
 void d_b_request_client_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 
@@ -77,7 +77,7 @@ struct _DBRequestHandlerClass
   GObjectClass parent;
 
   gboolean (*ping) (DBRequestIf *iface, GError **error);
-  gboolean (*do_request) (DBRequestIf *iface, Answer ** _return, const Request * req, GError **error);
+  gboolean (*do_request) (DBRequestIf *iface, Answer_TRANSPORT ** _return, const Request_TRANSPORT * req, GError **error);
 };
 typedef struct _DBRequestHandlerClass DBRequestHandlerClass;
 
@@ -90,7 +90,7 @@ GType d_b_request_handler_get_type (void);
 #define D_B_REQUEST_HANDLER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_D_B_REQUEST_HANDLER, DBRequestHandlerClass))
 
 gboolean d_b_request_handler_ping (DBRequestIf *iface, GError **error);
-gboolean d_b_request_handler_do_request (DBRequestIf *iface, Answer ** _return, const Request * req, GError **error);
+gboolean d_b_request_handler_do_request (DBRequestIf *iface, Answer_TRANSPORT ** _return, const Request_TRANSPORT * req, GError **error);
 
 /* DBRequest processor */
 struct _DBRequestProcessor
