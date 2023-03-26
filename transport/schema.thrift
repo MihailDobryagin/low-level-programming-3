@@ -96,9 +96,9 @@ struct Request_TRANSPORT {
     1: Crud_operation_TRANSPORT operation,
     2: Header_TRANSPORT header,
     3: i64 fields_count,
-	4: optional list<Native_field_TRANSPORT> fields,
+	4: list<Native_field_TRANSPORT> fields,
     5: i64 rels_count,
-    6: optional list<Related_node_TRANSPORT> related_nodes
+    6: list<Related_node_TRANSPORT> related_nodes
 }
 
 struct Node_TRANSPORT {

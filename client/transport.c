@@ -4,18 +4,53 @@
 #define _g_object_type_for_transport(OBJECT_NAME) OBJECT_NAME##__t_r_a_n_s_p_o_r_t_get_type()
 #define _g_object_new(OBJECT_NAME) g_object_new(_g_object_type_for_transport(OBJECT_NAME), NULL)
 
-static struct Value_TRANSPORT* value_for_transport_from_value(struct Value value);
+static struct Value_TRANSPORT* value_for_transport(struct Value value);
 static struct Filter_TRANSPORT* filter_for_transport(struct Filter filter);
-static struct Header_TRANSPORT* header_for_transport_from_header(struct Header header);
+static struct Header_TRANSPORT* header_for_transport(struct Header header);
 
 Request_TRANSPORT* transport_request_from_view_format(struct View view) {
 	Request_TRANSPORT* request_transport = g_object_new(_g_object_type_for_transport(request), NULL);
-	g_object_set(request_transport, "operation", view.operation, NULL);	
+	g_object_set(request_transport, 
+		"operation", view.operation,
+		"header", header_for_transport(view.header),
+		"fields_count", view.native_fields_count,
+		"rels_count", view.related_fields_count,
+	NULL);	
 	
+	GPtrArray* fields_transport = g_ptr_array_new();
+	for(size_t i = 0; i < view.native_fields_count; i++) {
+		struct Native_field_TRANSPORT* native_field_transport = _g_object_new(native_field);
+		g_object_set(native_field_transport, "name", view.native_fields[i].name, NULL);
+		if(view.operation == CRUD_INSERT || view.operation == CRUD_UPDATE) {
+			g_object_set(native_field_transport, "value", value_for_transport(view.native_fields[i].value), NULL);
+		}
+		g_ptr_array_add(fields_transport, native_field_transport);
+	}
 	
+	GPtrArray* related_nodes_transport = g_ptr_array_new();
+	for(size_t i = 0; i < view.related_fields_count; i++) {
+		struct Related_node_TRANSPORT* related_node_transport = _g_object_new(related_node);
+		GPtrArray* field_names_transport = g_ptr_array_new();
+		
+		for(size_t name_idx = 0; name_idx < view.related_fields_count; name_idx++) g_ptr_array_add(field_names_transport, view.related_fields[i].field_names[name_idx]);
+			
+		g_object_set(related_node_transport,
+			"header", header_for_transport(view.related_fields[i].header),
+			"field_names", field_names_transport,
+		NULL);
+		
+		g_ptr_array_add(related_nodes_transport, related_node_transport);
+	}
+	
+	g_object_set(request_transport,
+		"fields", fields_transport,
+		"related_nodes", related_nodes_transport,
+	NULL);
+	
+	return request_transport;
 }
 
-static struct Header_TRANSPORT* header_for_transport_from_header(struct Header header) {
+static struct Header_TRANSPORT* header_for_transport(struct Header header) {
 	struct Header_TRANSPORT* header_transport = _g_object_new(header);
 	g_object_set(header_transport, "tag", header.tag, "filter_not_null", header.filter_not_null, NULL);
 	
@@ -37,7 +72,7 @@ static struct Filter_TRANSPORT* filter_for_transport(struct Filter filter) {
 		struct Native_filter_TRANSPORT* native_filter_transport = _g_object_new(native_filter);
 		struct Native_filter* native_filter = filter.filter;
 		g_object_set(native_filter_transport, 
-			"name", native_filter->name, "opcode", native_filter->opcode, "value", value_for_transport_from_value(native_filter->value), NULL
+			"name", native_filter->name, "opcode", native_filter->opcode, "value", value_for_transport(native_filter->value), NULL
 		);
 		g_object_set(filter_union_transport, "native_filter", native_filter_transport, NULL);
 	} else {
@@ -59,7 +94,7 @@ static struct Logic_func_TRANSPORT* logic_func_for_transport(struct Logic_func* 
 	g_object_set(logic_func_transport, "type", logic_func->type, "filters", filters_transport, NULL);
 }
 
-static struct Value_TRANSPORT* value_for_transport_from_value(struct Value value) {
+static struct Value_TRANSPORT* value_for_transport(struct Value value) {
 	struct Value_TRANSPORT* result = _g_object_new(value);
 	struct Value_union_TRANSPORT* result_union = _g_object_new(value_union);
 	switch(value.type) {

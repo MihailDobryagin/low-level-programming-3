@@ -3148,31 +3148,29 @@ request__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol
   if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
     return -1;
   xfer += ret;
-  if (this_object->__isset_fields == TRUE) {
-    if ((ret = thrift_protocol_write_field_begin (protocol, "fields", T_LIST, 4, error)) < 0)
+  if ((ret = thrift_protocol_write_field_begin (protocol, "fields", T_LIST, 4, error)) < 0)
+    return -1;
+  xfer += ret;
+  {
+    guint i10;
+
+    if ((ret = thrift_protocol_write_list_begin (protocol, T_STRUCT, (gint32) (this_object->fields ? this_object->fields->len : 0), error)) < 0)
       return -1;
     xfer += ret;
+    for (i10 = 0; i10 < (this_object->fields ? this_object->fields->len : 0); i10++)
     {
-      guint i10;
-
-      if ((ret = thrift_protocol_write_list_begin (protocol, T_STRUCT, (gint32) (this_object->fields ? this_object->fields->len : 0), error)) < 0)
+      if ((ret = thrift_struct_write (THRIFT_STRUCT ((g_ptr_array_index ((GPtrArray *) this_object->fields, i10))), protocol, error)) < 0)
         return -1;
       xfer += ret;
-      for (i10 = 0; i10 < (this_object->fields ? this_object->fields->len : 0); i10++)
-      {
-        if ((ret = thrift_struct_write (THRIFT_STRUCT ((g_ptr_array_index ((GPtrArray *) this_object->fields, i10))), protocol, error)) < 0)
-          return -1;
-        xfer += ret;
 
-      }
-      if ((ret = thrift_protocol_write_list_end (protocol, error)) < 0)
-        return -1;
-      xfer += ret;
     }
-    if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
+    if ((ret = thrift_protocol_write_list_end (protocol, error)) < 0)
       return -1;
     xfer += ret;
   }
+  if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
+    return -1;
+  xfer += ret;
   if ((ret = thrift_protocol_write_field_begin (protocol, "rels_count", T_I64, 5, error)) < 0)
     return -1;
   xfer += ret;
@@ -3183,31 +3181,29 @@ request__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol
   if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
     return -1;
   xfer += ret;
-  if (this_object->__isset_related_nodes == TRUE) {
-    if ((ret = thrift_protocol_write_field_begin (protocol, "related_nodes", T_LIST, 6, error)) < 0)
+  if ((ret = thrift_protocol_write_field_begin (protocol, "related_nodes", T_LIST, 6, error)) < 0)
+    return -1;
+  xfer += ret;
+  {
+    guint i11;
+
+    if ((ret = thrift_protocol_write_list_begin (protocol, T_STRUCT, (gint32) (this_object->related_nodes ? this_object->related_nodes->len : 0), error)) < 0)
       return -1;
     xfer += ret;
+    for (i11 = 0; i11 < (this_object->related_nodes ? this_object->related_nodes->len : 0); i11++)
     {
-      guint i11;
-
-      if ((ret = thrift_protocol_write_list_begin (protocol, T_STRUCT, (gint32) (this_object->related_nodes ? this_object->related_nodes->len : 0), error)) < 0)
+      if ((ret = thrift_struct_write (THRIFT_STRUCT ((g_ptr_array_index ((GPtrArray *) this_object->related_nodes, i11))), protocol, error)) < 0)
         return -1;
       xfer += ret;
-      for (i11 = 0; i11 < (this_object->related_nodes ? this_object->related_nodes->len : 0); i11++)
-      {
-        if ((ret = thrift_struct_write (THRIFT_STRUCT ((g_ptr_array_index ((GPtrArray *) this_object->related_nodes, i11))), protocol, error)) < 0)
-          return -1;
-        xfer += ret;
 
-      }
-      if ((ret = thrift_protocol_write_list_end (protocol, error)) < 0)
-        return -1;
-      xfer += ret;
     }
-    if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
+    if ((ret = thrift_protocol_write_list_end (protocol, error)) < 0)
       return -1;
     xfer += ret;
   }
+  if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
+    return -1;
+  xfer += ret;
   if ((ret = thrift_protocol_write_field_stop (protocol, error)) < 0)
     return -1;
   xfer += ret;
