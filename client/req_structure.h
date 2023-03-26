@@ -48,13 +48,7 @@ struct Native_filter {
     struct Value value;
 };
 
-struct Filter;
-
-struct Logic_func {
-    enum Logic_op type;
-    size_t filters_count;
-    struct Filter *filters;
-};
+struct Logic_func;
 
 struct Filter {
     uint8_t is_native;
@@ -62,6 +56,12 @@ struct Filter {
         struct Logic_func *func;
         struct Native_filter *filter;
     };
+};
+
+struct Logic_func {
+    enum Logic_op type;
+	size_t filters_count;
+    struct Filter* filters;
 };
 
 struct Native_field {
@@ -76,9 +76,9 @@ struct Header {
 };
 
 struct Related_node {
-    struct Header header;
     size_t native_fields_count;
-    char** field_names;
+    char* field_names[MAX_ARRAY_SIZE];
+    struct Header header;
 };
 
 struct View {

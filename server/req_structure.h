@@ -90,4 +90,4 @@ struct View {
     struct Related_node related_nodes[MAX_ARRAY_SIZE];
 };
 
-#endif // !REQ_STRUCTURE_H
+#endif //!REQ_STRUCTURE_H
