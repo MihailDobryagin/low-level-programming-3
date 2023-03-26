@@ -2898,9 +2898,7 @@ enum _Request_TRANSPORTProperties
   PROP_REQUEST__T_R_A_N_S_P_O_R_T_0,
   PROP_REQUEST__T_R_A_N_S_P_O_R_T_OPERATION,
   PROP_REQUEST__T_R_A_N_S_P_O_R_T_HEADER,
-  PROP_REQUEST__T_R_A_N_S_P_O_R_T_FIELDS_COUNT,
   PROP_REQUEST__T_R_A_N_S_P_O_R_T_FIELDS,
-  PROP_REQUEST__T_R_A_N_S_P_O_R_T_RELS_COUNT,
   PROP_REQUEST__T_R_A_N_S_P_O_R_T_RELATED_NODES
 };
 
@@ -2984,19 +2982,6 @@ request__t_r_a_n_s_p_o_r_t_read (ThriftStruct *object, ThriftProtocol *protocol,
         }
         break;
       case 3:
-        if (ftype == T_I64)
-        {
-          if ((ret = thrift_protocol_read_i64 (protocol, &this_object->fields_count, error)) < 0)
-            return -1;
-          xfer += ret;
-          this_object->__isset_fields_count = TRUE;
-        } else {
-          if ((ret = thrift_protocol_skip (protocol, ftype, error)) < 0)
-            return -1;
-          xfer += ret;
-        }
-        break;
-      case 4:
         if (ftype == T_LIST)
         {
           {
@@ -3036,20 +3021,7 @@ request__t_r_a_n_s_p_o_r_t_read (ThriftStruct *object, ThriftProtocol *protocol,
           xfer += ret;
         }
         break;
-      case 5:
-        if (ftype == T_I64)
-        {
-          if ((ret = thrift_protocol_read_i64 (protocol, &this_object->rels_count, error)) < 0)
-            return -1;
-          xfer += ret;
-          this_object->__isset_rels_count = TRUE;
-        } else {
-          if ((ret = thrift_protocol_skip (protocol, ftype, error)) < 0)
-            return -1;
-          xfer += ret;
-        }
-        break;
-      case 6:
+      case 4:
         if (ftype == T_LIST)
         {
           {
@@ -3138,17 +3110,7 @@ request__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol
   if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
     return -1;
   xfer += ret;
-  if ((ret = thrift_protocol_write_field_begin (protocol, "fields_count", T_I64, 3, error)) < 0)
-    return -1;
-  xfer += ret;
-  if ((ret = thrift_protocol_write_i64 (protocol, this_object->fields_count, error)) < 0)
-    return -1;
-  xfer += ret;
-
-  if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
-    return -1;
-  xfer += ret;
-  if ((ret = thrift_protocol_write_field_begin (protocol, "fields", T_LIST, 4, error)) < 0)
+  if ((ret = thrift_protocol_write_field_begin (protocol, "fields", T_LIST, 3, error)) < 0)
     return -1;
   xfer += ret;
   {
@@ -3171,17 +3133,7 @@ request__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol
   if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
     return -1;
   xfer += ret;
-  if ((ret = thrift_protocol_write_field_begin (protocol, "rels_count", T_I64, 5, error)) < 0)
-    return -1;
-  xfer += ret;
-  if ((ret = thrift_protocol_write_i64 (protocol, this_object->rels_count, error)) < 0)
-    return -1;
-  xfer += ret;
-
-  if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
-    return -1;
-  xfer += ret;
-  if ((ret = thrift_protocol_write_field_begin (protocol, "related_nodes", T_LIST, 6, error)) < 0)
+  if ((ret = thrift_protocol_write_field_begin (protocol, "related_nodes", T_LIST, 4, error)) < 0)
     return -1;
   xfer += ret;
   {
@@ -3236,21 +3188,11 @@ request__t_r_a_n_s_p_o_r_t_set_property (GObject *object,
       self->__isset_header = TRUE;
       break;
 
-    case PROP_REQUEST__T_R_A_N_S_P_O_R_T_FIELDS_COUNT:
-      self->fields_count = g_value_get_int64 (value);
-      self->__isset_fields_count = TRUE;
-      break;
-
     case PROP_REQUEST__T_R_A_N_S_P_O_R_T_FIELDS:
       if (self->fields != NULL)
         g_ptr_array_unref (self->fields);
       self->fields = g_value_dup_boxed (value);
       self->__isset_fields = TRUE;
-      break;
-
-    case PROP_REQUEST__T_R_A_N_S_P_O_R_T_RELS_COUNT:
-      self->rels_count = g_value_get_int64 (value);
-      self->__isset_rels_count = TRUE;
       break;
 
     case PROP_REQUEST__T_R_A_N_S_P_O_R_T_RELATED_NODES:
@@ -3284,16 +3226,8 @@ request__t_r_a_n_s_p_o_r_t_get_property (GObject *object,
       g_value_set_object (value, self->header);
       break;
 
-    case PROP_REQUEST__T_R_A_N_S_P_O_R_T_FIELDS_COUNT:
-      g_value_set_int64 (value, self->fields_count);
-      break;
-
     case PROP_REQUEST__T_R_A_N_S_P_O_R_T_FIELDS:
       g_value_set_boxed (value, self->fields);
-      break;
-
-    case PROP_REQUEST__T_R_A_N_S_P_O_R_T_RELS_COUNT:
-      g_value_set_int64 (value, self->rels_count);
       break;
 
     case PROP_REQUEST__T_R_A_N_S_P_O_R_T_RELATED_NODES:
@@ -3314,12 +3248,8 @@ request__t_r_a_n_s_p_o_r_t_instance_init (Request_TRANSPORT * object)
   object->__isset_operation = FALSE;
   object->header = g_object_new (TYPE_HEADER__T_R_A_N_S_P_O_R_T, NULL);
   object->__isset_header = FALSE;
-  object->fields_count = 0;
-  object->__isset_fields_count = FALSE;
   object->fields = g_ptr_array_new_with_free_func (g_object_unref);
   object->__isset_fields = FALSE;
-  object->rels_count = 0;
-  object->__isset_rels_count = FALSE;
   object->related_nodes = g_ptr_array_new_with_free_func (g_object_unref);
   object->__isset_related_nodes = FALSE;
 }
@@ -3383,33 +3313,11 @@ request__t_r_a_n_s_p_o_r_t_class_init (Request_TRANSPORTClass * cls)
 
   g_object_class_install_property
     (gobject_class,
-     PROP_REQUEST__T_R_A_N_S_P_O_R_T_FIELDS_COUNT,
-     g_param_spec_int64 ("fields_count",
-                         NULL,
-                         NULL,
-                         G_MININT64,
-                         G_MAXINT64,
-                         0,
-                         G_PARAM_READWRITE));
-
-  g_object_class_install_property
-    (gobject_class,
      PROP_REQUEST__T_R_A_N_S_P_O_R_T_FIELDS,
      g_param_spec_boxed ("fields",
                          NULL,
                          NULL,
                          G_TYPE_PTR_ARRAY,
-                         G_PARAM_READWRITE));
-
-  g_object_class_install_property
-    (gobject_class,
-     PROP_REQUEST__T_R_A_N_S_P_O_R_T_RELS_COUNT,
-     g_param_spec_int64 ("rels_count",
-                         NULL,
-                         NULL,
-                         G_MININT64,
-                         G_MAXINT64,
-                         0,
                          G_PARAM_READWRITE));
 
   g_object_class_install_property

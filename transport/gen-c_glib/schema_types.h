@@ -322,12 +322,8 @@ struct _Request_TRANSPORT
   gboolean __isset_operation;
   Header_TRANSPORT * header;
   gboolean __isset_header;
-  gint64 fields_count;
-  gboolean __isset_fields_count;
   GPtrArray * fields;
   gboolean __isset_fields;
-  gint64 rels_count;
-  gboolean __isset_rels_count;
   GPtrArray * related_nodes;
   gboolean __isset_related_nodes;
 };

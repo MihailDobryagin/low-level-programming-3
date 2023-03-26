@@ -16,4 +16,8 @@ link_libraries(${THRIFT_LIB} ${GLIB_LDFLAGS})
 add_executable(_client client/main.c client/transport.c transport/gen-c_glib/d_b_request.c transport/gen-c_glib/schema_types.c)
 TARGET_LINK_LIBRARIES(_client ${THRIFT_LIB} ${GLIB_LIBRARIES})
 
+
+add_executable(_server server/main.c server/transport.c transport/gen-c_glib/d_b_request.c transport/gen-c_glib/schema_types.c)
+TARGET_LINK_LIBRARIES(_client ${THRIFT_LIB} ${GLIB_LIBRARIES})
+
 add_definitions (${GLIB_CFLAGS_OTHER})

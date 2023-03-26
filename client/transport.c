@@ -13,8 +13,6 @@ Request_TRANSPORT* transport_request_from_view_format(struct View view) {
 	g_object_set(request_transport, 
 		"operation", view.operation,
 		"header", header_for_transport(view.header),
-		"fields_count", view.native_fields_count,
-		"rels_count", view.related_fields_count,
 	NULL);	
 	
 	GPtrArray* fields_transport = g_ptr_array_new();
