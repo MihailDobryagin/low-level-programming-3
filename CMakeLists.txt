@@ -17,7 +17,11 @@ add_executable(_client client/main.c client/transport.c transport/gen-c_glib/d_b
 TARGET_LINK_LIBRARIES(_client ${THRIFT_LIB} ${GLIB_LIBRARIES})
 
 
-add_executable(_server server/main.c server/transport.c transport/gen-c_glib/d_b_request.c transport/gen-c_glib/schema_types.c)
+add_executable(_server 
+	server/main.c server/transport.c 
+	server/database/client/manage.c server/database/db/db.c server/database/db/file.c server/database/db/entities.c
+	transport/gen-c_glib/d_b_request.c transport/gen-c_glib/schema_types.c
+)
 TARGET_LINK_LIBRARIES(_client ${THRIFT_LIB} ${GLIB_LIBRARIES})
 
 add_definitions (${GLIB_CFLAGS_OTHER})
