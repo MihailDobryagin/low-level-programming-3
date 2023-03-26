@@ -1,5 +1,4 @@
 %{
-void yyerror (char *s);
 int yylex();
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +31,8 @@ void append_filters_to_root();
 void append_filters_to_child();
 %}
 
+%parse-param {struct View* result_view}
+
 %union {uint64_t num; char *string;}
 %token QUERY INSERT DELETE UPDATE
 %token <string> STRING
@@ -60,7 +61,7 @@ query {
 }
 */
 
-syntax: graphQL {print_tree();};
+syntax: graphQL {*result_view = tree;};
 
 graphQL: operation OPCBRACE body CLCBRACE;
 
@@ -126,7 +127,13 @@ bool : TRUE {$$ = 1;}
 %%                     /* C code */
 
 int main (void) {
-    return yyparse ();
+	struct View result = {};
+    yyparse (&result);
+	tree.operation = 10;
+	print_tree();
+	tree = result;
+	print_tree();
+	return 0;
 }
 
 
@@ -304,6 +311,10 @@ void print_related_node(struct Related_node node){
 }
 
 void print_tree(){
+	if(tree.operation == 10) {
+		printf("NOOOOOOOOOOOOOOOOOOOOOOOOO\n\n");
+		return;
+	}
     printf("[COMMAND]: ");
     switch (tree.operation){
         case CRUD_QUERY: printf("query\n\n"); break;

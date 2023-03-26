@@ -104,7 +104,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 35 "graphQL.y" /* yacc.c:1909  */
+#line 36 "graphQL.y" /* yacc.c:1909  */
 uint64_t num; char *string;
 
 #line 111 "y.tab.h" /* yacc.c:1909  */
@@ -118,6 +118,6 @@ typedef union YYSTYPE YYSTYPE;
 
 extern YYSTYPE yylval;
 
-int yyparse (void);
+int yyparse (struct View* result_view);
 
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */

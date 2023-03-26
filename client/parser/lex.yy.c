@@ -482,7 +482,7 @@ char *yytext;
 #line 1 "lex.l"
 #line 2 "lex.l"
 #include "y.tab.h"
-void yyerror (char *s);
+void yyerror (struct View* syntax, char *s);
 #line 487 "lex.yy.c"
 #line 488 "lex.yy.c"
 
@@ -894,7 +894,7 @@ YY_RULE_SETUP
 case 27:
 YY_RULE_SETUP
 #line 32 "lex.l"
-{ECHO; yyerror("unexpected character: '"); yyerror(yytext); yyerror("'");}
+{ECHO; yyerror(NULL, "unexpected character: '"); yyerror(NULL, yytext); yyerror(NULL, "'");}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
@@ -1912,3 +1912,4 @@ void yyfree (void * ptr )
 int yywrap(void){
     return 1;
 }
+

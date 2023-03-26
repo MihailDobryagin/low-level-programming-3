@@ -1,6 +1,6 @@
 %{
 #include "y.tab.h"
-void yyerror (char *s);
+void yyerror (struct View* syntax, char *s);
 %}
 %%
 "query"         return QUERY;
@@ -29,7 +29,7 @@ False           return FALSE;
 [a-zA-Z][a-zA-Z_0-9]*        {yylval.string = strdup(yytext); return STRING;}
 [-]?[0-9]+                    {yylval.num = atoi(yytext); return INT_NUMBER;}
 [ \t\n\r]                ;
-.                    {ECHO; yyerror("unexpected character: '"); yyerror(yytext); yyerror("'");}
+.                    {ECHO; yyerror(NULL, "unexpected character: '"); yyerror(NULL, yytext); yyerror(NULL, "'");}
 
 %%
 

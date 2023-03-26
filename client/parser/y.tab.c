@@ -64,7 +64,6 @@
 /* Copy the first part of user declarations.  */
 #line 1 "graphQL.y" /* yacc.c:339  */
 
-void yyerror (char *s);
 int yylex();
 #include <stdio.h>
 #include <stdlib.h>
@@ -96,7 +95,7 @@ void set_cur_logic_operation(uint8_t op);
 void append_filters_to_root();
 void append_filters_to_child();
 
-#line 100 "y.tab.c" /* yacc.c:339  */
+#line 99 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -190,10 +189,10 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 35 "graphQL.y" /* yacc.c:355  */
+#line 36 "graphQL.y" /* yacc.c:355  */
 uint64_t num; char *string;
 
-#line 197 "y.tab.c" /* yacc.c:355  */
+#line 196 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -204,13 +203,13 @@ typedef union YYSTYPE YYSTYPE;
 
 extern YYSTYPE yylval;
 
-int yyparse (void);
+int yyparse (struct View* result_view);
 
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 214 "y.tab.c" /* yacc.c:358  */
+#line 213 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -510,11 +509,11 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    63,    63,    65,    67,    68,    69,    70,    72,    74,
-      74,    75,    75,    77,    77,    79,    81,    83,    83,    85,
-      87,    89,    90,    91,    92,    93,    97,    97,    99,    99,
-     101,   103,   105,   107,   109,   110,   113,   115,   117,   120,
-     122
+       0,    64,    64,    66,    68,    69,    70,    71,    73,    75,
+      75,    76,    76,    78,    78,    80,    82,    84,    84,    86,
+      88,    90,    91,    92,    93,    94,    98,    98,   100,   100,
+     102,   104,   106,   108,   110,   111,   114,   116,   118,   121,
+     123
 };
 #endif
 
@@ -681,7 +680,7 @@ do                                                              \
     }                                                           \
   else                                                          \
     {                                                           \
-      yyerror (YY_("syntax error: cannot back up")); \
+      yyerror (result_view, YY_("syntax error: cannot back up")); \
       YYERROR;                                                  \
     }                                                           \
 while (0)
@@ -718,7 +717,7 @@ do {                                                                      \
     {                                                                     \
       YYFPRINTF (stderr, "%s ", Title);                                   \
       yy_symbol_print (stderr,                                            \
-                  Type, Value); \
+                  Type, Value, result_view); \
       YYFPRINTF (stderr, "\n");                                           \
     }                                                                     \
 } while (0)
@@ -729,10 +728,11 @@ do {                                                                      \
 `----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, struct View* result_view)
 {
   FILE *yyo = yyoutput;
   YYUSE (yyo);
+  YYUSE (result_view);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
@@ -748,12 +748,12 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 `--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, struct View* result_view)
 {
   YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep, result_view);
   YYFPRINTF (yyoutput, ")");
 }
 
@@ -786,7 +786,7 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule, struct View* result_view)
 {
   unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -800,7 +800,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
       yy_symbol_print (stderr,
                        yystos[yyssp[yyi + 1 - yynrhs]],
                        &(yyvsp[(yyi + 1) - (yynrhs)])
-                                              );
+                                              , result_view);
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -808,7 +808,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 # define YY_REDUCE_PRINT(Rule)          \
 do {                                    \
   if (yydebug)                          \
-    yy_reduce_print (yyssp, yyvsp, Rule); \
+    yy_reduce_print (yyssp, yyvsp, Rule, result_view); \
 } while (0)
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -1066,9 +1066,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, struct View* result_view)
 {
   YYUSE (yyvaluep);
+  YYUSE (result_view);
   if (!yymsg)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
@@ -1095,7 +1096,7 @@ int yynerrs;
 `----------*/
 
 int
-yyparse (void)
+yyparse (struct View* result_view)
 {
     int yystate;
     /* Number of tokens to shift before error messages enabled.  */
@@ -1330,175 +1331,175 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 63 "graphQL.y" /* yacc.c:1646  */
-    {print_tree();}
-#line 1336 "y.tab.c" /* yacc.c:1646  */
+#line 64 "graphQL.y" /* yacc.c:1646  */
+    {*result_view = tree;}
+#line 1337 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 67 "graphQL.y" /* yacc.c:1646  */
+#line 68 "graphQL.y" /* yacc.c:1646  */
     {set_opcode(0);}
-#line 1342 "y.tab.c" /* yacc.c:1646  */
+#line 1343 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 68 "graphQL.y" /* yacc.c:1646  */
+#line 69 "graphQL.y" /* yacc.c:1646  */
     {set_opcode(1);}
-#line 1348 "y.tab.c" /* yacc.c:1646  */
+#line 1349 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 69 "graphQL.y" /* yacc.c:1646  */
+#line 70 "graphQL.y" /* yacc.c:1646  */
     {set_opcode(2);}
-#line 1354 "y.tab.c" /* yacc.c:1646  */
+#line 1355 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 70 "graphQL.y" /* yacc.c:1646  */
+#line 71 "graphQL.y" /* yacc.c:1646  */
     {set_opcode(3);}
-#line 1360 "y.tab.c" /* yacc.c:1646  */
+#line 1361 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 72 "graphQL.y" /* yacc.c:1646  */
+#line 73 "graphQL.y" /* yacc.c:1646  */
     {memcpy(&tree.header.tag, (yyvsp[-6].string), strlen((yyvsp[-6].string)));}
-#line 1366 "y.tab.c" /* yacc.c:1646  */
+#line 1367 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 74 "graphQL.y" /* yacc.c:1646  */
+#line 75 "graphQL.y" /* yacc.c:1646  */
     {append_filters_to_root();}
-#line 1372 "y.tab.c" /* yacc.c:1646  */
+#line 1373 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 75 "graphQL.y" /* yacc.c:1646  */
+#line 76 "graphQL.y" /* yacc.c:1646  */
     {append_filters_to_child();}
-#line 1378 "y.tab.c" /* yacc.c:1646  */
+#line 1379 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 79 "graphQL.y" /* yacc.c:1646  */
+#line 80 "graphQL.y" /* yacc.c:1646  */
     {set_cur_logic_operation(0);}
-#line 1384 "y.tab.c" /* yacc.c:1646  */
+#line 1385 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 81 "graphQL.y" /* yacc.c:1646  */
+#line 82 "graphQL.y" /* yacc.c:1646  */
     {set_cur_logic_operation((yyvsp[-4].num));}
-#line 1390 "y.tab.c" /* yacc.c:1646  */
+#line 1391 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 83 "graphQL.y" /* yacc.c:1646  */
+#line 84 "graphQL.y" /* yacc.c:1646  */
     {(yyval.num) = 1;}
-#line 1396 "y.tab.c" /* yacc.c:1646  */
+#line 1397 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 83 "graphQL.y" /* yacc.c:1646  */
+#line 84 "graphQL.y" /* yacc.c:1646  */
     {(yyval.num) = 2;}
-#line 1402 "y.tab.c" /* yacc.c:1646  */
+#line 1403 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 87 "graphQL.y" /* yacc.c:1646  */
+#line 88 "graphQL.y" /* yacc.c:1646  */
     {append_native_logic((yyvsp[-6].string), (yyvsp[-1].num), (yyvsp[-3].num));}
-#line 1408 "y.tab.c" /* yacc.c:1646  */
+#line 1409 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 89 "graphQL.y" /* yacc.c:1646  */
+#line 90 "graphQL.y" /* yacc.c:1646  */
     {(yyval.num) = 2;}
-#line 1414 "y.tab.c" /* yacc.c:1646  */
+#line 1415 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 90 "graphQL.y" /* yacc.c:1646  */
+#line 91 "graphQL.y" /* yacc.c:1646  */
     {(yyval.num) = 3;}
-#line 1420 "y.tab.c" /* yacc.c:1646  */
+#line 1421 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 91 "graphQL.y" /* yacc.c:1646  */
+#line 92 "graphQL.y" /* yacc.c:1646  */
     {(yyval.num) = 1;}
-#line 1426 "y.tab.c" /* yacc.c:1646  */
+#line 1427 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 92 "graphQL.y" /* yacc.c:1646  */
+#line 93 "graphQL.y" /* yacc.c:1646  */
     {(yyval.num) = 4;}
-#line 1432 "y.tab.c" /* yacc.c:1646  */
+#line 1433 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 93 "graphQL.y" /* yacc.c:1646  */
+#line 94 "graphQL.y" /* yacc.c:1646  */
     {(yyval.num) = 0;}
-#line 1438 "y.tab.c" /* yacc.c:1646  */
+#line 1439 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 101 "graphQL.y" /* yacc.c:1646  */
+#line 102 "graphQL.y" /* yacc.c:1646  */
     {append_native_field((yyvsp[0].string), 0, false);}
-#line 1444 "y.tab.c" /* yacc.c:1646  */
+#line 1445 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 103 "graphQL.y" /* yacc.c:1646  */
+#line 104 "graphQL.y" /* yacc.c:1646  */
     {append_native_field((yyvsp[-2].string), (yyvsp[0].num), true);}
-#line 1450 "y.tab.c" /* yacc.c:1646  */
+#line 1451 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 105 "graphQL.y" /* yacc.c:1646  */
+#line 106 "graphQL.y" /* yacc.c:1646  */
     {append_related_node((yyvsp[-6].string));}
-#line 1456 "y.tab.c" /* yacc.c:1646  */
+#line 1457 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 107 "graphQL.y" /* yacc.c:1646  */
+#line 108 "graphQL.y" /* yacc.c:1646  */
     {append_field_to_rel((yyvsp[-2].string));}
-#line 1462 "y.tab.c" /* yacc.c:1646  */
+#line 1463 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 109 "graphQL.y" /* yacc.c:1646  */
+#line 110 "graphQL.y" /* yacc.c:1646  */
     {append_field_to_rel((yyvsp[0].string));}
-#line 1468 "y.tab.c" /* yacc.c:1646  */
+#line 1469 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 113 "graphQL.y" /* yacc.c:1646  */
+#line 114 "graphQL.y" /* yacc.c:1646  */
     {vtype = STRING_TYPE; (yyval.num) = (yyvsp[-1].string);}
-#line 1474 "y.tab.c" /* yacc.c:1646  */
+#line 1475 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 115 "graphQL.y" /* yacc.c:1646  */
+#line 116 "graphQL.y" /* yacc.c:1646  */
     {vtype = INTEGER_TYPE; (yyval.num) = (yyvsp[0].num);}
-#line 1480 "y.tab.c" /* yacc.c:1646  */
+#line 1481 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 117 "graphQL.y" /* yacc.c:1646  */
+#line 118 "graphQL.y" /* yacc.c:1646  */
     {vtype = BOOLEAN_TYPE; (yyval.num) = (yyvsp[0].num);}
-#line 1486 "y.tab.c" /* yacc.c:1646  */
+#line 1487 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 120 "graphQL.y" /* yacc.c:1646  */
+#line 121 "graphQL.y" /* yacc.c:1646  */
     {(yyval.num) = 1;}
-#line 1492 "y.tab.c" /* yacc.c:1646  */
+#line 1493 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 122 "graphQL.y" /* yacc.c:1646  */
+#line 123 "graphQL.y" /* yacc.c:1646  */
     {(yyval.num) = 0;}
-#line 1498 "y.tab.c" /* yacc.c:1646  */
+#line 1499 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1502 "y.tab.c" /* yacc.c:1646  */
+#line 1503 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1548,7 +1549,7 @@ yyerrlab:
     {
       ++yynerrs;
 #if ! YYERROR_VERBOSE
-      yyerror (YY_("syntax error"));
+      yyerror (result_view, YY_("syntax error"));
 #else
 # define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
                                         yyssp, yytoken)
@@ -1575,7 +1576,7 @@ yyerrlab:
                 yymsgp = yymsg;
               }
           }
-        yyerror (yymsgp);
+        yyerror (result_view, yymsgp);
         if (yysyntax_error_status == 2)
           goto yyexhaustedlab;
       }
@@ -1599,7 +1600,7 @@ yyerrlab:
       else
         {
           yydestruct ("Error: discarding",
-                      yytoken, &yylval);
+                      yytoken, &yylval, result_view);
           yychar = YYEMPTY;
         }
     }
@@ -1655,7 +1656,7 @@ yyerrlab1:
 
 
       yydestruct ("Error: popping",
-                  yystos[yystate], yyvsp);
+                  yystos[yystate], yyvsp, result_view);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -1692,7 +1693,7 @@ yyabortlab:
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (YY_("memory exhausted"));
+  yyerror (result_view, YY_("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif
@@ -1704,7 +1705,7 @@ yyreturn:
          user semantic actions for why this is necessary.  */
       yytoken = YYTRANSLATE (yychar);
       yydestruct ("Cleanup: discarding lookahead",
-                  yytoken, &yylval);
+                  yytoken, &yylval, result_view);
     }
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYABORT or YYACCEPT.  */
@@ -1713,7 +1714,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[*yyssp], yyvsp);
+                  yystos[*yyssp], yyvsp, result_view);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
@@ -1726,11 +1727,17 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 126 "graphQL.y" /* yacc.c:1906  */
+#line 127 "graphQL.y" /* yacc.c:1906  */
                      /* C code */
 
 int main (void) {
-    return yyparse ();
+	struct View result = {};
+    yyparse (&result);
+	tree.operation = 10;
+	print_tree();
+	tree = result;
+	print_tree();
+	return 0;
 }
 
 
@@ -1908,6 +1915,10 @@ void print_related_node(struct Related_node node){
 }
 
 void print_tree(){
+	if(tree.operation == 10) {
+		printf("NOOOOOOOOOOOOOOOOOOOOOOOOO\n\n");
+		return;
+	}
     printf("[COMMAND]: ");
     switch (tree.operation){
         case CRUD_QUERY: printf("query\n\n"); break;
