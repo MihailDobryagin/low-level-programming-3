@@ -41,6 +41,17 @@ typedef enum _Condition_code_TRANSPORT Condition_code_TRANSPORT;
 const char *
 toString_Condition_code_TRANSPORT(int value); 
 
+enum _Logic_op_TRANSPORT {
+  LOGIC_OP__T_R_A_N_S_P_O_R_T_OP_AND = 0,
+  LOGIC_OP__T_R_A_N_S_P_O_R_T_OP_OR = 1,
+  LOGIC_OP__T_R_A_N_S_P_O_R_T_OP_NOT = 2
+};
+typedef enum _Logic_op_TRANSPORT Logic_op_TRANSPORT;
+
+/* return the name of the constant */
+const char *
+toString_Logic_op_TRANSPORT(int value); 
+
 enum _Type_TRANSPORT {
   TYPE__T_R_A_N_S_P_O_R_T_STRING_TYPE = 0,
   TYPE__T_R_A_N_S_P_O_R_T_INTEGER_TYPE = 1,
@@ -52,8 +63,8 @@ typedef enum _Type_TRANSPORT Type_TRANSPORT;
 const char *
 toString_Type_TRANSPORT(int value); 
 
-/* struct Value_TRANSPORT */
-struct _Value_TRANSPORT
+/* struct Value_union_TRANSPORT */
+struct _Value_union_TRANSPORT
 { 
   ThriftStruct parent; 
 
@@ -64,6 +75,33 @@ struct _Value_TRANSPORT
   gboolean __isset_Boolean;
   gchar * String;
   gboolean __isset_String;
+};
+typedef struct _Value_union_TRANSPORT Value_union_TRANSPORT;
+
+struct _Value_union_TRANSPORTClass
+{
+  ThriftStructClass parent;
+};
+typedef struct _Value_union_TRANSPORTClass Value_union_TRANSPORTClass;
+
+GType value_union__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_VALUE_UNION__T_R_A_N_S_P_O_R_T (value_union__t_r_a_n_s_p_o_r_t_get_type())
+#define VALUE_UNION__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_VALUE_UNION__T_R_A_N_S_P_O_R_T, Value_union_TRANSPORT))
+#define VALUE_UNION__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_VALUE_UNION__T_R_A_N_S_P_O_R_T, Value_union_TRANSPORTClass))
+#define IS_VALUE_UNION__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_VALUE_UNION__T_R_A_N_S_P_O_R_T))
+#define IS_VALUE_UNION__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_VALUE_UNION__T_R_A_N_S_P_O_R_T))
+#define VALUE_UNION__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_VALUE_UNION__T_R_A_N_S_P_O_R_T, Value_union_TRANSPORTClass))
+
+/* struct Value_TRANSPORT */
+struct _Value_TRANSPORT
+{ 
+  ThriftStruct parent; 
+
+  /* public */
+  Type_TRANSPORT type;
+  gboolean __isset_type;
+  Value_union_TRANSPORT * value;
+  gboolean __isset_value;
 };
 typedef struct _Value_TRANSPORT Value_TRANSPORT;
 
@@ -81,202 +119,196 @@ GType value__t_r_a_n_s_p_o_r_t_get_type (void);
 #define IS_VALUE__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_VALUE__T_R_A_N_S_P_O_R_T))
 #define VALUE__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_VALUE__T_R_A_N_S_P_O_R_T, Value_TRANSPORTClass))
 
-/* struct Field_value_TRANSPORT */
-struct _Field_value_TRANSPORT
-{ 
-  ThriftStruct parent; 
-
-  /* public */
-  Type_TRANSPORT type;
-  gboolean __isset_type;
-  Value_TRANSPORT * value;
-  gboolean __isset_value;
-};
-typedef struct _Field_value_TRANSPORT Field_value_TRANSPORT;
-
-struct _Field_value_TRANSPORTClass
-{
-  ThriftStructClass parent;
-};
-typedef struct _Field_value_TRANSPORTClass Field_value_TRANSPORTClass;
-
-GType field_value__t_r_a_n_s_p_o_r_t_get_type (void);
-#define TYPE_FIELD_VALUE__T_R_A_N_S_P_O_R_T (field_value__t_r_a_n_s_p_o_r_t_get_type())
-#define FIELD_VALUE__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_FIELD_VALUE__T_R_A_N_S_P_O_R_T, Field_value_TRANSPORT))
-#define FIELD_VALUE__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_FIELD_VALUE__T_R_A_N_S_P_O_R_T, Field_value_TRANSPORTClass))
-#define IS_FIELD_VALUE__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_FIELD_VALUE__T_R_A_N_S_P_O_R_T))
-#define IS_FIELD_VALUE__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_FIELD_VALUE__T_R_A_N_S_P_O_R_T))
-#define FIELD_VALUE__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_FIELD_VALUE__T_R_A_N_S_P_O_R_T, Field_value_TRANSPORTClass))
-
-/* struct Field_TRANSPORT */
-struct _Field_TRANSPORT
+/* struct Native_filter_TRANSPORT */
+struct _Native_filter_TRANSPORT
 { 
   ThriftStruct parent; 
 
   /* public */
   gchar * name;
   gboolean __isset_name;
-  Field_value_TRANSPORT * value;
+  Condition_code_TRANSPORT opcode;
+  gboolean __isset_opcode;
+  Value_TRANSPORT * value;
   gboolean __isset_value;
 };
-typedef struct _Field_TRANSPORT Field_TRANSPORT;
+typedef struct _Native_filter_TRANSPORT Native_filter_TRANSPORT;
 
-struct _Field_TRANSPORTClass
+struct _Native_filter_TRANSPORTClass
 {
   ThriftStructClass parent;
 };
-typedef struct _Field_TRANSPORTClass Field_TRANSPORTClass;
+typedef struct _Native_filter_TRANSPORTClass Native_filter_TRANSPORTClass;
 
-GType field__t_r_a_n_s_p_o_r_t_get_type (void);
-#define TYPE_FIELD__T_R_A_N_S_P_O_R_T (field__t_r_a_n_s_p_o_r_t_get_type())
-#define FIELD__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_FIELD__T_R_A_N_S_P_O_R_T, Field_TRANSPORT))
-#define FIELD__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_FIELD__T_R_A_N_S_P_O_R_T, Field_TRANSPORTClass))
-#define IS_FIELD__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_FIELD__T_R_A_N_S_P_O_R_T))
-#define IS_FIELD__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_FIELD__T_R_A_N_S_P_O_R_T))
-#define FIELD__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_FIELD__T_R_A_N_S_P_O_R_T, Field_TRANSPORTClass))
+GType native_filter__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_NATIVE_FILTER__T_R_A_N_S_P_O_R_T (native_filter__t_r_a_n_s_p_o_r_t_get_type())
+#define NATIVE_FILTER__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_NATIVE_FILTER__T_R_A_N_S_P_O_R_T, Native_filter_TRANSPORT))
+#define NATIVE_FILTER__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_NATIVE_FILTER__T_R_A_N_S_P_O_R_T, Native_filter_TRANSPORTClass))
+#define IS_NATIVE_FILTER__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_NATIVE_FILTER__T_R_A_N_S_P_O_R_T))
+#define IS_NATIVE_FILTER__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_NATIVE_FILTER__T_R_A_N_S_P_O_R_T))
+#define NATIVE_FILTER__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_NATIVE_FILTER__T_R_A_N_S_P_O_R_T, Native_filter_TRANSPORTClass))
 
-/* struct Entity_TRANSPORT */
-struct _Entity_TRANSPORT
+/* struct Logic_func_TRANSPORT */
+struct _Logic_func_TRANSPORT
 { 
   ThriftStruct parent; 
 
   /* public */
-  gint16 fields_count;
-  gboolean __isset_fields_count;
-  gint16 rel_count;
-  gboolean __isset_rel_count;
-  GPtrArray * fields;
-  gboolean __isset_fields;
-  GPtrArray * rel_ids;
-  gboolean __isset_rel_ids;
+  Logic_op_TRANSPORT type;
+  gboolean __isset_type;
+  GPtrArray * filters;
+  gboolean __isset_filters;
 };
-typedef struct _Entity_TRANSPORT Entity_TRANSPORT;
+typedef struct _Logic_func_TRANSPORT Logic_func_TRANSPORT;
 
-struct _Entity_TRANSPORTClass
+struct _Logic_func_TRANSPORTClass
 {
   ThriftStructClass parent;
 };
-typedef struct _Entity_TRANSPORTClass Entity_TRANSPORTClass;
+typedef struct _Logic_func_TRANSPORTClass Logic_func_TRANSPORTClass;
 
-GType entity__t_r_a_n_s_p_o_r_t_get_type (void);
-#define TYPE_ENTITY__T_R_A_N_S_P_O_R_T (entity__t_r_a_n_s_p_o_r_t_get_type())
-#define ENTITY__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_ENTITY__T_R_A_N_S_P_O_R_T, Entity_TRANSPORT))
-#define ENTITY__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_ENTITY__T_R_A_N_S_P_O_R_T, Entity_TRANSPORTClass))
-#define IS_ENTITY__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_ENTITY__T_R_A_N_S_P_O_R_T))
-#define IS_ENTITY__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_ENTITY__T_R_A_N_S_P_O_R_T))
-#define ENTITY__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_ENTITY__T_R_A_N_S_P_O_R_T, Entity_TRANSPORTClass))
+GType logic_func__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_LOGIC_FUNC__T_R_A_N_S_P_O_R_T (logic_func__t_r_a_n_s_p_o_r_t_get_type())
+#define LOGIC_FUNC__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_LOGIC_FUNC__T_R_A_N_S_P_O_R_T, Logic_func_TRANSPORT))
+#define LOGIC_FUNC__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_LOGIC_FUNC__T_R_A_N_S_P_O_R_T, Logic_func_TRANSPORTClass))
+#define IS_LOGIC_FUNC__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_LOGIC_FUNC__T_R_A_N_S_P_O_R_T))
+#define IS_LOGIC_FUNC__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_LOGIC_FUNC__T_R_A_N_S_P_O_R_T))
+#define LOGIC_FUNC__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_LOGIC_FUNC__T_R_A_N_S_P_O_R_T, Logic_func_TRANSPORTClass))
 
-/* struct Field_filter_TRANSPORT */
-struct _Field_filter_TRANSPORT
+/* struct Filter_union_TRANSPORT */
+struct _Filter_union_TRANSPORT
 { 
   ThriftStruct parent; 
 
   /* public */
-  Condition_code_TRANSPORT op;
-  gboolean __isset_op;
-  gchar * field_name;
-  gboolean __isset_field_name;
-  Field_value_TRANSPORT * field_value;
-  gboolean __isset_field_value;
+  Logic_func_TRANSPORT * func;
+  gboolean __isset_func;
+  Native_filter_TRANSPORT * filter;
+  gboolean __isset_filter;
 };
-typedef struct _Field_filter_TRANSPORT Field_filter_TRANSPORT;
+typedef struct _Filter_union_TRANSPORT Filter_union_TRANSPORT;
 
-struct _Field_filter_TRANSPORTClass
+struct _Filter_union_TRANSPORTClass
 {
   ThriftStructClass parent;
 };
-typedef struct _Field_filter_TRANSPORTClass Field_filter_TRANSPORTClass;
+typedef struct _Filter_union_TRANSPORTClass Filter_union_TRANSPORTClass;
 
-GType field_filter__t_r_a_n_s_p_o_r_t_get_type (void);
-#define TYPE_FIELD_FILTER__T_R_A_N_S_P_O_R_T (field_filter__t_r_a_n_s_p_o_r_t_get_type())
-#define FIELD_FILTER__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_FIELD_FILTER__T_R_A_N_S_P_O_R_T, Field_filter_TRANSPORT))
-#define FIELD_FILTER__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_FIELD_FILTER__T_R_A_N_S_P_O_R_T, Field_filter_TRANSPORTClass))
-#define IS_FIELD_FILTER__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_FIELD_FILTER__T_R_A_N_S_P_O_R_T))
-#define IS_FIELD_FILTER__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_FIELD_FILTER__T_R_A_N_S_P_O_R_T))
-#define FIELD_FILTER__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_FIELD_FILTER__T_R_A_N_S_P_O_R_T, Field_filter_TRANSPORTClass))
+GType filter_union__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_FILTER_UNION__T_R_A_N_S_P_O_R_T (filter_union__t_r_a_n_s_p_o_r_t_get_type())
+#define FILTER_UNION__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_FILTER_UNION__T_R_A_N_S_P_O_R_T, Filter_union_TRANSPORT))
+#define FILTER_UNION__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_FILTER_UNION__T_R_A_N_S_P_O_R_T, Filter_union_TRANSPORTClass))
+#define IS_FILTER_UNION__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_FILTER_UNION__T_R_A_N_S_P_O_R_T))
+#define IS_FILTER_UNION__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_FILTER_UNION__T_R_A_N_S_P_O_R_T))
+#define FILTER_UNION__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_FILTER_UNION__T_R_A_N_S_P_O_R_T, Filter_union_TRANSPORTClass))
 
-/* struct Condition_union_TRANSPORT */
-struct _Condition_union_TRANSPORT
+/* struct Filter_TRANSPORT */
+struct _Filter_TRANSPORT
 { 
   ThriftStruct parent; 
 
   /* public */
-  Field_value_TRANSPORT * id;
-  gboolean __isset_id;
-  Field_filter_TRANSPORT * field_filter;
-  gboolean __isset_field_filter;
+  gint8 is_native;
+  gboolean __isset_is_native;
+  Filter_union_TRANSPORT * filter;
+  gboolean __isset_filter;
 };
-typedef struct _Condition_union_TRANSPORT Condition_union_TRANSPORT;
+typedef struct _Filter_TRANSPORT Filter_TRANSPORT;
 
-struct _Condition_union_TRANSPORTClass
+struct _Filter_TRANSPORTClass
 {
   ThriftStructClass parent;
 };
-typedef struct _Condition_union_TRANSPORTClass Condition_union_TRANSPORTClass;
+typedef struct _Filter_TRANSPORTClass Filter_TRANSPORTClass;
 
-GType condition_union__t_r_a_n_s_p_o_r_t_get_type (void);
-#define TYPE_CONDITION_UNION__T_R_A_N_S_P_O_R_T (condition_union__t_r_a_n_s_p_o_r_t_get_type())
-#define CONDITION_UNION__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_CONDITION_UNION__T_R_A_N_S_P_O_R_T, Condition_union_TRANSPORT))
-#define CONDITION_UNION__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_CONDITION_UNION__T_R_A_N_S_P_O_R_T, Condition_union_TRANSPORTClass))
-#define IS_CONDITION_UNION__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_CONDITION_UNION__T_R_A_N_S_P_O_R_T))
-#define IS_CONDITION_UNION__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_CONDITION_UNION__T_R_A_N_S_P_O_R_T))
-#define CONDITION_UNION__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_CONDITION_UNION__T_R_A_N_S_P_O_R_T, Condition_union_TRANSPORTClass))
+GType filter__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_FILTER__T_R_A_N_S_P_O_R_T (filter__t_r_a_n_s_p_o_r_t_get_type())
+#define FILTER__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_FILTER__T_R_A_N_S_P_O_R_T, Filter_TRANSPORT))
+#define FILTER__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_FILTER__T_R_A_N_S_P_O_R_T, Filter_TRANSPORTClass))
+#define IS_FILTER__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_FILTER__T_R_A_N_S_P_O_R_T))
+#define IS_FILTER__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_FILTER__T_R_A_N_S_P_O_R_T))
+#define FILTER__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_FILTER__T_R_A_N_S_P_O_R_T, Filter_TRANSPORTClass))
 
-/* struct Condition_TRANSPORT */
-struct _Condition_TRANSPORT
+/* struct Native_field_TRANSPORT */
+struct _Native_field_TRANSPORT
 { 
   ThriftStruct parent; 
 
   /* public */
-  gint8 is_negative;
-  gboolean __isset_is_negative;
-  gint8 is_id;
-  gboolean __isset_is_id;
-  Condition_union_TRANSPORT * condition_union;
-  gboolean __isset_condition_union;
+  gchar * name;
+  gboolean __isset_name;
+  Value_TRANSPORT * value;
+  gboolean __isset_value;
 };
-typedef struct _Condition_TRANSPORT Condition_TRANSPORT;
+typedef struct _Native_field_TRANSPORT Native_field_TRANSPORT;
 
-struct _Condition_TRANSPORTClass
+struct _Native_field_TRANSPORTClass
 {
   ThriftStructClass parent;
 };
-typedef struct _Condition_TRANSPORTClass Condition_TRANSPORTClass;
+typedef struct _Native_field_TRANSPORTClass Native_field_TRANSPORTClass;
 
-GType condition__t_r_a_n_s_p_o_r_t_get_type (void);
-#define TYPE_CONDITION__T_R_A_N_S_P_O_R_T (condition__t_r_a_n_s_p_o_r_t_get_type())
-#define CONDITION__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_CONDITION__T_R_A_N_S_P_O_R_T, Condition_TRANSPORT))
-#define CONDITION__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_CONDITION__T_R_A_N_S_P_O_R_T, Condition_TRANSPORTClass))
-#define IS_CONDITION__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_CONDITION__T_R_A_N_S_P_O_R_T))
-#define IS_CONDITION__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_CONDITION__T_R_A_N_S_P_O_R_T))
-#define CONDITION__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_CONDITION__T_R_A_N_S_P_O_R_T, Condition_TRANSPORTClass))
+GType native_field__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_NATIVE_FIELD__T_R_A_N_S_P_O_R_T (native_field__t_r_a_n_s_p_o_r_t_get_type())
+#define NATIVE_FIELD__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_NATIVE_FIELD__T_R_A_N_S_P_O_R_T, Native_field_TRANSPORT))
+#define NATIVE_FIELD__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_NATIVE_FIELD__T_R_A_N_S_P_O_R_T, Native_field_TRANSPORTClass))
+#define IS_NATIVE_FIELD__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_NATIVE_FIELD__T_R_A_N_S_P_O_R_T))
+#define IS_NATIVE_FIELD__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_NATIVE_FIELD__T_R_A_N_S_P_O_R_T))
+#define NATIVE_FIELD__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_NATIVE_FIELD__T_R_A_N_S_P_O_R_T, Native_field_TRANSPORTClass))
 
-/* struct Filter_list_TRANSPORT */
-struct _Filter_list_TRANSPORT
+/* struct Header_TRANSPORT */
+struct _Header_TRANSPORT
 { 
   ThriftStruct parent; 
 
   /* public */
-  gint8 is_negative;
-  gboolean __isset_is_negative;
-  GPtrArray * and_conditions;
-  gboolean __isset_and_conditions;
+  gchar * tag;
+  gboolean __isset_tag;
+  Filter_TRANSPORT * filter;
+  gboolean __isset_filter;
 };
-typedef struct _Filter_list_TRANSPORT Filter_list_TRANSPORT;
+typedef struct _Header_TRANSPORT Header_TRANSPORT;
 
-struct _Filter_list_TRANSPORTClass
+struct _Header_TRANSPORTClass
 {
   ThriftStructClass parent;
 };
-typedef struct _Filter_list_TRANSPORTClass Filter_list_TRANSPORTClass;
+typedef struct _Header_TRANSPORTClass Header_TRANSPORTClass;
 
-GType filter_list__t_r_a_n_s_p_o_r_t_get_type (void);
-#define TYPE_FILTER_LIST__T_R_A_N_S_P_O_R_T (filter_list__t_r_a_n_s_p_o_r_t_get_type())
-#define FILTER_LIST__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_FILTER_LIST__T_R_A_N_S_P_O_R_T, Filter_list_TRANSPORT))
-#define FILTER_LIST__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_FILTER_LIST__T_R_A_N_S_P_O_R_T, Filter_list_TRANSPORTClass))
-#define IS_FILTER_LIST__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_FILTER_LIST__T_R_A_N_S_P_O_R_T))
-#define IS_FILTER_LIST__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_FILTER_LIST__T_R_A_N_S_P_O_R_T))
-#define FILTER_LIST__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_FILTER_LIST__T_R_A_N_S_P_O_R_T, Filter_list_TRANSPORTClass))
+GType header__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_HEADER__T_R_A_N_S_P_O_R_T (header__t_r_a_n_s_p_o_r_t_get_type())
+#define HEADER__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_HEADER__T_R_A_N_S_P_O_R_T, Header_TRANSPORT))
+#define HEADER__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_HEADER__T_R_A_N_S_P_O_R_T, Header_TRANSPORTClass))
+#define IS_HEADER__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_HEADER__T_R_A_N_S_P_O_R_T))
+#define IS_HEADER__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_HEADER__T_R_A_N_S_P_O_R_T))
+#define HEADER__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_HEADER__T_R_A_N_S_P_O_R_T, Header_TRANSPORTClass))
+
+/* struct Related_node_TRANSPORT */
+struct _Related_node_TRANSPORT
+{ 
+  ThriftStruct parent; 
+
+  /* public */
+  Header_TRANSPORT * header;
+  gboolean __isset_header;
+  GPtrArray * field_names;
+  gboolean __isset_field_names;
+};
+typedef struct _Related_node_TRANSPORT Related_node_TRANSPORT;
+
+struct _Related_node_TRANSPORTClass
+{
+  ThriftStructClass parent;
+};
+typedef struct _Related_node_TRANSPORTClass Related_node_TRANSPORTClass;
+
+GType related_node__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_RELATED_NODE__T_R_A_N_S_P_O_R_T (related_node__t_r_a_n_s_p_o_r_t_get_type())
+#define RELATED_NODE__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_RELATED_NODE__T_R_A_N_S_P_O_R_T, Related_node_TRANSPORT))
+#define RELATED_NODE__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_RELATED_NODE__T_R_A_N_S_P_O_R_T, Related_node_TRANSPORTClass))
+#define IS_RELATED_NODE__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_RELATED_NODE__T_R_A_N_S_P_O_R_T))
+#define IS_RELATED_NODE__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_RELATED_NODE__T_R_A_N_S_P_O_R_T))
+#define RELATED_NODE__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_RELATED_NODE__T_R_A_N_S_P_O_R_T, Related_node_TRANSPORTClass))
 
 /* struct Request_TRANSPORT */
 struct _Request_TRANSPORT
@@ -284,14 +316,18 @@ struct _Request_TRANSPORT
   ThriftStruct parent; 
 
   /* public */
-  Crud_operation_TRANSPORT op;
-  gboolean __isset_op;
-  GPtrArray * field_names_to_output;
-  gboolean __isset_field_names_to_output;
-  GPtrArray * tree;
-  gboolean __isset_tree;
-  Entity_TRANSPORT * entity;
-  gboolean __isset_entity;
+  Crud_operation_TRANSPORT operation;
+  gboolean __isset_operation;
+  Header_TRANSPORT * header;
+  gboolean __isset_header;
+  gint64 fields_count;
+  gboolean __isset_fields_count;
+  GPtrArray * fields;
+  gboolean __isset_fields;
+  gint64 rels_count;
+  gboolean __isset_rels_count;
+  GPtrArray * related_nodes;
+  gboolean __isset_related_nodes;
 };
 typedef struct _Request_TRANSPORT Request_TRANSPORT;
 
@@ -309,6 +345,35 @@ GType request__t_r_a_n_s_p_o_r_t_get_type (void);
 #define IS_REQUEST__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_REQUEST__T_R_A_N_S_P_O_R_T))
 #define REQUEST__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_REQUEST__T_R_A_N_S_P_O_R_T, Request_TRANSPORTClass))
 
+/* struct Node_TRANSPORT */
+struct _Node_TRANSPORT
+{ 
+  ThriftStruct parent; 
+
+  /* public */
+  gchar * tag_name;
+  gboolean __isset_tag_name;
+  GPtrArray * fields;
+  gboolean __isset_fields;
+  GPtrArray * related_node_ids;
+  gboolean __isset_related_node_ids;
+};
+typedef struct _Node_TRANSPORT Node_TRANSPORT;
+
+struct _Node_TRANSPORTClass
+{
+  ThriftStructClass parent;
+};
+typedef struct _Node_TRANSPORTClass Node_TRANSPORTClass;
+
+GType node__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_NODE__T_R_A_N_S_P_O_R_T (node__t_r_a_n_s_p_o_r_t_get_type())
+#define NODE__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_NODE__T_R_A_N_S_P_O_R_T, Node_TRANSPORT))
+#define NODE__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_NODE__T_R_A_N_S_P_O_R_T, Node_TRANSPORTClass))
+#define IS_NODE__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_NODE__T_R_A_N_S_P_O_R_T))
+#define IS_NODE__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_NODE__T_R_A_N_S_P_O_R_T))
+#define NODE__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_NODE__T_R_A_N_S_P_O_R_T, Node_TRANSPORTClass))
+
 /* struct Answer_TRANSPORT */
 struct _Answer_TRANSPORT
 { 
@@ -319,8 +384,8 @@ struct _Answer_TRANSPORT
   gboolean __isset_code;
   gchar * error_message;
   gboolean __isset_error_message;
-  GPtrArray * entities;
-  gboolean __isset_entities;
+  GPtrArray * nodes;
+  gboolean __isset_nodes;
 };
 typedef struct _Answer_TRANSPORT Answer_TRANSPORT;
 

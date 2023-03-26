@@ -32,68 +32,84 @@ enum Condition_code_TRANSPORT {
     OP_SUBSTR = 5
 }
 
+enum Logic_op_TRANSPORT {
+    OP_AND = 0,
+    OP_OR = 1,
+    OP_NOT = 2
+}
+
 enum Type_TRANSPORT {
     STRING_TYPE = 0,
     INTEGER_TYPE = 1,
     BOOLEAN_TYPE = 2
 }
 
-union Value_TRANSPORT {
+union Value_union_TRANSPORT {
 	1: i32 Integer,
 	2: bool Boolean,
 	3: string String
 }
 
-struct Field_value_TRANSPORT {
+union Value_TRANSPORT {
 	1: Type_TRANSPORT type,
-	2: Value_TRANSPORT value
+	2: Value_union_TRANSPORT value
 }
 
-struct Field_TRANSPORT {
-	1: string name,
-    2: Field_value_TRANSPORT value
+struct Native_filter_TRANSPORT {
+    1: string name,
+    2: Condition_code_TRANSPORT opcode,
+    3: Value_TRANSPORT value
 }
 
-struct Entity_TRANSPORT {
-	1: i16 fields_count,
-	2: i16 rel_count,
-    3: list<Field_TRANSPORT> fields,
-    4: list<Field_value_TRANSPORT> rel_ids
+struct Logic_func_TRANSPORT {
+    1: Logic_op_TRANSPORT type,
+    2: list<Filter_TRANSPORT> filters
 }
 
-struct Field_filter_TRANSPORT {
-	1: Condition_code_TRANSPORT op,
-	2: string field_name,
-	3: Field_value_TRANSPORT field_value
+union Filter_union_TRANSPORT {
+	1: Logic_func_TRANSPORT func,
+	2: Native_filter_TRANSPORT filter
 }
 
-union Condition_union_TRANSPORT {
-	1: Field_value_TRANSPORT id,
-	2: Field_filter_TRANSPORT field_filter
+struct Filter_TRANSPORT {
+    1: i8 is_native,
+    2: Filter_union_TRANSPORT filter
 }
 
-struct Condition_TRANSPORT {
-	1: i8 is_negative,
-    2: i8 is_id,
-	3: Condition_union_TRANSPORT condition_union;
+struct Native_field_TRANSPORT {
+    1: string name,
+    2: Value_TRANSPORT value
 }
 
-struct Filter_list_TRANSPORT {
-    1: i8 is_negative,
-    2: list<Condition_TRANSPORT> and_conditions
+struct Header_TRANSPORT {
+    1: string tag,
+    2: Filter_TRANSPORT filter
+}
+
+struct Related_node_TRANSPORT {
+    1: Header_TRANSPORT header,
+    2: list<string> field_names
 }
 
 struct Request_TRANSPORT {
-    1: Crud_operation_TRANSPORT op,
-    2: list<string> field_names_to_output,
-    3: list<Filter_list_TRANSPORT> tree,
-    4: Entity_TRANSPORT entity
+    1: Crud_operation_TRANSPORT operation,
+    2: Header_TRANSPORT header,
+    3: i64 fields_count,
+	4: optional list<Native_field_TRANSPORT> fields,
+    5: i64 rels_count,
+    6: optional list<Related_node_TRANSPORT> related_nodes
+}
+
+struct Node_TRANSPORT {
+	1: string tag_name,
+	2: list<Native_field_TRANSPORT> fields,
+	3: list<Value_TRANSPORT> related_node_ids
 }
 
 struct Answer_TRANSPORT {
-  1: i16 code,
-  2: string error_message,
-  3: optional list<Entity_TRANSPORT> entities
+	1: i16 code,
+	2: string error_message
+	3: list<Node_TRANSPORT> nodes
 }
 
 service DBRequest {
