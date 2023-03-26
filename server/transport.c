@@ -100,7 +100,7 @@ static struct Filter filter_from_transport(Filter_TRANSPORT* filter_transport) {
 }
 
 static struct Value value_from_transport(Value_TRANSPORT* value_transport) {
-	enum Type value_type; Value_union_TRANSPORT* value_union_transport;
+	enum Value_type value_type; Value_union_TRANSPORT* value_union_transport;
 	g_object_get(value_transport, "type", &value_type, "value", &value_union_transport, NULL);
 	struct Value result = {.type = value_type};
 	

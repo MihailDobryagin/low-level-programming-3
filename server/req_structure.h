@@ -27,14 +27,14 @@ enum Logic_op {
     OP_NOT
 };
 
-enum Type {
+enum Value_type {
     STRING_TYPE = 0,
     INTEGER_TYPE,
     BOOLEAN_TYPE
 };
 
 struct Value {
-    enum Type type;
+    enum Value_type type;
     union {
         char string[MAX_NAME_SIZE];
         int32_t integer;
