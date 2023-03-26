@@ -13,23 +13,8 @@ static DBRequestIf* client;
 
 int main(int argc, char * argv[])
 {
-  char* host;
-  size_t port;
-  if (argc == 1)
-  {
-    host = "localhost";
-    port = 9090;
-  }
-  else if (argc < 3)
-  {
-    printf("not enougth arguments, format ./llp3_client url port\n");
-    exit(1);
-  }
-  else 
-  {
-    host = argv[1];
-    port = atoi(argv[2]);
-  }
+  char* host = "localhost";
+  size_t port = 9090;
   
   ThriftSocket *socket;
   ThriftTransport *transport;
