@@ -5,7 +5,7 @@
 #define _g_object_new(OBJECT_NAME) g_object_new(_g_object_type_for_transport(OBJECT_NAME), NULL)
 
 static struct Value_TRANSPORT* value_for_transport_from_value(struct Value value);
-static struct Filter_TRANSPORT* filter_for_transport_from_filter_tree(struct Filter filter);
+static struct Filter_TRANSPORT* filter_for_transport(struct Filter filter);
 static struct Header_TRANSPORT* header_for_transport_from_header(struct Header header);
 
 Request_TRANSPORT* transport_request_from_view_format(struct View view) {
@@ -20,14 +20,16 @@ static struct Header_TRANSPORT* header_for_transport_from_header(struct Header h
 	g_object_set(header_transport, "tag", header.tag, "filter_not_null", header.filter_not_null, NULL);
 	
 	if(header.filter_not_null) {
-		struct Filter_TRANSPORT* filter_transport = filter_for_transport_from_filter_tree(header.filter);
+		struct Filter_TRANSPORT* filter_transport = filter_for_transport(header.filter);
 		g_object_set(header_transport, "filter", filter_transport, NULL);
 	}
 	
 	return header_transport;
 }
 
-static struct Filter_TRANSPORT* filter_for_transport_from_filter_tree(struct Filter filter) {
+static struct Logic_func_TRANSPORT* logic_func_for_transport(struct Logic_func* logic_func);
+
+static struct Filter_TRANSPORT* filter_for_transport(struct Filter filter) {
 	struct Filter_TRANSPORT* filter_transport = _g_object_new(filter);
 	struct Filter_union_TRANSPORT* filter_union_transport = _g_object_new(filter_union);
 	
@@ -38,10 +40,23 @@ static struct Filter_TRANSPORT* filter_for_transport_from_filter_tree(struct Fil
 			"name", native_filter->name, "opcode", native_filter->opcode, "value", value_for_transport_from_value(native_filter->value), NULL
 		);
 		g_object_set(filter_union_transport, "native_filter", native_filter_transport, NULL);
+	} else {
+		g_object_set(filter_union_transport, "func", logic_func_for_transport(filter.func), NULL);
 	}
 	
 	g_object_set(filter_transport, "is_native", filter.is_native, "filter", filter_union_transport, NULL);
 	return filter_transport;
+}
+
+static struct Logic_func_TRANSPORT* logic_func_for_transport(struct Logic_func* logic_func) {
+	struct Logic_func_TRANSPORT* logic_func_transport = _g_object_new(logic_func);
+	GPtrArray* filters_transport = g_ptr_array_new();
+	
+	for(size_t i = 0; i < logic_func->filters_count; i++) {
+		g_ptr_array_add(filters_transport, filter_for_transport(logic_func->filters[i]));
+	}
+	
+	g_object_set(logic_func_transport, "type", logic_func->type, "filters", filters_transport, NULL);
 }
 
 static struct Value_TRANSPORT* value_for_transport_from_value(struct Value value) {
