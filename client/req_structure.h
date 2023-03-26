@@ -37,8 +37,8 @@ struct Value {
     enum Type type;
     union {
         char string[MAX_NAME_SIZE];
-        int64_t integer;
-        int64_t boolean;
+        int32_t integer;
+        int8_t boolean;
     };
 };
 
