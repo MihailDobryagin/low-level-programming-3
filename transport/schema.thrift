@@ -83,7 +83,8 @@ struct Native_field_TRANSPORT {
 
 struct Header_TRANSPORT {
     1: string tag,
-    2: Filter_TRANSPORT filter
+	2: i8 filter_not_null,
+    3: optional Filter_TRANSPORT filter
 }
 
 struct Related_node_TRANSPORT {

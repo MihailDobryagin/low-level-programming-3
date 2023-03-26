@@ -264,6 +264,8 @@ struct _Header_TRANSPORT
   /* public */
   gchar * tag;
   gboolean __isset_tag;
+  gint8 filter_not_null;
+  gboolean __isset_filter_not_null;
   Filter_TRANSPORT * filter;
   gboolean __isset_filter;
 };

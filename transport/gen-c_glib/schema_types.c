@@ -2229,6 +2229,7 @@ enum _Header_TRANSPORTProperties
 {
   PROP_HEADER__T_R_A_N_S_P_O_R_T_0,
   PROP_HEADER__T_R_A_N_S_P_O_R_T_TAG,
+  PROP_HEADER__T_R_A_N_S_P_O_R_T_FILTER_NOT_NULL,
   PROP_HEADER__T_R_A_N_S_P_O_R_T_FILTER
 };
 
@@ -2301,6 +2302,19 @@ header__t_r_a_n_s_p_o_r_t_read (ThriftStruct *object, ThriftProtocol *protocol, 
         }
         break;
       case 2:
+        if (ftype == T_BYTE)
+        {
+          if ((ret = thrift_protocol_read_byte (protocol, &this_object->filter_not_null, error)) < 0)
+            return -1;
+          xfer += ret;
+          this_object->__isset_filter_not_null = TRUE;
+        } else {
+          if ((ret = thrift_protocol_skip (protocol, ftype, error)) < 0)
+            return -1;
+          xfer += ret;
+        }
+        break;
+      case 3:
         if (ftype == T_STRUCT)
         {
           if ((ret = thrift_struct_read (THRIFT_STRUCT (this_object->filter), protocol, error)) < 0)
@@ -2354,16 +2368,28 @@ header__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol,
   if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
     return -1;
   xfer += ret;
-  if ((ret = thrift_protocol_write_field_begin (protocol, "filter", T_STRUCT, 2, error)) < 0)
+  if ((ret = thrift_protocol_write_field_begin (protocol, "filter_not_null", T_BYTE, 2, error)) < 0)
     return -1;
   xfer += ret;
-  if ((ret = thrift_struct_write (THRIFT_STRUCT (this_object->filter), protocol, error)) < 0)
+  if ((ret = thrift_protocol_write_byte (protocol, this_object->filter_not_null, error)) < 0)
     return -1;
   xfer += ret;
 
   if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
     return -1;
   xfer += ret;
+  if (this_object->__isset_filter == TRUE) {
+    if ((ret = thrift_protocol_write_field_begin (protocol, "filter", T_STRUCT, 3, error)) < 0)
+      return -1;
+    xfer += ret;
+    if ((ret = thrift_struct_write (THRIFT_STRUCT (this_object->filter), protocol, error)) < 0)
+      return -1;
+    xfer += ret;
+
+    if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
+      return -1;
+    xfer += ret;
+  }
   if ((ret = thrift_protocol_write_field_stop (protocol, error)) < 0)
     return -1;
   xfer += ret;
@@ -2389,6 +2415,11 @@ header__t_r_a_n_s_p_o_r_t_set_property (GObject *object,
         g_free (self->tag);
       self->tag = g_value_dup_string (value);
       self->__isset_tag = TRUE;
+      break;
+
+    case PROP_HEADER__T_R_A_N_S_P_O_R_T_FILTER_NOT_NULL:
+      self->filter_not_null = g_value_get_int (value);
+      self->__isset_filter_not_null = TRUE;
       break;
 
     case PROP_HEADER__T_R_A_N_S_P_O_R_T_FILTER:
@@ -2418,6 +2449,10 @@ header__t_r_a_n_s_p_o_r_t_get_property (GObject *object,
       g_value_set_string (value, self->tag);
       break;
 
+    case PROP_HEADER__T_R_A_N_S_P_O_R_T_FILTER_NOT_NULL:
+      g_value_set_int (value, self->filter_not_null);
+      break;
+
     case PROP_HEADER__T_R_A_N_S_P_O_R_T_FILTER:
       g_value_set_object (value, self->filter);
       break;
@@ -2435,6 +2470,8 @@ header__t_r_a_n_s_p_o_r_t_instance_init (Header_TRANSPORT * object)
   THRIFT_UNUSED_VAR (object);
   object->tag = NULL;
   object->__isset_tag = FALSE;
+  object->filter_not_null = 0;
+  object->__isset_filter_not_null = FALSE;
   object->filter = g_object_new (TYPE_FILTER__T_R_A_N_S_P_O_R_T, NULL);
   object->__isset_filter = FALSE;
 }
@@ -2479,6 +2516,17 @@ header__t_r_a_n_s_p_o_r_t_class_init (Header_TRANSPORTClass * cls)
                           NULL,
                           NULL,
                           G_PARAM_READWRITE));
+
+  g_object_class_install_property
+    (gobject_class,
+     PROP_HEADER__T_R_A_N_S_P_O_R_T_FILTER_NOT_NULL,
+     g_param_spec_int ("filter_not_null",
+                       NULL,
+                       NULL,
+                       G_MININT8,
+                       G_MAXINT8,
+                       0,
+                       G_PARAM_READWRITE));
 
   g_object_class_install_property
     (gobject_class,

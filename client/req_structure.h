@@ -46,15 +46,15 @@ struct Native_filter {
     char name[MAX_NAME_SIZE]; // field_name
     enum Condition_code opcode;
     struct Value value;
-}
+};
 
 struct Filter;
 
 struct Logic_func {
     enum Logic_op type;
     size_t filters_count;
-    struct Filter filters[MAX_ARRAY_SIZE];
-}
+    struct Filter *filters;
+};
 
 struct Filter {
     uint8_t is_native;
@@ -67,18 +67,19 @@ struct Filter {
 struct Native_field {
     char name[MAX_NAME_SIZE];
     struct Value value;
-}
+};
 
 struct Header {
     char tag[MAX_NAME_SIZE];
+	uint8_t filter_not_null;
     struct Filter filter;
-}
+};
 
 struct Related_node {
     struct Header header;
     size_t native_fields_count;
-    struct char** field_names;
-}
+    char** field_names;
+};
 
 struct View {
     enum Crud_operation operation;
