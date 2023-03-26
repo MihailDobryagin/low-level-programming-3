@@ -26,14 +26,14 @@ Request_TRANSPORT* transport_request_from_view_format(struct View view) {
 	}
 	
 	GPtrArray* related_nodes_transport = g_ptr_array_new();
-	for(size_t i = 0; i < view.related_fields_count; i++) {
+	for(size_t i = 0; i < view.related_nodes_count; i++) {
 		struct Related_node_TRANSPORT* related_node_transport = _g_object_new(related_node);
 		GPtrArray* field_names_transport = g_ptr_array_new();
 		
-		for(size_t name_idx = 0; name_idx < view.related_fields_count; name_idx++) g_ptr_array_add(field_names_transport, view.related_fields[i].field_names[name_idx]);
+		for(size_t name_idx = 0; name_idx < view.related_nodes_count; name_idx++) g_ptr_array_add(field_names_transport, view.related_nodes[i].field_names[name_idx]);
 			
 		g_object_set(related_node_transport,
-			"header", header_for_transport(view.related_fields[i].header),
+			"header", header_for_transport(view.related_nodes[i].header),
 			"field_names", field_names_transport,
 		NULL);
 		

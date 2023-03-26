@@ -86,8 +86,8 @@ struct View {
     struct Header header;
     size_t native_fields_count;
     struct Native_field native_fields[MAX_ARRAY_SIZE];
-    size_t related_fields_count;
-    struct Related_node related_fields[MAX_ARRAY_SIZE];
+    size_t related_nodes_count;
+    struct Related_node related_nodes[MAX_ARRAY_SIZE];
 };
 
 #endif // !REQ_STRUCTURE_H

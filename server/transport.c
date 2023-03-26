@@ -18,7 +18,7 @@ struct View request_from_transport_request(Request_TRANSPORT* req) {
 	NULL);
 	
 	view.native_fields_count = fields_transport->len;
-	view.related_fields_count = related_nodes_transport->len;
+	view.related_nodes_count = related_nodes_transport->len;
 	
 	for(size_t i = 0; i < view.native_fields_count; i++) {
 		Native_field_TRANSPORT* field_transport = g_ptr_array_index(fields_transport, i);
@@ -30,19 +30,18 @@ struct View request_from_transport_request(Request_TRANSPORT* req) {
 		}
 	}
 	
-	for(size_t i = 0; i < view.related_fields_count; i++) {
+	for(size_t i = 0; i < view.related_nodes_count; i++) {
 		Related_node_TRANSPORT* related_node_transport = g_ptr_array_index(related_nodes_transport, i);
 		Header_TRANSPORT* related_node_header_transport; GPtrArray* related_node_field_names;
 		g_object_get(related_node_transport,
 			"header", &related_node_header_transport, "field_names", &related_node_field_names,
 		NULL);
 		
-		view.related_fields[i].header = header_from_transport(related_node_header_transport);
-		view.related_fields[i].native_fields_count = related_node_field_names->len;
-		view.related_fields[i].field_names = (char**)malloc(sizeof(char*) * view.related_fields[i].native_fields_count);
+		view.related_nodes[i].header = header_from_transport(related_node_header_transport);
+		view.related_nodes[i].native_fields_count = related_node_field_names->len;
 		
-		for(size_t name_idx = 0; name_idx < view.related_fields[i].native_fields_count; name_idx++) {
-			view.related_fields[i].field_names[name_idx] = g_ptr_array_index(related_node_field_names, name_idx);
+		for(size_t name_idx = 0; name_idx < view.related_nodes[i].native_fields_count; name_idx++) {
+			view.related_nodes[i].field_names[name_idx] = g_ptr_array_index(related_node_field_names, name_idx);
 		}
 	}
 	
