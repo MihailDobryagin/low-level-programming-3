@@ -1,12 +1,15 @@
+#ifndef REQ_STRUCTURE_H
+#define REQ_STRUCTURE_H
+
 #include <inttypes.h>
 
 #define MAX_NAME_SIZE 20
 #define MAX_ARRAY_SIZE 20
 
 enum Crud_operation {
-    CRUD_GET = 0,
+    CRUD_QUERY = 0,
     CRUD_REMOVE,
-    CRUD_NEW,
+    CRUD_INSERT,
     CRUD_UPDATE
 };
 
@@ -15,8 +18,13 @@ enum Condition_code {
     OP_GREATER,
     OP_LESS,
     OP_NOT_GREATER,
-    OP_NOT_LESS,
-    OP_SUBSTR,
+    OP_NOT_LESS
+};
+
+enum Logic_op {
+    OP_AND = 0,
+    OP_OR,
+    OP_NOT
 };
 
 enum Type {
@@ -25,56 +33,61 @@ enum Type {
     BOOLEAN_TYPE
 };
 
-struct Field_value {
-	Type type;
-	union {
-		char string[MAX_NAME_SIZE];
-		int64_t integer;
-		int64_t boolean;
-	};
+struct Value {
+    enum Type type;
+    union {
+        char string[MAX_NAME_SIZE];
+        int64_t integer;
+        int64_t boolean;
+    };
 };
 
-struct Field {
-	char name[MAX_NAME_SIZE];
-    struct Field_value value;
+struct Native_filter {
+    char name[MAX_NAME_SIZE]; // field_name
+    enum Condition_code opcode;
+    struct Value value;
 };
 
-struct Entity {
-	uint8_t fields_count;
-	uint8_t rel_count;
-    struct Field fields[MAX_ARRAY_SIZE];
-    struct Field_value rel_ids[MAX_ARRAY_SIZE];
+struct Filter;
+
+struct Logic_func {
+    enum Logic_op type;
+    size_t filters_count;
+    struct Filter *filters;
 };
 
-struct Condition {
-	uint8_t is_negative;
-    uint8_t is_id;
-	union {
-		struct Field_value id;
-		struct {
-			enum Condition_code op;
-			char field_name[MAX_NAME_SIZE];
-			struct Field_value field_value;
-		} field_filter;
-	}
-    struct Condition *next;
+struct Filter {
+    uint8_t is_native;
+    union {
+        struct Logic_func *func;
+        struct Native_filter *filter;
+    };
 };
 
-struct Filter_list {
-	uint8_t is_negative;
-    struct Condition *condition;
-    struct Filter_list *next;
-};
-
-struct Sample {
-    struct Sample *root_child;
+struct Native_field {
     char name[MAX_NAME_SIZE];
-    struct Sample *next;
+    struct Value value;
+};
+
+struct Header {
+    char tag[MAX_NAME_SIZE];
+	uint8_t filter_not_null;
+    struct Filter filter;
+};
+
+struct Related_node {
+    struct Header header;
+    size_t native_fields_count;
+    char** field_names;
 };
 
 struct View {
-    enum Crud_operation op;
-    struct Sample *root; // Fields to output
-    struct Filter_list *filters;
-    struct Entity *entity;
+    enum Crud_operation operation;
+    struct Header header;
+    size_t native_fields_count;
+    struct Native_field native_fields[MAX_ARRAY_SIZE];
+    size_t related_fields_count;
+    struct Related_node related_fields[MAX_ARRAY_SIZE];
 };
+
+#endif // !REQ_STRUCTURE_H
