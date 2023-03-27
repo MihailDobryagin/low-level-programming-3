@@ -21,7 +21,7 @@ TARGET_LINK_LIBRARIES(_client ${THRIFT_LIB} ${GLIB_LIBRARIES})
 
 
 add_executable(_server 
-	server/main.c server/transport.c 
+	server/main.c server/transport.c server/requests.c
 	server/database/client/manage.c server/database/db/db.c server/database/db/file.c server/database/db/entities.c
 	transport/gen-c_glib/d_b_request.c transport/gen-c_glib/schema_types.c
 )

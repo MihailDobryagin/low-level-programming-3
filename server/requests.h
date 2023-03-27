@@ -7,6 +7,6 @@
 #include "database/db/entities.h"
 #include "database/db/db.h"
 
-static Array_node _do_select_request(Database* db, struct View view);
+Array_node do_request(Database* db, struct View view);
 
 #endif // !REQUESTS

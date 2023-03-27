@@ -14,7 +14,10 @@
 #include "../transport/gen-c_glib/d_b_request.h"
 #include "../transport/gen-c_glib/schema_types.h"
 #include "req_structure.h"
+#include "requests.h"
 #include "transport.h"
+
+#include "database/db/db.h"
 
 
 
@@ -68,6 +71,7 @@ G_END_DECLS
 
 // ================ START OF IMPLEMENTATION ================
 
+Database* database;
 
 G_DEFINE_TYPE(DBRequestMyHandlerImp,
               d_b_request_my_handler_impl,
@@ -90,24 +94,25 @@ d_b_request_my_handler_impl_init (DBRequestMyHandlerImp *self)
 }
 
 
-static gboolean handler_ping (DBRequestIf  *iface,
-                                  GError       **error)
-{
-  THRIFT_UNUSED_VAR (iface);
-  THRIFT_UNUSED_VAR (error);
+static gboolean handler_ping (DBRequestIf *iface, GError **error){
+	THRIFT_UNUSED_VAR (iface);
+	THRIFT_UNUSED_VAR (error);
 
-  printf("ping()\n");
+	printf("ping()\n");
 
-  return TRUE;
+	return TRUE;
 }
 
-static gboolean handler_do_request (DBRequestIf *iface, Answer_TRANSPORT **_return, const Request_TRANSPORT *req, GError **error)
-{
-  printf("request()\n");
-  THRIFT_UNUSED_VAR (iface);
-  THRIFT_UNUSED_VAR (error);
-
-  return TRUE;
+static gboolean handler_do_request (DBRequestIf *iface, Answer_TRANSPORT **_return, const Request_TRANSPORT *req, GError **error) {
+	printf("request()\n");
+	THRIFT_UNUSED_VAR (iface);
+	THRIFT_UNUSED_VAR (error);
+	struct View view = request_from_transport_request(req);
+	printf("Tag -> %s\n", view.header.tag);
+	Array_node nodes = do_request(database, view);
+	printf("nodes size -> %d\n", nodes.size);
+	
+	return TRUE;
 }
 
 static void
@@ -128,66 +133,56 @@ d_b_request_my_handler_impl_class_init (DBRequestMyHandlerImpClass *klass)
 
 int main (int argc, char * argv[])
 {
-  size_t port = 9090;
- 
-  DBRequestProcessor *processor;
+	size_t port = 9090;
+	database = init_database("db_file.txt");
 
-  DBRequestMyHandlerImp *handler;
+	DBRequestProcessor *processor;
 
-  ThriftServerTransport *server_transport;
-  ThriftTransportFactory *transport_factory;
-  ThriftProtocolFactory *protocol_factory;
-  ThriftServer *server = NULL;
+	DBRequestMyHandlerImp *handler;
 
-  GError *error = NULL;
-  int exit_status = 0;
+	ThriftServerTransport *server_transport;
+	ThriftTransportFactory *transport_factory;
+	ThriftProtocolFactory *protocol_factory;
+	ThriftServer *server = NULL;
 
-#if (!GLIB_CHECK_VERSION (2, 36, 0))
-  g_type_init ();
-#endif
+	GError *error = NULL;
+	int exit_status = 0;
 
-  handler = g_object_new (TYPE_D_B_REQUEST_MY_HANDLER,
-                  NULL);
+	#if (!GLIB_CHECK_VERSION (2, 36, 0))
+		g_type_init ();
+	#endif
 
-  processor = g_object_new (TYPE_D_B_REQUEST_PROCESSOR,
-                  "handler", handler,
-                  NULL);
+	handler = g_object_new (TYPE_D_B_REQUEST_MY_HANDLER, NULL);
 
-  server_transport =
-    g_object_new (THRIFT_TYPE_SERVER_SOCKET,
-                  "port", port,
-                  NULL);
+	processor = g_object_new (TYPE_D_B_REQUEST_PROCESSOR, "handler", handler, NULL);
 
-  transport_factory =
-    g_object_new (THRIFT_TYPE_BUFFERED_TRANSPORT_FACTORY,
-                  NULL);
+	server_transport = g_object_new (THRIFT_TYPE_SERVER_SOCKET, "port", port, NULL);
 
-  protocol_factory =
-    g_object_new (THRIFT_TYPE_BINARY_PROTOCOL_FACTORY,
-                  NULL);
+	transport_factory = g_object_new (THRIFT_TYPE_BUFFERED_TRANSPORT_FACTORY, NULL);
 
-  server =
-    g_object_new (THRIFT_TYPE_SIMPLE_SERVER,
-                  "processor",                processor,
-                  "server_transport",         server_transport,
-                  "input_transport_factory",  transport_factory,
-                  "output_transport_factory", transport_factory,
-                  "input_protocol_factory",   protocol_factory,
-                  "output_protocol_factory",  protocol_factory,
-                  NULL);
+	protocol_factory = g_object_new (THRIFT_TYPE_BINARY_PROTOCOL_FACTORY, NULL);
 
-  puts ("Starting the server...");
-  thrift_server_serve (server, &error);
+	server = g_object_new (THRIFT_TYPE_SIMPLE_SERVER,
+		"processor",                processor,
+		"server_transport",         server_transport,
+		"input_transport_factory",  transport_factory,
+		"output_transport_factory", transport_factory,
+		"input_protocol_factory",   protocol_factory,
+		"output_protocol_factory",  protocol_factory,
+	NULL);
 
-  puts ("done.");
+	puts ("Starting the server...");
+	thrift_server_serve (server, &error);
 
-  g_object_unref (server);
-  g_object_unref (transport_factory);
-  g_object_unref (protocol_factory);
-  g_object_unref (server_transport);
+	puts ("done.");
 
-  g_object_unref (processor);
-  g_object_unref (handler);
+	g_object_unref (server);
+	g_object_unref (transport_factory);
+	g_object_unref (protocol_factory);
+	g_object_unref (server_transport);
 
-  return exit_status;
+	g_object_unref (processor);
+	g_object_unref (handler);
+
+	return exit_status;
 }

@@ -1,8 +1,11 @@
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 #include "requests.h"
 #include "req_structure.h"
 #include "database/client/manage.h"
+#include "database/db/entities.h"
+#include "database/client/queries.h"
 
 static Properties_filter _map_request_filter_to_properties_filter(struct Filter req_filter);
 static Array_node _do_select_request(Database* db, struct View view);
@@ -25,10 +28,13 @@ static Field _map_request_value_to_field(struct Value value) {
 	return result;
 }
 
-Array_node do_request(struct View view) {
+Array_node do_request(Database* db, struct View view) {
 	switch(view.operation) {
 		case CRUD_QUERY:
-			
+			return _do_select_request(db, view);
+		default:
+			printf("UNKNOWN CRUD OPERATION\n");
+			return (Array_node){0, NULL};
 	}
 }
 
@@ -57,34 +63,34 @@ static Array_node _do_select_request(Database* db, struct View view) {
 	
 	Node main_node = main_node_as_array.values[0];
 	
-	if(view.related_fields_count == 0) return main_node;
+	if(view.related_nodes_count == 0) return (Array_node) main_node_as_array;
 	
 	size_t result_nodes_capacity = 10;
 	Array_node result = main_node_as_array;
 	realloc(result.values, sizeof(Node) * result_nodes_capacity);
 	
-	for(size_t i = 0; i < view.related_fields_count; i++) {
+	for(size_t i = 0; i < view.related_nodes_count; i++) {
 		Select_nodes related_nodes_query = {
 			.selection_mode = NODES_BY_LINKED_NODE,
-			.tag_name = view.related_fields[i].header.tag,
+			.tag_name = view.related_nodes[i].header.tag,
 			.linked_node_id = main_node.id,
-			.filter.has_filter = view.related_fields[i].header.filter_not_null
-		}
+			.filter.has_filter = view.related_nodes[i].header.filter_not_null
+		};
 		
 		if(related_nodes_query.filter.has_filter) {
 			related_nodes_query.filter.container = (Filter_container){
 				.type = PROPERTY_FILTER, 
-				.properties_filter = _map_request_filter_to_properties_filter(view.related_fields[i].header.filter)
+				.properties_filter = _map_request_filter_to_properties_filter(view.related_nodes[i].header.filter)
 			};
 		}
 		
-		related_nodes = nodes(db, related_nodes_query);
+		Array_node related_nodes = nodes(db, related_nodes_query);
 		for(size_t node_idx = 0; node_idx < related_nodes.size; node_idx++) {
 			if(result.size == result_nodes_capacity) {
 				result_nodes_capacity += result_nodes_capacity / 2;
 				realloc(result.values, sizeof(Node) * result_nodes_capacity);
 			}
-			result.values[result.size++] = related_nodes[node_idx];
+			result.values[result.size++] = related_nodes.values[node_idx];
 		}
 	}
 	
@@ -105,7 +111,7 @@ static Properties_filter _map_request_filter_to_properties_filter(struct Filter 
 		
 		return (Properties_filter) {
 			.logical_operation_type = AND_LO_TYPE, .is_terminal = true,
-			.terminal_filter = (Terminal_filter){
+			.terminal_filter = (Terminal_property_filter){
 				.type = filter_type, .value_to_compare = (Property){.name = req_filter.filter->name, .field = _map_request_value_to_field(req_filter.filter->value)}
 			}
 		};
@@ -119,13 +125,16 @@ static Properties_filter _map_request_filter_to_properties_filter(struct Filter 
 		default: printf("UNKNOWN LOGICAL OPERATION TYPE"); assert(0);
 	}
 	
-	Properties_filter result = {.logical_operation_type = log_op_type, is_terminal = false, .subfilters = {
+	Properties_filter result = {.logical_operation_type = log_op_type, .is_terminal = false, .subfilters = {
 		.size = req_filter.func->filters_count, .filters = malloc(sizeof(Properties_filter) * req_filter.func->filters_count)
 	}};
 	
 	if(log_op_type == NOT_LO_TYPE) assert(result.subfilters.size == 1);
 	
-	for(size_t i = 0; i < result.subfilters.size; i++) result.subfilters.filters[i] = _map_request_filter_to_properties_filter(req_filter.func->filters[i]);
+	for(size_t i = 0; i < result.subfilters.size; i++) {
+		Properties_filter* filters = result.subfilters.filters;
+		filters[i] = _map_request_filter_to_properties_filter(req_filter.func->filters[i]);
+	}
 	
 	return result;
 }
