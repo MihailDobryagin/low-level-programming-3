@@ -2,11 +2,15 @@
 #include <assert.h>
 #include "transport.h"
 
+#ifndef TRANSPORT_OBJECTS_CREATION
+#define TRANSPORT_OBJECTS_CREATION
 #define _g_object_type_for_transport(OBJECT_NAME) OBJECT_NAME##__t_r_a_n_s_p_o_r_t_get_type()
 #define _g_object_new(OBJECT_NAME) g_object_new(_g_object_type_for_transport(OBJECT_NAME), NULL)
+#endif
 
 static struct Filter filter_from_transport(Filter_TRANSPORT* filter_transport);
 static struct Value value_from_transport(Value_TRANSPORT* value_transport);
+static Value_TRANSPORT* value_for_transport(struct Value value);
 struct Header header_from_transport(Header_TRANSPORT* header_transport);
 
 struct View request_from_transport_request(Request_TRANSPORT* req) {
@@ -49,6 +53,31 @@ struct View request_from_transport_request(Request_TRANSPORT* req) {
 	}
 	
 	return view;
+}
+
+Answer_TRANSPORT* answer_for_transport(struct Answer answer) {
+	Answer_TRANSPORT* answer_transport = _g_object_new(answer);
+	
+	GPtrArray* nodes_transport = g_ptr_array_new();
+	for(size_t i = 0; i < answer.nodes_count; i++) {
+		GPtrArray* fields_transport = g_ptr_array_new();
+		const struct Node_view node = answer.nodes[i];
+		for(size_t field_idx = 0; field_idx < node.native_fields_count; field_idx++) {
+			struct Native_field field = node.native_fields[i];
+			Native_field_TRANSPORT* field_transport = _g_object_new(native_field);
+			g_object_set(field_transport,
+				"name", field.name,
+				"value", value_for_transport(field.value),
+			NULL);
+			g_ptr_array_add(fields_transport, field_transport);
+		}
+		Node_view_TRANSPORT* node_view_transport = _g_object_new(node_view);
+		g_object_set(node_view_transport, "tag_name", node.tag_name, "fields", fields_transport, NULL);
+		g_ptr_array_add(nodes_transport, node_view_transport);
+	}
+	
+	g_object_set(answer_transport, "code", 0, "nodes", nodes_transport, NULL);
+	return answer_transport;
 }
 
 struct Header header_from_transport(Header_TRANSPORT* header_transport) {
@@ -105,13 +134,30 @@ static struct Value value_from_transport(Value_TRANSPORT* value_transport) {
 	enum Value_type value_type; Value_union_TRANSPORT* value_union_transport;
 	g_object_get(value_transport, "type", &value_type, "value", &value_union_transport, NULL);
 	struct Value result = {.type = value_type};
-	
+	char* tmp_str;
 	switch(value_type) {
-		case STRING_TYPE: g_object_get(value_union_transport, "String", &result.string, NULL); break;
+		case STRING_TYPE: 
+			g_object_get(value_union_transport, "String", &tmp_str, NULL); 
+			strcpy(result.string, tmp_str);
+			break;
 		case INTEGER_TYPE: g_object_get(value_union_transport, "Integer", &result.integer, NULL); break;
 		case BOOLEAN_TYPE: g_object_get(value_union_transport, "Boolean", &result.boolean, NULL); break;
 		default: printf("UNKNOWN TYPE FOR VALUE\n"); assert(0);
 	}
 	
 	return result;
+}
+
+static Value_TRANSPORT* value_for_transport(struct Value value) {
+	Value_TRANSPORT* value_transport = _g_object_new(value);
+	g_object_set(value_transport, "type", value.type, NULL);
+	Value_union_TRANSPORT* value_union_transport = _g_object_new(value_union);
+	switch(value.type) {
+		case STRING_TYPE: g_object_set(value_union_transport, "String", value.string, NULL); break;
+		case INTEGER_TYPE: g_object_set(value_union_transport, "Integer", value.integer, NULL); break;
+		case BOOLEAN_TYPE: g_object_set(value_union_transport, "Boolean", value.integer, NULL); break;
+		default: printf("UNSUPPORTED VALUE TYPE\n"); assert(0);
+	}
+	g_object_set(value_transport, "value", value_union_transport, NULL);
+	return value_transport;
 }

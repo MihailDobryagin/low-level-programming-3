@@ -3359,17 +3359,16 @@ request__t_r_a_n_s_p_o_r_t_get_type (void)
   return type;
 }
 
-enum _Node_TRANSPORTProperties
+enum _Node_view_TRANSPORTProperties
 {
-  PROP_NODE__T_R_A_N_S_P_O_R_T_0,
-  PROP_NODE__T_R_A_N_S_P_O_R_T_TAG_NAME,
-  PROP_NODE__T_R_A_N_S_P_O_R_T_FIELDS,
-  PROP_NODE__T_R_A_N_S_P_O_R_T_RELATED_NODE_IDS
+  PROP_NODE_VIEW__T_R_A_N_S_P_O_R_T_0,
+  PROP_NODE_VIEW__T_R_A_N_S_P_O_R_T_TAG_NAME,
+  PROP_NODE_VIEW__T_R_A_N_S_P_O_R_T_FIELDS
 };
 
-/* reads a node__t_r_a_n_s_p_o_r_t object */
+/* reads a node_view__t_r_a_n_s_p_o_r_t object */
 static gint32
-node__t_r_a_n_s_p_o_r_t_read (ThriftStruct *object, ThriftProtocol *protocol, GError **error)
+node_view__t_r_a_n_s_p_o_r_t_read (ThriftStruct *object, ThriftProtocol *protocol, GError **error)
 {
   gint32 ret;
   gint32 xfer = 0;
@@ -3378,7 +3377,7 @@ node__t_r_a_n_s_p_o_r_t_read (ThriftStruct *object, ThriftProtocol *protocol, GE
   gint16 fid;
   guint32 len = 0;
   gpointer data = NULL;
-  Node_TRANSPORT * this_object = NODE__T_R_A_N_S_P_O_R_T(object);
+  Node_view_TRANSPORT * this_object = NODE_VIEW__T_R_A_N_S_P_O_R_T(object);
 
   /* satisfy -Wall in case these aren't used */
   THRIFT_UNUSED_VAR (len);
@@ -3475,46 +3474,6 @@ node__t_r_a_n_s_p_o_r_t_read (ThriftStruct *object, ThriftProtocol *protocol, GE
           xfer += ret;
         }
         break;
-      case 3:
-        if (ftype == T_LIST)
-        {
-          {
-            guint32 size;
-            guint32 i;
-            ThriftType element_type;
-
-            if ((ret = thrift_protocol_read_list_begin (protocol, &element_type,&size, error)) < 0)
-              return -1;
-            xfer += ret;
-
-            /* iterate through list elements */
-            for (i = 0; i < size; i++)
-            {
-              Value_TRANSPORT * _elem13 = NULL;
-              if ( _elem13 != NULL)
-              {
-                g_object_unref (_elem13);
-              }
-              _elem13 = g_object_new (TYPE_VALUE__T_R_A_N_S_P_O_R_T, NULL);
-              if ((ret = thrift_struct_read (THRIFT_STRUCT (_elem13), protocol, error)) < 0)
-              {
-                g_object_unref (_elem13);
-                return -1;
-              }
-              xfer += ret;
-              g_ptr_array_add (this_object->related_node_ids, _elem13);
-            }
-            if ((ret = thrift_protocol_read_list_end (protocol, error)) < 0)
-              return -1;
-            xfer += ret;
-          }
-          this_object->__isset_related_node_ids = TRUE;
-        } else {
-          if ((ret = thrift_protocol_skip (protocol, ftype, error)) < 0)
-            return -1;
-          xfer += ret;
-        }
-        break;
       default:
         if ((ret = thrift_protocol_skip (protocol, ftype, error)) < 0)
           return -1;
@@ -3534,14 +3493,14 @@ node__t_r_a_n_s_p_o_r_t_read (ThriftStruct *object, ThriftProtocol *protocol, GE
 }
 
 static gint32
-node__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol, GError **error)
+node_view__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol, GError **error)
 {
   gint32 ret;
   gint32 xfer = 0;
 
-  Node_TRANSPORT * this_object = NODE__T_R_A_N_S_P_O_R_T(object);
+  Node_view_TRANSPORT * this_object = NODE_VIEW__T_R_A_N_S_P_O_R_T(object);
   THRIFT_UNUSED_VAR (this_object);
-  if ((ret = thrift_protocol_write_struct_begin (protocol, "Node_TRANSPORT", error)) < 0)
+  if ((ret = thrift_protocol_write_struct_begin (protocol, "Node_view_TRANSPORT", error)) < 0)
     return -1;
   xfer += ret;
   if ((ret = thrift_protocol_write_field_begin (protocol, "tag_name", T_STRING, 1, error)) < 0)
@@ -3558,37 +3517,14 @@ node__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol, G
     return -1;
   xfer += ret;
   {
-    guint i14;
+    guint i13;
 
     if ((ret = thrift_protocol_write_list_begin (protocol, T_STRUCT, (gint32) (this_object->fields ? this_object->fields->len : 0), error)) < 0)
       return -1;
     xfer += ret;
-    for (i14 = 0; i14 < (this_object->fields ? this_object->fields->len : 0); i14++)
+    for (i13 = 0; i13 < (this_object->fields ? this_object->fields->len : 0); i13++)
     {
-      if ((ret = thrift_struct_write (THRIFT_STRUCT ((g_ptr_array_index ((GPtrArray *) this_object->fields, i14))), protocol, error)) < 0)
-        return -1;
-      xfer += ret;
-
-    }
-    if ((ret = thrift_protocol_write_list_end (protocol, error)) < 0)
-      return -1;
-    xfer += ret;
-  }
-  if ((ret = thrift_protocol_write_field_end (protocol, error)) < 0)
-    return -1;
-  xfer += ret;
-  if ((ret = thrift_protocol_write_field_begin (protocol, "related_node_ids", T_LIST, 3, error)) < 0)
-    return -1;
-  xfer += ret;
-  {
-    guint i15;
-
-    if ((ret = thrift_protocol_write_list_begin (protocol, T_STRUCT, (gint32) (this_object->related_node_ids ? this_object->related_node_ids->len : 0), error)) < 0)
-      return -1;
-    xfer += ret;
-    for (i15 = 0; i15 < (this_object->related_node_ids ? this_object->related_node_ids->len : 0); i15++)
-    {
-      if ((ret = thrift_struct_write (THRIFT_STRUCT ((g_ptr_array_index ((GPtrArray *) this_object->related_node_ids, i15))), protocol, error)) < 0)
+      if ((ret = thrift_struct_write (THRIFT_STRUCT ((g_ptr_array_index ((GPtrArray *) this_object->fields, i13))), protocol, error)) < 0)
         return -1;
       xfer += ret;
 
@@ -3611,34 +3547,27 @@ node__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol, G
 }
 
 static void
-node__t_r_a_n_s_p_o_r_t_set_property (GObject *object,
-                                      guint property_id,
-                                      const GValue *value,
-                                      GParamSpec *pspec)
+node_view__t_r_a_n_s_p_o_r_t_set_property (GObject *object,
+                                           guint property_id,
+                                           const GValue *value,
+                                           GParamSpec *pspec)
 {
-  Node_TRANSPORT *self = NODE__T_R_A_N_S_P_O_R_T (object);
+  Node_view_TRANSPORT *self = NODE_VIEW__T_R_A_N_S_P_O_R_T (object);
 
   switch (property_id)
   {
-    case PROP_NODE__T_R_A_N_S_P_O_R_T_TAG_NAME:
+    case PROP_NODE_VIEW__T_R_A_N_S_P_O_R_T_TAG_NAME:
       if (self->tag_name != NULL)
         g_free (self->tag_name);
       self->tag_name = g_value_dup_string (value);
       self->__isset_tag_name = TRUE;
       break;
 
-    case PROP_NODE__T_R_A_N_S_P_O_R_T_FIELDS:
+    case PROP_NODE_VIEW__T_R_A_N_S_P_O_R_T_FIELDS:
       if (self->fields != NULL)
         g_ptr_array_unref (self->fields);
       self->fields = g_value_dup_boxed (value);
       self->__isset_fields = TRUE;
-      break;
-
-    case PROP_NODE__T_R_A_N_S_P_O_R_T_RELATED_NODE_IDS:
-      if (self->related_node_ids != NULL)
-        g_ptr_array_unref (self->related_node_ids);
-      self->related_node_ids = g_value_dup_boxed (value);
-      self->__isset_related_node_ids = TRUE;
       break;
 
     default:
@@ -3648,25 +3577,21 @@ node__t_r_a_n_s_p_o_r_t_set_property (GObject *object,
 }
 
 static void
-node__t_r_a_n_s_p_o_r_t_get_property (GObject *object,
-                                      guint property_id,
-                                      GValue *value,
-                                      GParamSpec *pspec)
+node_view__t_r_a_n_s_p_o_r_t_get_property (GObject *object,
+                                           guint property_id,
+                                           GValue *value,
+                                           GParamSpec *pspec)
 {
-  Node_TRANSPORT *self = NODE__T_R_A_N_S_P_O_R_T (object);
+  Node_view_TRANSPORT *self = NODE_VIEW__T_R_A_N_S_P_O_R_T (object);
 
   switch (property_id)
   {
-    case PROP_NODE__T_R_A_N_S_P_O_R_T_TAG_NAME:
+    case PROP_NODE_VIEW__T_R_A_N_S_P_O_R_T_TAG_NAME:
       g_value_set_string (value, self->tag_name);
       break;
 
-    case PROP_NODE__T_R_A_N_S_P_O_R_T_FIELDS:
+    case PROP_NODE_VIEW__T_R_A_N_S_P_O_R_T_FIELDS:
       g_value_set_boxed (value, self->fields);
-      break;
-
-    case PROP_NODE__T_R_A_N_S_P_O_R_T_RELATED_NODE_IDS:
-      g_value_set_boxed (value, self->related_node_ids);
       break;
 
     default:
@@ -3676,7 +3601,7 @@ node__t_r_a_n_s_p_o_r_t_get_property (GObject *object,
 }
 
 static void 
-node__t_r_a_n_s_p_o_r_t_instance_init (Node_TRANSPORT * object)
+node_view__t_r_a_n_s_p_o_r_t_instance_init (Node_view_TRANSPORT * object)
 {
   /* satisfy -Wall */
   THRIFT_UNUSED_VAR (object);
@@ -3684,14 +3609,12 @@ node__t_r_a_n_s_p_o_r_t_instance_init (Node_TRANSPORT * object)
   object->__isset_tag_name = FALSE;
   object->fields = g_ptr_array_new_with_free_func (g_object_unref);
   object->__isset_fields = FALSE;
-  object->related_node_ids = g_ptr_array_new_with_free_func (g_object_unref);
-  object->__isset_related_node_ids = FALSE;
 }
 
 static void 
-node__t_r_a_n_s_p_o_r_t_finalize (GObject *object)
+node_view__t_r_a_n_s_p_o_r_t_finalize (GObject *object)
 {
-  Node_TRANSPORT *tobject = NODE__T_R_A_N_S_P_O_R_T (object);
+  Node_view_TRANSPORT *tobject = NODE_VIEW__T_R_A_N_S_P_O_R_T (object);
 
   /* satisfy -Wall in case we don't use tobject */
   THRIFT_UNUSED_VAR (tobject);
@@ -3705,29 +3628,24 @@ node__t_r_a_n_s_p_o_r_t_finalize (GObject *object)
     g_ptr_array_unref (tobject->fields);
     tobject->fields = NULL;
   }
-  if (tobject->related_node_ids != NULL)
-  {
-    g_ptr_array_unref (tobject->related_node_ids);
-    tobject->related_node_ids = NULL;
-  }
 }
 
 static void
-node__t_r_a_n_s_p_o_r_t_class_init (Node_TRANSPORTClass * cls)
+node_view__t_r_a_n_s_p_o_r_t_class_init (Node_view_TRANSPORTClass * cls)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (cls);
   ThriftStructClass *struct_class = THRIFT_STRUCT_CLASS (cls);
 
-  struct_class->read = node__t_r_a_n_s_p_o_r_t_read;
-  struct_class->write = node__t_r_a_n_s_p_o_r_t_write;
+  struct_class->read = node_view__t_r_a_n_s_p_o_r_t_read;
+  struct_class->write = node_view__t_r_a_n_s_p_o_r_t_write;
 
-  gobject_class->finalize = node__t_r_a_n_s_p_o_r_t_finalize;
-  gobject_class->get_property = node__t_r_a_n_s_p_o_r_t_get_property;
-  gobject_class->set_property = node__t_r_a_n_s_p_o_r_t_set_property;
+  gobject_class->finalize = node_view__t_r_a_n_s_p_o_r_t_finalize;
+  gobject_class->get_property = node_view__t_r_a_n_s_p_o_r_t_get_property;
+  gobject_class->set_property = node_view__t_r_a_n_s_p_o_r_t_set_property;
 
   g_object_class_install_property
     (gobject_class,
-     PROP_NODE__T_R_A_N_S_P_O_R_T_TAG_NAME,
+     PROP_NODE_VIEW__T_R_A_N_S_P_O_R_T_TAG_NAME,
      g_param_spec_string ("tag_name",
                           NULL,
                           NULL,
@@ -3736,17 +3654,8 @@ node__t_r_a_n_s_p_o_r_t_class_init (Node_TRANSPORTClass * cls)
 
   g_object_class_install_property
     (gobject_class,
-     PROP_NODE__T_R_A_N_S_P_O_R_T_FIELDS,
+     PROP_NODE_VIEW__T_R_A_N_S_P_O_R_T_FIELDS,
      g_param_spec_boxed ("fields",
-                         NULL,
-                         NULL,
-                         G_TYPE_PTR_ARRAY,
-                         G_PARAM_READWRITE));
-
-  g_object_class_install_property
-    (gobject_class,
-     PROP_NODE__T_R_A_N_S_P_O_R_T_RELATED_NODE_IDS,
-     g_param_spec_boxed ("related_node_ids",
                          NULL,
                          NULL,
                          G_TYPE_PTR_ARRAY,
@@ -3754,7 +3663,7 @@ node__t_r_a_n_s_p_o_r_t_class_init (Node_TRANSPORTClass * cls)
 }
 
 GType
-node__t_r_a_n_s_p_o_r_t_get_type (void)
+node_view__t_r_a_n_s_p_o_r_t_get_type (void)
 {
   static GType type = 0;
 
@@ -3762,20 +3671,20 @@ node__t_r_a_n_s_p_o_r_t_get_type (void)
   {
     static const GTypeInfo type_info = 
     {
-      sizeof (Node_TRANSPORTClass),
+      sizeof (Node_view_TRANSPORTClass),
       NULL, /* base_init */
       NULL, /* base_finalize */
-      (GClassInitFunc) node__t_r_a_n_s_p_o_r_t_class_init,
+      (GClassInitFunc) node_view__t_r_a_n_s_p_o_r_t_class_init,
       NULL, /* class_finalize */
       NULL, /* class_data */
-      sizeof (Node_TRANSPORT),
+      sizeof (Node_view_TRANSPORT),
       0, /* n_preallocs */
-      (GInstanceInitFunc) node__t_r_a_n_s_p_o_r_t_instance_init,
+      (GInstanceInitFunc) node_view__t_r_a_n_s_p_o_r_t_instance_init,
       NULL, /* value_table */
     };
 
     type = g_type_register_static (THRIFT_TYPE_STRUCT, 
-                                   "Node_TRANSPORTType",
+                                   "Node_view_TRANSPORTType",
                                    &type_info, 0);
   }
 
@@ -3886,19 +3795,19 @@ answer__t_r_a_n_s_p_o_r_t_read (ThriftStruct *object, ThriftProtocol *protocol, 
             /* iterate through list elements */
             for (i = 0; i < size; i++)
             {
-              Node_TRANSPORT * _elem16 = NULL;
-              if ( _elem16 != NULL)
+              Node_view_TRANSPORT * _elem14 = NULL;
+              if ( _elem14 != NULL)
               {
-                g_object_unref (_elem16);
+                g_object_unref (_elem14);
               }
-              _elem16 = g_object_new (TYPE_NODE__T_R_A_N_S_P_O_R_T, NULL);
-              if ((ret = thrift_struct_read (THRIFT_STRUCT (_elem16), protocol, error)) < 0)
+              _elem14 = g_object_new (TYPE_NODE_VIEW__T_R_A_N_S_P_O_R_T, NULL);
+              if ((ret = thrift_struct_read (THRIFT_STRUCT (_elem14), protocol, error)) < 0)
               {
-                g_object_unref (_elem16);
+                g_object_unref (_elem14);
                 return -1;
               }
               xfer += ret;
-              g_ptr_array_add (this_object->nodes, _elem16);
+              g_ptr_array_add (this_object->nodes, _elem14);
             }
             if ((ret = thrift_protocol_read_list_end (protocol, error)) < 0)
               return -1;
@@ -3964,14 +3873,14 @@ answer__t_r_a_n_s_p_o_r_t_write (ThriftStruct *object, ThriftProtocol *protocol,
     return -1;
   xfer += ret;
   {
-    guint i17;
+    guint i15;
 
     if ((ret = thrift_protocol_write_list_begin (protocol, T_STRUCT, (gint32) (this_object->nodes ? this_object->nodes->len : 0), error)) < 0)
       return -1;
     xfer += ret;
-    for (i17 = 0; i17 < (this_object->nodes ? this_object->nodes->len : 0); i17++)
+    for (i15 = 0; i15 < (this_object->nodes ? this_object->nodes->len : 0); i15++)
     {
-      if ((ret = thrift_struct_write (THRIFT_STRUCT ((g_ptr_array_index ((GPtrArray *) this_object->nodes, i17))), protocol, error)) < 0)
+      if ((ret = thrift_struct_write (THRIFT_STRUCT ((g_ptr_array_index ((GPtrArray *) this_object->nodes, i15))), protocol, error)) < 0)
         return -1;
       xfer += ret;
 

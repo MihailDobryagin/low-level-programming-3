@@ -343,8 +343,8 @@ GType request__t_r_a_n_s_p_o_r_t_get_type (void);
 #define IS_REQUEST__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_REQUEST__T_R_A_N_S_P_O_R_T))
 #define REQUEST__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_REQUEST__T_R_A_N_S_P_O_R_T, Request_TRANSPORTClass))
 
-/* struct Node_TRANSPORT */
-struct _Node_TRANSPORT
+/* struct Node_view_TRANSPORT */
+struct _Node_view_TRANSPORT
 { 
   ThriftStruct parent; 
 
@@ -353,24 +353,22 @@ struct _Node_TRANSPORT
   gboolean __isset_tag_name;
   GPtrArray * fields;
   gboolean __isset_fields;
-  GPtrArray * related_node_ids;
-  gboolean __isset_related_node_ids;
 };
-typedef struct _Node_TRANSPORT Node_TRANSPORT;
+typedef struct _Node_view_TRANSPORT Node_view_TRANSPORT;
 
-struct _Node_TRANSPORTClass
+struct _Node_view_TRANSPORTClass
 {
   ThriftStructClass parent;
 };
-typedef struct _Node_TRANSPORTClass Node_TRANSPORTClass;
+typedef struct _Node_view_TRANSPORTClass Node_view_TRANSPORTClass;
 
-GType node__t_r_a_n_s_p_o_r_t_get_type (void);
-#define TYPE_NODE__T_R_A_N_S_P_O_R_T (node__t_r_a_n_s_p_o_r_t_get_type())
-#define NODE__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_NODE__T_R_A_N_S_P_O_R_T, Node_TRANSPORT))
-#define NODE__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_NODE__T_R_A_N_S_P_O_R_T, Node_TRANSPORTClass))
-#define IS_NODE__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_NODE__T_R_A_N_S_P_O_R_T))
-#define IS_NODE__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_NODE__T_R_A_N_S_P_O_R_T))
-#define NODE__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_NODE__T_R_A_N_S_P_O_R_T, Node_TRANSPORTClass))
+GType node_view__t_r_a_n_s_p_o_r_t_get_type (void);
+#define TYPE_NODE_VIEW__T_R_A_N_S_P_O_R_T (node_view__t_r_a_n_s_p_o_r_t_get_type())
+#define NODE_VIEW__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_NODE_VIEW__T_R_A_N_S_P_O_R_T, Node_view_TRANSPORT))
+#define NODE_VIEW__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_CAST ((c), _TYPE_NODE_VIEW__T_R_A_N_S_P_O_R_T, Node_view_TRANSPORTClass))
+#define IS_NODE_VIEW__T_R_A_N_S_P_O_R_T(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_NODE_VIEW__T_R_A_N_S_P_O_R_T))
+#define IS_NODE_VIEW__T_R_A_N_S_P_O_R_T_CLASS(c) (G_TYPE_CHECK_CLASS_TYPE ((c), TYPE_NODE_VIEW__T_R_A_N_S_P_O_R_T))
+#define NODE_VIEW__T_R_A_N_S_P_O_R_T_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_NODE_VIEW__T_R_A_N_S_P_O_R_T, Node_view_TRANSPORTClass))
 
 /* struct Answer_TRANSPORT */
 struct _Answer_TRANSPORT

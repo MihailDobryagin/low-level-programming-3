@@ -99,16 +99,15 @@ struct Request_TRANSPORT {
     4: list<Related_node_TRANSPORT> related_nodes
 }
 
-struct Node_TRANSPORT {
+struct Node_view_TRANSPORT {
 	1: string tag_name,
-	2: list<Native_field_TRANSPORT> fields,
-	3: list<Value_TRANSPORT> related_node_ids
+	2: list<Native_field_TRANSPORT> fields
 }
 
 struct Answer_TRANSPORT {
 	1: i16 code,
 	2: string error_message
-	3: list<Node_TRANSPORT> nodes
+	3: list<Node_view_TRANSPORT> nodes
 }
 
 service DBRequest {

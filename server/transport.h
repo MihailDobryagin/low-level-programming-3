@@ -6,4 +6,6 @@
 
 struct View request_from_transport_request(Request_TRANSPORT* req);
 
+Answer_TRANSPORT* answer_for_transport(struct Answer answer);
+
 #endif // !TRANSPORT_H
