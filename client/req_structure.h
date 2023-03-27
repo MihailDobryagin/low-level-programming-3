@@ -3,8 +3,8 @@
 
 #include <inttypes.h>
 
-#define MAX_NAME_SIZE 20
-#define MAX_ARRAY_SIZE 20
+#define MAX_NAME_SIZE 100
+#define MAX_ARRAY_SIZE 100
 
 enum Crud_operation {
     CRUD_QUERY = 0,

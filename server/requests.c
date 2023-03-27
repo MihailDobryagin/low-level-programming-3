@@ -31,10 +31,10 @@ static Field _map_request_value_to_field(struct Value value) {
 }
 
 static struct Value _map_field_to_request_value(Field field) {
-	struct Value result = {};
+	struct Value result;
 	switch(field.type) {
 		case STRING: 
-			result = (struct Value) {.type = STRING_TYPE, .string = malloc(strlen(field.string) + 1)};
+			result = (struct Value) {.type = STRING_TYPE};
 			strcpy(result.string, field.string);
 			break;
 		case NUMBER:
@@ -125,8 +125,6 @@ static Array_node _do_select_request(Database* db, struct View view) {
 	
 	printf("Main nodes size -> %d\n", main_node_as_array.size);
 	
-	Node main_node = main_node_as_array.values[0];
-	
 	if(view.related_nodes_count == 0) {
 		printf("No RELATED nodes. Result returned\n");
 		return main_node_as_array;
@@ -137,6 +135,8 @@ static Array_node _do_select_request(Database* db, struct View view) {
 	realloc(result.values, sizeof(Node) * result_nodes_capacity);
 	
 	printf("Start selecting RELATED nodes (%d relations)...\n", view.related_nodes_count);
+	
+	Node main_node = main_node_as_array.values[0];
 	for(size_t i = 0; i < view.related_nodes_count; i++) {
 		Select_nodes related_nodes_query = {
 			.selection_mode = NODES_BY_LINKED_NODE,

@@ -14,6 +14,7 @@ char* node_view_to_string(struct Node_view node) {
 	char* result_str = malloc(STRING_INITIAL_SIZE + 10);
 	sprintf(result_str, "NODE '%s' (", node.tag_name);
 	size_t result_size = strlen(result_str);
+	printf("%s\n", result_str);
 	
 	for(size_t i = 0; i < node.native_fields_count; i++) {
 		struct Native_field field = node.native_fields[i];
@@ -26,16 +27,20 @@ char* node_view_to_string(struct Node_view node) {
 			case BOOLEAN_TYPE: sprintf(value_buff, field.value.boolean ? "True" : "False"); break;
 			default: printf("UNKNOW VALUE TYPE"); assert(0);
 		}
+		printf("Value buff -> %s\n", value_buff);
 		
 		sprintf(str_to_append, "%s: %s", field.name, value_buff);
+		printf("Field buff -> %s\n", str_to_append);
 		free(value_buff);
 		
 		if(i + 1 != node.native_fields_count) {
 			strcpy(str_to_append + strlen(str_to_append), ", ");
+			printf("Field buff with ',' -> %s\n", str_to_append);
 		}
 		
 		size_t str_to_append_sz = strlen(str_to_append);
 		strcpy(result_str + result_size, str_to_append);
+		printf("RESULT buff -> %s\n", result_str);
 		free(str_to_append);
 		result_size += str_to_append_sz;
 	}
