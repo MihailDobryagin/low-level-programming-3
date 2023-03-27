@@ -10,19 +10,22 @@ static struct Value value_from_transport(Value_TRANSPORT* value_transport);
 struct Header header_from_transport(Header_TRANSPORT* header_transport);
 
 struct View request_from_transport_request(Request_TRANSPORT* req) {
-	struct View view = (struct View){};
+	struct View view = {};
 	Header_TRANSPORT* header_transport; GPtrArray* fields_transport; GPtrArray* related_nodes_transport;
-	g_object_get(req, 
+	g_object_get(req,
 		"operation", &(view.operation), "header", &header_transport,
 		"fields", &fields_transport, "related_nodes", &related_nodes_transport,
 	NULL);
 	
+	view.header = header_from_transport(header_transport);
 	view.native_fields_count = fields_transport->len;
 	view.related_nodes_count = related_nodes_transport->len;
 	
 	for(size_t i = 0; i < view.native_fields_count; i++) {
 		Native_field_TRANSPORT* field_transport = g_ptr_array_index(fields_transport, i);
-		g_object_get(field_transport, "name", &(view.native_fields[i]), NULL);
+		char* getted_name;
+		g_object_get(field_transport, "name", &getted_name, NULL);
+		strcpy(view.native_fields[i].name, getted_name);
 		if(view.operation == CRUD_INSERT || view.operation == CRUD_UPDATE) {
 			Value_TRANSPORT* value_transport;
 			g_object_get(field_transport, "value", &value_transport, NULL);
@@ -49,18 +52,18 @@ struct View request_from_transport_request(Request_TRANSPORT* req) {
 }
 
 struct Header header_from_transport(Header_TRANSPORT* header_transport) {
-	int8_t is_filter_not_null; g_object_get(header_transport, "filter_not_null", is_filter_not_null, NULL);
-	struct Filter filter;
-	if(is_filter_not_null) {
+	struct Header result = {};
+
+	char* getted_tag;
+	g_object_get(header_transport, "tag", &getted_tag, "filter_not_null", &result.filter_not_null, NULL);
+	strcpy(result.tag, getted_tag);
+	
+	if(result.filter_not_null) {
+		struct Filter filter;
 		Filter_TRANSPORT* filter_transport;
 		g_object_get(header_transport, "filter", &filter_transport, NULL);
-		filter = filter_from_transport(filter_transport);
+		result.filter = filter_from_transport(filter_transport);
 	}
-	struct Header result = {
-		.filter_not_null = is_filter_not_null,
-		.filter = filter
-	};
-	g_object_get(header_transport, "tag", &result.tag, NULL);
 	
 	return result;
 }
@@ -104,9 +107,9 @@ static struct Value value_from_transport(Value_TRANSPORT* value_transport) {
 	struct Value result = {.type = value_type};
 	
 	switch(value_type) {
-		case STRING_TYPE: g_object_get(value_transport, "String", &result.string, NULL); break;
-		case INTEGER_TYPE: g_object_get(value_transport, "Integer", &result.integer, NULL); break;
-		case BOOLEAN_TYPE: g_object_get(value_transport, "Boolean", &result.boolean, NULL); break;
+		case STRING_TYPE: g_object_get(value_union_transport, "String", &result.string, NULL); break;
+		case INTEGER_TYPE: g_object_get(value_union_transport, "Integer", &result.integer, NULL); break;
+		case BOOLEAN_TYPE: g_object_get(value_union_transport, "Boolean", &result.boolean, NULL); break;
 		default: printf("UNKNOWN TYPE FOR VALUE\n"); assert(0);
 	}
 	

@@ -13,7 +13,7 @@ Request_TRANSPORT* transport_request_from_view_format(struct View view) {
 	g_object_set(request_transport, 
 		"operation", view.operation,
 		"header", header_for_transport(view.header),
-	NULL);	
+	NULL);
 	
 	GPtrArray* fields_transport = g_ptr_array_new();
 	for(size_t i = 0; i < view.native_fields_count; i++) {
@@ -50,7 +50,10 @@ Request_TRANSPORT* transport_request_from_view_format(struct View view) {
 
 static struct Header_TRANSPORT* header_for_transport(struct Header header) {
 	struct Header_TRANSPORT* header_transport = _g_object_new(header);
+	printf("HEADER TAG -> %s\n", header.tag);
 	g_object_set(header_transport, "tag", header.tag, "filter_not_null", header.filter_not_null, NULL);
+	char* getted_header_tag; g_object_get(header_transport, "tag", &getted_header_tag, NULL);
+	printf("GETTED HEADER TAG -> %s\n", getted_header_tag);
 	
 	if(header.filter_not_null) {
 		struct Filter_TRANSPORT* filter_transport = filter_for_transport(header.filter);
