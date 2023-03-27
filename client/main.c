@@ -86,9 +86,11 @@ int main(int argc, char * argv[]) {
 
 	do {
 		char* query = _scan_query();
+		printf("Query -> %s\n", query);
 		yy_scan_string(query);
 		struct View view;
 		yyparse(&view);
+		printf("Tag name -> %s\n", view.header.tag);
 		yylex_destroy();
 		free(query);
 		Answer_TRANSPORT* answer = g_object_new(_g_object_type_for_transport(answer), NULL);
