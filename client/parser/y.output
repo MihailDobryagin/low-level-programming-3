@@ -1,0 +1,757 @@
+Grammar
+
+    0 $accept: syntax $end
+
+    1 syntax: graphQL
+
+    2 graphQL: operation OPCBRACE body CLCBRACE
+
+    3 operation: QUERY
+    4          | DELETE
+    5          | INSERT
+    6          | UPDATE
+
+    7 body: STRING OPBRACE root_condition CLBRACE OPCBRACE tag CLCBRACE
+
+    8 root_condition: %empty
+    9               | condition
+
+   10 child_condition: %empty
+   11                | condition
+
+   12 condition: logic_function
+   13          | logic_native
+
+   14 logic_function: NOT COLON OPSQBRACE condition CLSQBRACE
+   15               | logic_operation COLON OPSQBRACE condition_seq CLSQBRACE
+
+   16 logic_operation: AND
+   17                | OR
+
+   18 condition_seq: condition COMMA condition
+
+   19 logic_native: STRING COLON OPCBRACE logic_native_operation COLON value CLCBRACE
+
+   20 logic_native_operation: LT
+   21                       | LE
+   22                       | GT
+   23                       | GE
+   24                       | EQ
+
+   25 tag: tag_rule COMMA tag
+   26    | tag_rule
+
+   27 tag_rule: simple_field
+   28         | related_node
+
+   29 simple_field: STRING
+   30             | STRING COLON value
+
+   31 related_node: STRING OPBRACE child_condition CLBRACE OPCBRACE simple_immutable_fields CLCBRACE
+
+   32 simple_immutable_fields: STRING COMMA simple_immutable_fields
+   33                        | STRING
+   34                        | %empty
+
+   35 value: QUOTE STRING QUOTE
+   36      | INT_NUMBER
+   37      | bool
+
+   38 bool: TRUE_TOK
+   39     | FALSE_TOK
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+QUERY (258) 3
+INSERT (259) 5
+DELETE (260) 4
+UPDATE (261) 6
+STRING (262) 7 19 29 30 31 32 33 35
+AND (263) 16
+OR (264) 17
+NOT (265) 14
+LT (266) 20
+LE (267) 21
+GT (268) 22
+GE (269) 23
+EQ (270) 24
+OPBRACE (271) 7 31
+CLBRACE (272) 7 31
+OPCBRACE (273) 2 7 19 31
+CLCBRACE (274) 2 7 19 31
+OPSQBRACE (275) 14 15
+CLSQBRACE (276) 14 15
+COLON (277) 14 15 19 30
+COMMA (278) 18 25 32
+QUOTE (279) 35
+FALSE_TOK (280) 39
+TRUE_TOK (281) 38
+INT_NUMBER (282) 36
+
+
+Nonterminals, with rules where they appear
+
+$accept (28)
+    on left: 0
+syntax (29)
+    on left: 1, on right: 0
+graphQL (30)
+    on left: 2, on right: 1
+operation (31)
+    on left: 3 4 5 6, on right: 2
+body (32)
+    on left: 7, on right: 2
+root_condition (33)
+    on left: 8 9, on right: 7
+child_condition (34)
+    on left: 10 11, on right: 31
+condition (35)
+    on left: 12 13, on right: 9 11 14 18
+logic_function (36)
+    on left: 14 15, on right: 12
+logic_operation (37)
+    on left: 16 17, on right: 15
+condition_seq (38)
+    on left: 18, on right: 15
+logic_native (39)
+    on left: 19, on right: 13
+logic_native_operation (40)
+    on left: 20 21 22 23 24, on right: 19
+tag (41)
+    on left: 25 26, on right: 7 25
+tag_rule (42)
+    on left: 27 28, on right: 25 26
+simple_field (43)
+    on left: 29 30, on right: 27
+related_node (44)
+    on left: 31, on right: 28
+simple_immutable_fields (45)
+    on left: 32 33 34, on right: 31 32
+value (46)
+    on left: 35 36 37, on right: 19 30
+bool (47)
+    on left: 38 39, on right: 37
+
+
+State 0
+
+    0 $accept: . syntax $end
+
+    QUERY   shift, and go to state 1
+    INSERT  shift, and go to state 2
+    DELETE  shift, and go to state 3
+    UPDATE  shift, and go to state 4
+
+    syntax     go to state 5
+    graphQL    go to state 6
+    operation  go to state 7
+
+
+State 1
+
+    3 operation: QUERY .
+
+    $default  reduce using rule 3 (operation)
+
+
+State 2
+
+    5 operation: INSERT .
+
+    $default  reduce using rule 5 (operation)
+
+
+State 3
+
+    4 operation: DELETE .
+
+    $default  reduce using rule 4 (operation)
+
+
+State 4
+
+    6 operation: UPDATE .
+
+    $default  reduce using rule 6 (operation)
+
+
+State 5
+
+    0 $accept: syntax . $end
+
+    $end  shift, and go to state 8
+
+
+State 6
+
+    1 syntax: graphQL .
+
+    $default  reduce using rule 1 (syntax)
+
+
+State 7
+
+    2 graphQL: operation . OPCBRACE body CLCBRACE
+
+    OPCBRACE  shift, and go to state 9
+
+
+State 8
+
+    0 $accept: syntax $end .
+
+    $default  accept
+
+
+State 9
+
+    2 graphQL: operation OPCBRACE . body CLCBRACE
+
+    STRING  shift, and go to state 10
+
+    body  go to state 11
+
+
+State 10
+
+    7 body: STRING . OPBRACE root_condition CLBRACE OPCBRACE tag CLCBRACE
+
+    OPBRACE  shift, and go to state 12
+
+
+State 11
+
+    2 graphQL: operation OPCBRACE body . CLCBRACE
+
+    CLCBRACE  shift, and go to state 13
+
+
+State 12
+
+    7 body: STRING OPBRACE . root_condition CLBRACE OPCBRACE tag CLCBRACE
+
+    STRING  shift, and go to state 14
+    AND     shift, and go to state 15
+    OR      shift, and go to state 16
+    NOT     shift, and go to state 17
+
+    $default  reduce using rule 8 (root_condition)
+
+    root_condition   go to state 18
+    condition        go to state 19
+    logic_function   go to state 20
+    logic_operation  go to state 21
+    logic_native     go to state 22
+
+
+State 13
+
+    2 graphQL: operation OPCBRACE body CLCBRACE .
+
+    $default  reduce using rule 2 (graphQL)
+
+
+State 14
+
+   19 logic_native: STRING . COLON OPCBRACE logic_native_operation COLON value CLCBRACE
+
+    COLON  shift, and go to state 23
+
+
+State 15
+
+   16 logic_operation: AND .
+
+    $default  reduce using rule 16 (logic_operation)
+
+
+State 16
+
+   17 logic_operation: OR .
+
+    $default  reduce using rule 17 (logic_operation)
+
+
+State 17
+
+   14 logic_function: NOT . COLON OPSQBRACE condition CLSQBRACE
+
+    COLON  shift, and go to state 24
+
+
+State 18
+
+    7 body: STRING OPBRACE root_condition . CLBRACE OPCBRACE tag CLCBRACE
+
+    CLBRACE  shift, and go to state 25
+
+
+State 19
+
+    9 root_condition: condition .
+
+    $default  reduce using rule 9 (root_condition)
+
+
+State 20
+
+   12 condition: logic_function .
+
+    $default  reduce using rule 12 (condition)
+
+
+State 21
+
+   15 logic_function: logic_operation . COLON OPSQBRACE condition_seq CLSQBRACE
+
+    COLON  shift, and go to state 26
+
+
+State 22
+
+   13 condition: logic_native .
+
+    $default  reduce using rule 13 (condition)
+
+
+State 23
+
+   19 logic_native: STRING COLON . OPCBRACE logic_native_operation COLON value CLCBRACE
+
+    OPCBRACE  shift, and go to state 27
+
+
+State 24
+
+   14 logic_function: NOT COLON . OPSQBRACE condition CLSQBRACE
+
+    OPSQBRACE  shift, and go to state 28
+
+
+State 25
+
+    7 body: STRING OPBRACE root_condition CLBRACE . OPCBRACE tag CLCBRACE
+
+    OPCBRACE  shift, and go to state 29
+
+
+State 26
+
+   15 logic_function: logic_operation COLON . OPSQBRACE condition_seq CLSQBRACE
+
+    OPSQBRACE  shift, and go to state 30
+
+
+State 27
+
+   19 logic_native: STRING COLON OPCBRACE . logic_native_operation COLON value CLCBRACE
+
+    LT  shift, and go to state 31
+    LE  shift, and go to state 32
+    GT  shift, and go to state 33
+    GE  shift, and go to state 34
+    EQ  shift, and go to state 35
+
+    logic_native_operation  go to state 36
+
+
+State 28
+
+   14 logic_function: NOT COLON OPSQBRACE . condition CLSQBRACE
+
+    STRING  shift, and go to state 14
+    AND     shift, and go to state 15
+    OR      shift, and go to state 16
+    NOT     shift, and go to state 17
+
+    condition        go to state 37
+    logic_function   go to state 20
+    logic_operation  go to state 21
+    logic_native     go to state 22
+
+
+State 29
+
+    7 body: STRING OPBRACE root_condition CLBRACE OPCBRACE . tag CLCBRACE
+
+    STRING  shift, and go to state 38
+
+    tag           go to state 39
+    tag_rule      go to state 40
+    simple_field  go to state 41
+    related_node  go to state 42
+
+
+State 30
+
+   15 logic_function: logic_operation COLON OPSQBRACE . condition_seq CLSQBRACE
+
+    STRING  shift, and go to state 14
+    AND     shift, and go to state 15
+    OR      shift, and go to state 16
+    NOT     shift, and go to state 17
+
+    condition        go to state 43
+    logic_function   go to state 20
+    logic_operation  go to state 21
+    condition_seq    go to state 44
+    logic_native     go to state 22
+
+
+State 31
+
+   20 logic_native_operation: LT .
+
+    $default  reduce using rule 20 (logic_native_operation)
+
+
+State 32
+
+   21 logic_native_operation: LE .
+
+    $default  reduce using rule 21 (logic_native_operation)
+
+
+State 33
+
+   22 logic_native_operation: GT .
+
+    $default  reduce using rule 22 (logic_native_operation)
+
+
+State 34
+
+   23 logic_native_operation: GE .
+
+    $default  reduce using rule 23 (logic_native_operation)
+
+
+State 35
+
+   24 logic_native_operation: EQ .
+
+    $default  reduce using rule 24 (logic_native_operation)
+
+
+State 36
+
+   19 logic_native: STRING COLON OPCBRACE logic_native_operation . COLON value CLCBRACE
+
+    COLON  shift, and go to state 45
+
+
+State 37
+
+   14 logic_function: NOT COLON OPSQBRACE condition . CLSQBRACE
+
+    CLSQBRACE  shift, and go to state 46
+
+
+State 38
+
+   29 simple_field: STRING .
+   30             | STRING . COLON value
+   31 related_node: STRING . OPBRACE child_condition CLBRACE OPCBRACE simple_immutable_fields CLCBRACE
+
+    OPBRACE  shift, and go to state 47
+    COLON    shift, and go to state 48
+
+    $default  reduce using rule 29 (simple_field)
+
+
+State 39
+
+    7 body: STRING OPBRACE root_condition CLBRACE OPCBRACE tag . CLCBRACE
+
+    CLCBRACE  shift, and go to state 49
+
+
+State 40
+
+   25 tag: tag_rule . COMMA tag
+   26    | tag_rule .
+
+    COMMA  shift, and go to state 50
+
+    $default  reduce using rule 26 (tag)
+
+
+State 41
+
+   27 tag_rule: simple_field .
+
+    $default  reduce using rule 27 (tag_rule)
+
+
+State 42
+
+   28 tag_rule: related_node .
+
+    $default  reduce using rule 28 (tag_rule)
+
+
+State 43
+
+   18 condition_seq: condition . COMMA condition
+
+    COMMA  shift, and go to state 51
+
+
+State 44
+
+   15 logic_function: logic_operation COLON OPSQBRACE condition_seq . CLSQBRACE
+
+    CLSQBRACE  shift, and go to state 52
+
+
+State 45
+
+   19 logic_native: STRING COLON OPCBRACE logic_native_operation COLON . value CLCBRACE
+
+    QUOTE       shift, and go to state 53
+    FALSE_TOK   shift, and go to state 54
+    TRUE_TOK    shift, and go to state 55
+    INT_NUMBER  shift, and go to state 56
+
+    value  go to state 57
+    bool   go to state 58
+
+
+State 46
+
+   14 logic_function: NOT COLON OPSQBRACE condition CLSQBRACE .
+
+    $default  reduce using rule 14 (logic_function)
+
+
+State 47
+
+   31 related_node: STRING OPBRACE . child_condition CLBRACE OPCBRACE simple_immutable_fields CLCBRACE
+
+    STRING  shift, and go to state 14
+    AND     shift, and go to state 15
+    OR      shift, and go to state 16
+    NOT     shift, and go to state 17
+
+    $default  reduce using rule 10 (child_condition)
+
+    child_condition  go to state 59
+    condition        go to state 60
+    logic_function   go to state 20
+    logic_operation  go to state 21
+    logic_native     go to state 22
+
+
+State 48
+
+   30 simple_field: STRING COLON . value
+
+    QUOTE       shift, and go to state 53
+    FALSE_TOK   shift, and go to state 54
+    TRUE_TOK    shift, and go to state 55
+    INT_NUMBER  shift, and go to state 56
+
+    value  go to state 61
+    bool   go to state 58
+
+
+State 49
+
+    7 body: STRING OPBRACE root_condition CLBRACE OPCBRACE tag CLCBRACE .
+
+    $default  reduce using rule 7 (body)
+
+
+State 50
+
+   25 tag: tag_rule COMMA . tag
+
+    STRING  shift, and go to state 38
+
+    tag           go to state 62
+    tag_rule      go to state 40
+    simple_field  go to state 41
+    related_node  go to state 42
+
+
+State 51
+
+   18 condition_seq: condition COMMA . condition
+
+    STRING  shift, and go to state 14
+    AND     shift, and go to state 15
+    OR      shift, and go to state 16
+    NOT     shift, and go to state 17
+
+    condition        go to state 63
+    logic_function   go to state 20
+    logic_operation  go to state 21
+    logic_native     go to state 22
+
+
+State 52
+
+   15 logic_function: logic_operation COLON OPSQBRACE condition_seq CLSQBRACE .
+
+    $default  reduce using rule 15 (logic_function)
+
+
+State 53
+
+   35 value: QUOTE . STRING QUOTE
+
+    STRING  shift, and go to state 64
+
+
+State 54
+
+   39 bool: FALSE_TOK .
+
+    $default  reduce using rule 39 (bool)
+
+
+State 55
+
+   38 bool: TRUE_TOK .
+
+    $default  reduce using rule 38 (bool)
+
+
+State 56
+
+   36 value: INT_NUMBER .
+
+    $default  reduce using rule 36 (value)
+
+
+State 57
+
+   19 logic_native: STRING COLON OPCBRACE logic_native_operation COLON value . CLCBRACE
+
+    CLCBRACE  shift, and go to state 65
+
+
+State 58
+
+   37 value: bool .
+
+    $default  reduce using rule 37 (value)
+
+
+State 59
+
+   31 related_node: STRING OPBRACE child_condition . CLBRACE OPCBRACE simple_immutable_fields CLCBRACE
+
+    CLBRACE  shift, and go to state 66
+
+
+State 60
+
+   11 child_condition: condition .
+
+    $default  reduce using rule 11 (child_condition)
+
+
+State 61
+
+   30 simple_field: STRING COLON value .
+
+    $default  reduce using rule 30 (simple_field)
+
+
+State 62
+
+   25 tag: tag_rule COMMA tag .
+
+    $default  reduce using rule 25 (tag)
+
+
+State 63
+
+   18 condition_seq: condition COMMA condition .
+
+    $default  reduce using rule 18 (condition_seq)
+
+
+State 64
+
+   35 value: QUOTE STRING . QUOTE
+
+    QUOTE  shift, and go to state 67
+
+
+State 65
+
+   19 logic_native: STRING COLON OPCBRACE logic_native_operation COLON value CLCBRACE .
+
+    $default  reduce using rule 19 (logic_native)
+
+
+State 66
+
+   31 related_node: STRING OPBRACE child_condition CLBRACE . OPCBRACE simple_immutable_fields CLCBRACE
+
+    OPCBRACE  shift, and go to state 68
+
+
+State 67
+
+   35 value: QUOTE STRING QUOTE .
+
+    $default  reduce using rule 35 (value)
+
+
+State 68
+
+   31 related_node: STRING OPBRACE child_condition CLBRACE OPCBRACE . simple_immutable_fields CLCBRACE
+
+    STRING  shift, and go to state 69
+
+    $default  reduce using rule 34 (simple_immutable_fields)
+
+    simple_immutable_fields  go to state 70
+
+
+State 69
+
+   32 simple_immutable_fields: STRING . COMMA simple_immutable_fields
+   33                        | STRING .
+
+    COMMA  shift, and go to state 71
+
+    $default  reduce using rule 33 (simple_immutable_fields)
+
+
+State 70
+
+   31 related_node: STRING OPBRACE child_condition CLBRACE OPCBRACE simple_immutable_fields . CLCBRACE
+
+    CLCBRACE  shift, and go to state 72
+
+
+State 71
+
+   32 simple_immutable_fields: STRING COMMA . simple_immutable_fields
+
+    STRING  shift, and go to state 69
+
+    $default  reduce using rule 34 (simple_immutable_fields)
+
+    simple_immutable_fields  go to state 73
+
+
+State 72
+
+   31 related_node: STRING OPBRACE child_condition CLBRACE OPCBRACE simple_immutable_fields CLCBRACE .
+
+    $default  reduce using rule 31 (related_node)
+
+
+State 73
+
+   32 simple_immutable_fields: STRING COMMA simple_immutable_fields .
+
+    $default  reduce using rule 32 (simple_immutable_fields)

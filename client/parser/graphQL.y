@@ -42,7 +42,7 @@ void append_filters_to_child();
 %token OPCBRACE CLCBRACE
 %token OPSQBRACE CLSQBRACE
 %token COLON COMMA QUOTE
-%token <num> FALSE TRUE INT_NUMBER
+%token <num> FALSE_TOK TRUE_TOK INT_NUMBER
 %type <num> logic_native_operation bool value logic_operation
 
 %%
@@ -118,23 +118,13 @@ value : QUOTE STRING QUOTE {vtype = STRING_TYPE; $$ = $2;}
         bool {vtype = BOOLEAN_TYPE; $$ = $1;}
     ;
 
-bool : TRUE {$$ = 1;}
+bool : TRUE_TOK {$$ = 1;}
        |
-       FALSE {$$ = 0;}
+       FALSE_TOK {$$ = 0;}
        ;
 
 
 %%                     /* C code */
-
-int main (void) {
-	struct View result = {};
-    yyparse (&result);
-	tree.operation = 10;
-	print_tree();
-	tree = result;
-	print_tree();
-	return 0;
-}
 
 
 void *test_malloc(size_t size_of){

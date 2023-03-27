@@ -24,8 +24,8 @@ void yyerror (struct View* syntax, char *s);
 :               return COLON;
 \"              return QUOTE;
 ,               return COMMA;
-True            return TRUE;
-False           return FALSE;
+True            return TRUE_TOK;
+False           return FALSE_TOK;
 [a-zA-Z][a-zA-Z_0-9]*        {yylval.string = strdup(yytext); return STRING;}
 [-]?[0-9]+                    {yylval.num = atoi(yytext); return INT_NUMBER;}
 [ \t\n\r]                ;

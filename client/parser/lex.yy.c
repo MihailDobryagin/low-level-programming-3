@@ -868,12 +868,12 @@ return COMMA;
 case 22:
 YY_RULE_SETUP
 #line 27 "lex.l"
-return TRUE;
+return TRUE_TOK;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 28 "lex.l"
-return FALSE;
+return FALSE_TOK;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP

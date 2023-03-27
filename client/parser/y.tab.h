@@ -67,8 +67,8 @@ extern int yydebug;
     COLON = 277,
     COMMA = 278,
     QUOTE = 279,
-    FALSE = 280,
-    TRUE = 281,
+    FALSE_TOK = 280,
+    TRUE_TOK = 281,
     INT_NUMBER = 282
   };
 #endif
@@ -95,8 +95,8 @@ extern int yydebug;
 #define COLON 277
 #define COMMA 278
 #define QUOTE 279
-#define FALSE 280
-#define TRUE 281
+#define FALSE_TOK 280
+#define TRUE_TOK 281
 #define INT_NUMBER 282
 
 /* Value type.  */

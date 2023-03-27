@@ -1,8 +1,14 @@
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <inttypes.h>
+#include <stdint.h>
 #include <thrift/c_glib/protocol/thrift_binary_protocol.h>
 #include <thrift/c_glib/transport/thrift_buffered_transport.h>
 #include <thrift/c_glib/transport/thrift_socket.h>
+
+#include "parser/y.tab.h"
+#include "parser/lex.h"
 
 #include "../transport/gen-c_glib/d_b_request.h"
 #include "../transport/gen-c_glib/schema_types.h"
@@ -11,7 +17,46 @@
 
 static DBRequestIf* client;
 
-int main(int argc, char * argv[])
+static char* _scan_query() {
+	bool is_end = false;
+	uint32_t query_capacity = 1010;
+	uint32_t query_size = 0;
+	char* query_str = (char*)malloc(query_capacity);
+	
+	uint32_t str_buff_capacity = 1000;
+	char* str_buff = (char*)malloc(str_buff_capacity);
+	
+	while(!is_end) {
+		fgets(str_buff, str_buff_capacity, stdin);
+		if(strcmp("---END---\n", str_buff) == 0) {
+			is_end = true;
+			break;
+		}
+		
+		uint32_t str_buff_len = strlen(str_buff);
+		
+		if(query_size + str_buff_len >= query_capacity) {
+			query_capacity += str_buff_capacity + 1;
+			realloc(query_str, query_capacity);
+		}
+		
+		strcpy(query_str + query_size, str_buff);
+		query_size += str_buff_len;
+	}
+}
+
+int main (int argc, char** argv) {
+	while(1) {
+		char* query = _scan_query();
+		yy_scan_string(query);
+		struct View view;
+		yyparse(&view);
+		yylex_destroy();
+	}
+	return 0;
+}
+
+int stub_main(int argc, char * argv[])
 {
   char* host = "localhost";
   size_t port = 9090;

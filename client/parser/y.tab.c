@@ -152,8 +152,8 @@ extern int yydebug;
     COLON = 277,
     COMMA = 278,
     QUOTE = 279,
-    FALSE = 280,
-    TRUE = 281,
+    FALSE_TOK = 280,
+    TRUE_TOK = 281,
     INT_NUMBER = 282
   };
 #endif
@@ -180,8 +180,8 @@ extern int yydebug;
 #define COLON 277
 #define COMMA 278
 #define QUOTE 279
-#define FALSE 280
-#define TRUE 281
+#define FALSE_TOK 280
+#define TRUE_TOK 281
 #define INT_NUMBER 282
 
 /* Value type.  */
@@ -525,12 +525,12 @@ static const char *const yytname[] =
   "$end", "error", "$undefined", "QUERY", "INSERT", "DELETE", "UPDATE",
   "STRING", "AND", "OR", "NOT", "LT", "LE", "GT", "GE", "EQ", "OPBRACE",
   "CLBRACE", "OPCBRACE", "CLCBRACE", "OPSQBRACE", "CLSQBRACE", "COLON",
-  "COMMA", "QUOTE", "FALSE", "TRUE", "INT_NUMBER", "$accept", "syntax",
-  "graphQL", "operation", "body", "root_condition", "child_condition",
-  "condition", "logic_function", "logic_operation", "condition_seq",
-  "logic_native", "logic_native_operation", "tag", "tag_rule",
-  "simple_field", "related_node", "simple_immutable_fields", "value",
-  "bool", YY_NULLPTR
+  "COMMA", "QUOTE", "FALSE_TOK", "TRUE_TOK", "INT_NUMBER", "$accept",
+  "syntax", "graphQL", "operation", "body", "root_condition",
+  "child_condition", "condition", "logic_function", "logic_operation",
+  "condition_seq", "logic_native", "logic_native_operation", "tag",
+  "tag_rule", "simple_field", "related_node", "simple_immutable_fields",
+  "value", "bool", YY_NULLPTR
 };
 #endif
 
@@ -1729,16 +1729,6 @@ yyreturn:
 }
 #line 127 "graphQL.y" /* yacc.c:1906  */
                      /* C code */
-
-int main (void) {
-	struct View result = {};
-    yyparse (&result);
-	tree.operation = 10;
-	print_tree();
-	tree = result;
-	print_tree();
-	return 0;
-}
 
 
 void *test_malloc(size_t size_of){
