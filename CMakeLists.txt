@@ -14,14 +14,14 @@ link_libraries(${THRIFT_LIB} ${GLIB_LDFLAGS})
 
 
 add_executable(_client
-	client/main.c client/transport.c 
+	client/main.c client/transport.c client/req_utils.c
 	client/parser/lex.yy.c client/parser/y.tab.c
 	transport/gen-c_glib/d_b_request.c transport/gen-c_glib/schema_types.c)
 TARGET_LINK_LIBRARIES(_client ${THRIFT_LIB} ${GLIB_LIBRARIES})
 
 
 add_executable(_server 
-	server/main.c server/transport.c server/requests.c
+	server/main.c server/transport.c server/requests.c server/req_utils.c
 	server/database/client/manage.c server/database/db/db.c server/database/db/file.c server/database/db/entities.c
 	transport/gen-c_glib/d_b_request.c transport/gen-c_glib/schema_types.c
 )

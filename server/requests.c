@@ -7,6 +7,7 @@
 #include "database/db/entities.h"
 #include "database/client/queries.h"
 
+static struct Answer _answer_from_array_node(Array_node nodes);
 static Properties_filter _map_request_filter_to_properties_filter(struct Filter req_filter);
 static Array_node _do_select_request(Database* db, struct View view);
 static Array_node _do_insert_request(Database* db, struct View view);
@@ -29,16 +30,67 @@ static Field _map_request_value_to_field(struct Value value) {
 	return result;
 }
 
+static struct Value _map_field_to_request_value(Field field) {
+	struct Value result = {};
+	switch(field.type) {
+		case STRING_TYPE: 
+			result = (struct Value) {.type = STRING_TYPE, .string = (char*)malloc(sizeof(char) * strlen(field.string) + 1)};
+			strcpy(result.string, field.string);
+			break;
+		case NUMBER:
+			result = (struct Value) {.type = INTEGER_TYPE, .integer = field.number};
+			break;
+		case BOOLEAN:
+			result = (struct Value) {.type = BOOLEAN_TYPE, .boolean = field.boolean};
+			break;
+		default: printf("UNSUPPORTED BY REQUEST FIELD-TYPE '%d'\n", field.type); assert(0);
+	}
+	return result;
+}
+
 struct Answer do_request(Database* db, struct View view) {
+	Array_node output_nodes;
+	
 	switch(view.operation) {
 		case CRUD_QUERY:
-			return _do_select_request(db, view);
+			output_nodes = _do_select_request(db, view);
+			break;
 		case CRUD_INSERT:
-			return _do_insert_request(db, view);
+			output_nodes = _do_insert_request(db, view);
+			break;
 		default:
 			printf("UNKNOWN CRUD OPERATION\n");
-			return (Array_node){0, NULL};
+			output_nodes = (Array_node){0, NULL};
+			break;
 	}
+	
+	struct Answer answer = _answer_from_array_node(output_nodes);
+	
+	for(size_t i = 0; i < output_nodes.size; i++) free_node_internal(output_nodes.values[i]);
+	free(output_nodes.values);
+	
+	return answer;
+}
+
+static struct Node_view _node_to_view(Node node) {
+	struct Node_view view = {};
+	strcpy(view.tag_name, node.tag);
+	
+	view.native_fields_count = node.properties_size + 1;
+	strcpy(view.native_fields[0].name, "id");
+	view.native_fields[0].value = _map_field_to_request_value(node.id);
+	
+	for(size_t i = 0; i < node.properties_size; i++) {
+		strcpy(view.native_fields[i + 1].name, node.properties[i].name);
+		view.native_fields[i + 1].value = _map_field_to_request_value(node.properties[i].field);
+	}
+	
+	return view;
+}
+
+static struct Answer _answer_from_array_node(Array_node nodes) {
+	struct Answer result = {.nodes_count = nodes.size, .nodes = malloc(sizeof(struct Node_view) * nodes.size)};
+	for(size_t i = 0; i < nodes.size; i++) result.nodes[i] = _node_to_view(nodes.values[i]);
 }
 
 static Array_node _do_select_request(Database* db, struct View view) {
