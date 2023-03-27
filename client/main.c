@@ -86,9 +86,10 @@ int main(int argc, char * argv[]) {
 
 	do {
 		//char* query = _scan_query();
-		char* query = "query{Books(){a,b}}";
+		//char* query = "query{Books(){a,b}}";
+		char* query = "insert{Books(){id: 1, a:123, b:321}}";
 		printf("Query -> %s\n", query);
-		YY_BUFFER_STATE buff_state = yy_scan_string(query);
+		yy_scan_string(query);
 		struct View view = {};
 		yyparse(&view);
 		yylex_destroy();
@@ -100,6 +101,7 @@ int main(int argc, char * argv[]) {
 			printf("ERROR MSG -> %s\n", error->message);
 		else
 			printf("NO ERROR\n");
+		return 0;
 	} while(!error && d_b_request_if_ping(client, &error));
 
 

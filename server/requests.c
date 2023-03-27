@@ -33,8 +33,8 @@ static Field _map_request_value_to_field(struct Value value) {
 static struct Value _map_field_to_request_value(Field field) {
 	struct Value result = {};
 	switch(field.type) {
-		case STRING_TYPE: 
-			result = (struct Value) {.type = STRING_TYPE, .string = (char*)malloc(sizeof(char) * strlen(field.string) + 1)};
+		case STRING: 
+			result = (struct Value) {.type = STRING_TYPE, .string = malloc(strlen(field.string) + 1)};
 			strcpy(result.string, field.string);
 			break;
 		case NUMBER:
@@ -53,9 +53,11 @@ struct Answer do_request(Database* db, struct View view) {
 	
 	switch(view.operation) {
 		case CRUD_QUERY:
+			printf("SELECT OPERATION\n");
 			output_nodes = _do_select_request(db, view);
 			break;
 		case CRUD_INSERT:
+			printf("INSERT OPERATION\n");
 			output_nodes = _do_insert_request(db, view);
 			break;
 		default:
@@ -64,7 +66,9 @@ struct Answer do_request(Database* db, struct View view) {
 			break;
 	}
 	
+	printf("Start building ANSWER from returned nodes...\n");
 	struct Answer answer = _answer_from_array_node(output_nodes);
+	printf("ANSWER built\n");
 	
 	for(size_t i = 0; i < output_nodes.size; i++) free_node_internal(output_nodes.values[i]);
 	free(output_nodes.values);
@@ -106,7 +110,10 @@ static Array_node _do_select_request(Database* db, struct View view) {
 			.properties_filter = _map_request_filter_to_properties_filter(view.header.filter)
 		};
 	}
+	
+	printf("Start selecting MAIN node...\n");
 	Array_node main_node_as_array = nodes(db, main_node_query);
+	printf("MAIN node selected\n");
 	if(main_node_as_array.size == 0) {
 		printf("No main nodes found");
 		return main_node_as_array;
@@ -116,14 +123,20 @@ static Array_node _do_select_request(Database* db, struct View view) {
 		return main_node_as_array;
 	}
 	
+	printf("Main nodes size -> %d\n", main_node_as_array.size);
+	
 	Node main_node = main_node_as_array.values[0];
 	
-	if(view.related_nodes_count == 0) return (Array_node) main_node_as_array;
+	if(view.related_nodes_count == 0) {
+		printf("No RELATED nodes. Result returned\n");
+		return main_node_as_array;
+	}
 	
 	size_t result_nodes_capacity = 10;
 	Array_node result = main_node_as_array;
 	realloc(result.values, sizeof(Node) * result_nodes_capacity);
 	
+	printf("Start selecting RELATED nodes (%d relations)...\n", view.related_nodes_count);
 	for(size_t i = 0; i < view.related_nodes_count; i++) {
 		Select_nodes related_nodes_query = {
 			.selection_mode = NODES_BY_LINKED_NODE,
@@ -148,6 +161,8 @@ static Array_node _do_select_request(Database* db, struct View view) {
 			result.values[result.size++] = related_nodes.values[node_idx];
 		}
 	}
+	
+	printf("RELATED nodes selected (%d nodes)\n", result.size - 1);
 	
 	return result;
 }

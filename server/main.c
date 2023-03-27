@@ -15,6 +15,7 @@
 #include "../transport/gen-c_glib/schema_types.h"
 #include "req_structure.h"
 #include "requests.h"
+#include "req_utils.h"
 #include "transport.h"
 
 #include "database/db/db.h"
@@ -108,9 +109,17 @@ static gboolean handler_do_request (DBRequestIf *iface, Answer_TRANSPORT **_retu
 	THRIFT_UNUSED_VAR (iface);
 	THRIFT_UNUSED_VAR (error);
 	struct View view = request_from_transport_request(req);
-	printf("Tag -> %s\n", view.header.tag);
 	struct Answer answer = do_request(database, view);
-	
+	printf(".----------------------------------------ANSWER----------------------------------------.\n");
+	printf("|                                                                                      |\n");
+	printf("|                                                                                      |\n");
+	printf("|                                                                                      |\n");
+	printf("%s\n", answer_to_string(answer));
+	printf("|                                                                                      |\n");
+	printf("|                                                                                      |\n");
+	printf("|                                                                                      |\n");
+	printf("|______________________________________________________________________________________|\n");
+	*_return = answer_for_transport(answer);
 	return TRUE;
 }
 
