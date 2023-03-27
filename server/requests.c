@@ -29,7 +29,7 @@ static Field _map_request_value_to_field(struct Value value) {
 	return result;
 }
 
-Array_node do_request(Database* db, struct View view) {
+struct Answer do_request(Database* db, struct View view) {
 	switch(view.operation) {
 		case CRUD_QUERY:
 			return _do_select_request(db, view);

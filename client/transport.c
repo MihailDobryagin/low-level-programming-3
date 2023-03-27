@@ -1,15 +1,18 @@
 #include "transport.h"
 #include "assert.h"
 
-#define _g_object_type_for_transport(OBJECT_NAME) OBJECT_NAME##__t_r_a_n_s_p_o_r_t_get_type()
-#define _g_object_new(OBJECT_NAME) g_object_new(_g_object_type_for_transport(OBJECT_NAME), NULL)
+#ifndef TRANSPORT_OBJECTS_CREATION
+	#define TRANSPORT_OBJECTS_CREATION
+	#define _g_object_type_for_transport(OBJECT_NAME) OBJECT_NAME##__t_r_a_n_s_p_o_r_t_get_type()
+	#define _g_object_new(OBJECT_NAME) g_object_new(_g_object_type_for_transport(OBJECT_NAME), NULL)
+#endif
 
 static struct Value_TRANSPORT* value_for_transport(struct Value value);
 static struct Filter_TRANSPORT* filter_for_transport(struct Filter filter);
 static struct Header_TRANSPORT* header_for_transport(struct Header header);
 
 Request_TRANSPORT* transport_request_from_view_format(struct View view) {
-	Request_TRANSPORT* request_transport = g_object_new(_g_object_type_for_transport(request), NULL);
+	Request_TRANSPORT* request_transport = _g_object_new(request);
 	g_object_set(request_transport, 
 		"operation", view.operation,
 		"header", header_for_transport(view.header),
@@ -46,6 +49,44 @@ Request_TRANSPORT* transport_request_from_view_format(struct View view) {
 	NULL);
 	
 	return request_transport;
+}
+
+struct Answer answer_from_transport(Answer_TRANSPORT* answer_transport) {
+	struct Answer answer = {};
+	GPtrArray* nodes_transport; g_object_get(answer_transport, "nodes", &nodes_transport, NULL);
+	answer.nodes_count = nodes_transport->len;
+	
+	answer.nodes = (struct Node_view*)malloc(sizeof(struct Node_view) * answer.nodes_count);
+	for(size_t i = 0; i < answer.nodes_count; i++) {
+		Node_view_TRANSPORT* node_transport = g_ptr_array_index(nodes_transport, i);
+		struct Node_view node_view = {};
+		GPtrArray* fields_transport; char* tmp_str;
+		g_object_get(node_transport, "tag_name", &tmp_str, "fields", &fields_transport, NULL);
+		strcpy(node_view.tag_name, tmp_str);
+		node_view.native_fields_count = fields_transport->len;
+		for(size_t field_idx = 0; field_idx < node_view.native_fields_count; field_idx++) {
+			Native_field_TRANSPORT* field_transport = g_ptr_array_index(fields_transport, field_idx);
+			Value_TRANSPORT* value_transport; g_object_get(field_transport, "name", &tmp_str, "value", &value_transport, NULL);
+			struct Native_field* field_ptr = node_view.native_fields + field_idx;
+			strcpy(field_ptr->name, tmp_str);
+			Value_union_TRANSPORT* value_union_transport; g_object_get(value_transport, "type", &(field_ptr->value.type), "value", &value_union_transport, NULL);
+			switch(field_ptr->value.type) {
+				case STRING_TYPE:
+					g_object_get(value_union_transport, "String", &tmp_str, NULL);
+					strcpy(field_ptr->value.string, tmp_str);
+					break;
+				case INTEGER_TYPE:
+					g_object_get(value_union_transport, "Integer", &(field_ptr->value.integer), NULL);
+					break;
+				case BOOLEAN_TYPE:
+					g_object_get(value_union_transport, "Boolean", &(field_ptr->value.boolean), NULL);
+					break;
+			}
+		}
+		answer.nodes[i] = node_view;
+	}
+	
+	return answer;
 }
 
 static struct Header_TRANSPORT* header_for_transport(struct Header header) {

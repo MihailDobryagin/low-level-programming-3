@@ -109,8 +109,7 @@ static gboolean handler_do_request (DBRequestIf *iface, Answer_TRANSPORT **_retu
 	THRIFT_UNUSED_VAR (error);
 	struct View view = request_from_transport_request(req);
 	printf("Tag -> %s\n", view.header.tag);
-	Array_node nodes = do_request(database, view);
-	printf("nodes size -> %d\n", nodes.size);
+	struct Answer answer = do_request(database, view);
 	
 	return TRUE;
 }

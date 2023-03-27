@@ -90,4 +90,15 @@ struct View {
     struct Related_node related_nodes[MAX_ARRAY_SIZE];
 };
 
+struct Node_view {
+	char tag_name[MAX_ARRAY_SIZE];
+	size_t native_fields_count;
+	struct Native_field native_fields[MAX_ARRAY_SIZE];
+};
+
+struct Answer {
+	size_t nodes_count;
+	struct Node_view* nodes;
+};
+
 #endif // !REQ_STRUCTURE_H
