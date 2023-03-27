@@ -95,6 +95,7 @@ static struct Node_view _node_to_view(Node node) {
 static struct Answer _answer_from_array_node(Array_node nodes) {
 	struct Answer result = {.nodes_count = nodes.size, .nodes = malloc(sizeof(struct Node_view) * nodes.size)};
 	for(size_t i = 0; i < nodes.size; i++) result.nodes[i] = _node_to_view(nodes.values[i]);
+	return result;
 }
 
 static Array_node _do_select_request(Database* db, struct View view) {

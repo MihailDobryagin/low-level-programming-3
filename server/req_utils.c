@@ -33,17 +33,16 @@ char* node_view_to_string(struct Node_view node) {
 		printf("Field buff -> %s\n", str_to_append);
 		free(value_buff);
 		
-		if(i + 1 != node.native_fields_count) {
-			strcpy(str_to_append + strlen(str_to_append), ", ");
-			printf("Field buff with ',' -> %s\n", str_to_append);
-		}
+		if(i + 1 != node.native_fields_count) strcpy(str_to_append + strlen(str_to_append), ", ");
 		
 		size_t str_to_append_sz = strlen(str_to_append);
 		strcpy(result_str + result_size, str_to_append);
-		printf("RESULT buff -> %s\n", result_str);
+		
 		free(str_to_append);
 		result_size += str_to_append_sz;
 	}
+	
+	strcpy(result_str + result_size, ")");
 	
 	return result_str;
 }
