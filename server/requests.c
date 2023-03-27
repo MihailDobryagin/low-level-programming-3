@@ -9,6 +9,7 @@
 
 static Properties_filter _map_request_filter_to_properties_filter(struct Filter req_filter);
 static Array_node _do_select_request(Database* db, struct View view);
+static Array_node _do_insert_request(Database* db, struct View view);
 
 static Field _map_request_value_to_field(struct Value value) {
 	Field result = {};
@@ -32,6 +33,8 @@ Array_node do_request(Database* db, struct View view) {
 	switch(view.operation) {
 		case CRUD_QUERY:
 			return _do_select_request(db, view);
+		case CRUD_INSERT:
+			return _do_insert_request(db, view);
 		default:
 			printf("UNKNOWN CRUD OPERATION\n");
 			return (Array_node){0, NULL};
@@ -137,4 +140,23 @@ static Properties_filter _map_request_filter_to_properties_filter(struct Filter 
 	}
 	
 	return result;
+}
+
+static Array_node _do_insert_request(Database* db, struct View view) {
+	Node new_node = {.tag = view.header.tag, .properties_size = view.native_fields_count - 1, .properties = (Property*)malloc(sizeof(Property) * (view.native_fields_count - 1) )};
+	
+	size_t cur_prop_size = 0;
+	for(size_t i = 0; i < view.native_fields_count; i++) {
+		Field field = _map_request_value_to_field(view.native_fields[i].value);
+		if(strcmp(view.native_fields[i].name, "id") == 0) {
+			new_node.id = field;
+		}
+		else {
+			new_node.properties[cur_prop_size++] = (Property) {.name = view.native_fields[i].name, .field = field};
+		}
+	}
+	
+	create_node(db, (Create_node){.node = new_node});
+	
+	return (Array_node){0, NULL}; // STUB
 }

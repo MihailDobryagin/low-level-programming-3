@@ -85,14 +85,14 @@ int main(int argc, char * argv[]) {
 						 NULL);
 
 	do {
-		char* query = _scan_query();
+		//char* query = _scan_query();
+		char* query = "query{Books(){a,b}}";
 		printf("Query -> %s\n", query);
-		yy_scan_string(query);
-		struct View view;
+		YY_BUFFER_STATE buff_state = yy_scan_string(query);
+		struct View view = {};
 		yyparse(&view);
-		printf("Tag name -> %s\n", view.header.tag);
 		yylex_destroy();
-		free(query);
+		
 		Answer_TRANSPORT* answer = g_object_new(_g_object_type_for_transport(answer), NULL);
 		GError *error = NULL;
 		printf("%d\n", d_b_request_if_do_request(client, &answer, transport_request_from_view_format(view), &error));
