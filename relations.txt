@@ -1,0 +1,288 @@
+MATCH p=(a)-[r:COUNTRY]-(b) WHERE id(a) >= 4900 AND id(a) <=5100 RETURN properties(a).id,properties(b).code
+
+
+update{
+	Entity(local_id: {eq : "deutsche-bank-ag"}) {
+		Country(code: {eq: "HKG"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "deutsche-bank-ag"}) {
+		Country(code: {eq: "CZE"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "deutsche-bank-ag"}) {
+		Country(code: {eq: "DEU"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "deutsche-bank-ag"}) {
+		Country(code: {eq: "GBR"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "deutsche-bank-ag"}) {
+		Country(code: {eq: "USA"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "deutsche-bank-ag"}) {
+		Country(code: {eq: "IND"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "deutsche-bank-ag"}) {
+		Country(code: {eq: "NLD"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "deutsche-bank-ag"}) {
+		Country(code: {eq: "SGP"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "china-construction-bank-corporation-beijing-china-chn"}) {
+		Country(code: {eq: "CHN"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "societe-generale-bank-cyprus-ltd-sg-cyprus-cyp"}) {
+		Country(code: {eq: "CYP"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "asb-bank-limited-auckland-new-zealand-nzl"}) {
+		Country(code: {eq: "NZL"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "cimb-bank-plc-phnom-penh-cambodia-khm"}) {
+		Country(code: {eq: "KHM"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "united-overseas-bank-limited-singapore-sgp"}) {
+		Country(code: {eq: "SGP"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "bank-of-communications-shanghai-china-chn"}) {
+		Country(code: {eq: "CHN"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "hebei-tangshan-branch-tangshan-china-chn"}) {
+		Country(code: {eq: "CHN"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "kazkommertsbank-almaty-kazakhstan-kaz"}) {
+		Country(code: {eq: "KAZ"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "banque-du-caire-cairo-egypt-egy"}) {
+		Country(code: {eq: "EGY"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "national-bank-of-ras-al-kaimah-ras-al-khaimah-united-arab-emirates-are"}) {
+		Country(code: {eq: "ARE"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "standard-chartered-bank-singapore-sgp"}) {
+		Country(code: {eq: "SGP"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "ing-belgium-s-a-brussels-belgium-bel"}) {
+		Country(code: {eq: "BEL"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "vp-bank-schweiz-ag-zurich-switzerland-che"}) {
+		Country(code: {eq: "CHE"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "maples-and-calder-cayman-islands-cym"}) {
+		Country(code: {eq: "CYM"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "primorye-bank-vladivostok-russia-rus"}) {
+		Country(code: {eq: "RUS"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "alior-bank-sa-warsaw-poland-pol"}) {
+		Country(code: {eq: "POL"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "abn-amro-bank-nv-netherlands-nld"}) {
+		Country(code: {eq: "NLD"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "ocbc-bank-malaysia-berhad-kuala-lumpur-malaysia-mys"}) {
+		Country(code: {eq: "MYS"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "vtb-bank-moscow-russia-rus"}) {
+		Country(code: {eq: "RUS"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "bank-al-habib-ltd-karachi-pakistan-pak"}) {
+		Country(code: {eq: "PAK"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "pjsc-credit-agricole-bank-kiev-ukraine-ukr"}) {
+		Country(code: {eq: "UKR"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "china-merchant-bank-co-ltd-shenzhen-china-chn"}) {
+		Country(code: {eq: "CHN"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "turkiye-garanti-bankasi-a-s-istanbul-turkey-tur"}) {
+		Country(code: {eq: "TUR"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "standard-chartered-bank-treasury-dubai-united-arab-emirates-are"}) {
+		Country(code: {eq: "ARE"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "kookmin-bank-korea-kor"}) {
+		Country(code: {eq: "KOR"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "standard-chartered-bank-india-ind"}) {
+		Country(code: {eq: "IND"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "jpmorgan-chase-bank-na-hong-kong-branch-hong-kong-hkg"}) {
+		Country(code: {eq: "HKG"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "sberbank-russia-rus"}) {
+		Country(code: {eq: "RUS"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "turkiye-garanti-bankasi-as-istanbul-turkey-tur"}) {
+		Country(code: {eq: "TUR"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "anadolubank-as-istanbul-turkey-tur"}) {
+		Country(code: {eq: "TUR"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "albaraka-turk-participation-bank-istanbul-turkey-tur"}) {
+		Country(code: {eq: "TUR"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "yokohama-shinkin-bank-ltd-yokohama-japan-jpn"}) {
+		Country(code: {eq: "JPN"}) {id}
+	}
+}
+
+
+update{
+	Entity(local_id: {eq : "sberbank-moscow-russia-rus"}) {
+		Country(code: {eq: "RUS"}) {id}
+	}
+}
