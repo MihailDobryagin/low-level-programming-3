@@ -212,7 +212,8 @@ insert {
 		name: "Channel Islands",
 		srid: 4326,
 		x: -2,
-		y: 49.36097
+		y: 49,
+		tld: ""
 	}
 }
 
