@@ -13,6 +13,7 @@
 #include "../transport/gen-c_glib/d_b_request.h"
 #include "../transport/gen-c_glib/schema_types.h"
 #include "req_structure.h"
+#include "req_utils.h"
 #include "transport.h"
 
 #define _g_object_type_for_transport(OBJECT_NAME) OBJECT_NAME##__t_r_a_n_s_p_o_r_t_get_type()
@@ -86,21 +87,29 @@ int main(int argc, char * argv[]) {
 
 	do {
 		//char* query = _scan_query();
-		//char* query = "query{Books(){a,b}}";
-		char* query = "insert{Books(){id: 1, a:123, b:321}}";
+		char* query = "query{Books(){a,b}}";
+		//char* query = "insert{Books(){id: 1, a:123, b:321}}";
 		printf("Query -> %s\n", query);
 		yy_scan_string(query);
 		struct View view = {};
 		yyparse(&view);
 		yylex_destroy();
 		
-		Answer_TRANSPORT* answer = g_object_new(_g_object_type_for_transport(answer), NULL);
+		Answer_TRANSPORT* answer_transport = g_object_new(_g_object_type_for_transport(answer), NULL);
 		GError *error = NULL;
-		printf("%d\n", d_b_request_if_do_request(client, &answer, transport_request_from_view_format(view), &error));
-		if(error)
-			printf("ERROR MSG -> %s\n", error->message);
-		else
-			printf("NO ERROR\n");
+		d_b_request_if_do_request(client, &answer_transport, transport_request_from_view_format(view), &error);
+		
+		
+		struct Answer answer = answer_from_transport(answer_transport);
+		
+		if(answer.nodes_count) {
+			printf("----------------------------------------------------------\n");
+			char* answer_as_str = answer_to_string(answer);
+			printf("%s\n", answer_as_str);
+			printf("----------------------------------------------------------\n");
+			free(answer_as_str);
+		}
+
 		return 0;
 	} while(!error && d_b_request_if_ping(client, &error));
 
