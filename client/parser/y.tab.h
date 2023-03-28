@@ -50,26 +50,27 @@ extern int yydebug;
     DELETE = 260,
     UPDATE = 261,
     STRING = 262,
-    AND = 263,
-    OR = 264,
-    NOT = 265,
-    LT = 266,
-    LE = 267,
-    GT = 268,
-    GE = 269,
-    EQ = 270,
-    OPBRACE = 271,
-    CLBRACE = 272,
-    OPCBRACE = 273,
-    CLCBRACE = 274,
-    OPSQBRACE = 275,
-    CLSQBRACE = 276,
-    COLON = 277,
-    COMMA = 278,
-    QUOTE = 279,
-    FALSE_TOK = 280,
-    TRUE_TOK = 281,
-    INT_NUMBER = 282
+    QUOTED_STRING = 263,
+    AND = 264,
+    OR = 265,
+    NOT = 266,
+    LT = 267,
+    LE = 268,
+    GT = 269,
+    GE = 270,
+    EQ = 271,
+    OPBRACE = 272,
+    CLBRACE = 273,
+    OPCBRACE = 274,
+    CLCBRACE = 275,
+    OPSQBRACE = 276,
+    CLSQBRACE = 277,
+    COLON = 278,
+    COMMA = 279,
+    QUOTE = 280,
+    FALSE_TOK = 281,
+    TRUE_TOK = 282,
+    INT_NUMBER = 283
   };
 #endif
 /* Tokens.  */
@@ -78,26 +79,27 @@ extern int yydebug;
 #define DELETE 260
 #define UPDATE 261
 #define STRING 262
-#define AND 263
-#define OR 264
-#define NOT 265
-#define LT 266
-#define LE 267
-#define GT 268
-#define GE 269
-#define EQ 270
-#define OPBRACE 271
-#define CLBRACE 272
-#define OPCBRACE 273
-#define CLCBRACE 274
-#define OPSQBRACE 275
-#define CLSQBRACE 276
-#define COLON 277
-#define COMMA 278
-#define QUOTE 279
-#define FALSE_TOK 280
-#define TRUE_TOK 281
-#define INT_NUMBER 282
+#define QUOTED_STRING 263
+#define AND 264
+#define OR 265
+#define NOT 266
+#define LT 267
+#define LE 268
+#define GT 269
+#define GE 270
+#define EQ 271
+#define OPBRACE 272
+#define CLBRACE 273
+#define OPCBRACE 274
+#define CLCBRACE 275
+#define OPSQBRACE 276
+#define CLSQBRACE 277
+#define COLON 278
+#define COMMA 279
+#define QUOTE 280
+#define FALSE_TOK 281
+#define TRUE_TOK 282
+#define INT_NUMBER 283
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -107,7 +109,7 @@ union YYSTYPE
 #line 36 "graphQL.y" /* yacc.c:1909  */
 uint64_t num; char *string;
 
-#line 111 "y.tab.h" /* yacc.c:1909  */
+#line 113 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

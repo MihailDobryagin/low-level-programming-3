@@ -35,7 +35,7 @@ void append_filters_to_child();
 
 %union {uint64_t num; char *string;}
 %token QUERY INSERT DELETE UPDATE
-%token <string> STRING
+%token <string> STRING QUOTED_STRING
 %token AND OR NOT
 %token LT LE GT GE EQ
 %token OPBRACE CLBRACE
@@ -111,7 +111,7 @@ simple_immutable_fields: STRING COMMA simple_immutable_fields {append_field_to_r
                         |;
 
 
-value : QUOTE STRING QUOTE {vtype = STRING_TYPE; $$ = $2;}
+value : QUOTED_STRING {vtype = STRING_TYPE; $$ = $1;}
         |
         INT_NUMBER {vtype = INTEGER_TYPE; $$ = $1;}
         |
