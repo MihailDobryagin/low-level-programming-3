@@ -103,11 +103,13 @@ static struct Filter filter_from_transport(Filter_TRANSPORT* filter_transport) {
 	
 	
 	if(is_native) {
-		Native_filter_TRANSPORT* native_filter_transport; g_object_get(filter_union_transport, "filter", native_filter_transport, NULL);
+		Native_filter_TRANSPORT* native_filter_transport; g_object_get(filter_union_transport, "filter", &native_filter_transport, NULL);
 		Value_TRANSPORT* value_transport;
 		struct Native_filter* native_filter = malloc(sizeof(struct Native_filter));
 		
-		g_object_get(native_filter_transport, "name", &(native_filter->name), "opcode", &(native_filter->opcode), "value", &value_transport, NULL);
+		char* str_tmp;
+		g_object_get(native_filter_transport, "name", &str_tmp, "opcode", &(native_filter->opcode), "value", &value_transport, NULL);
+		strcpy(native_filter->name, str_tmp);
 		
 		native_filter->value = value_from_transport(value_transport);
 		
@@ -117,7 +119,7 @@ static struct Filter filter_from_transport(Filter_TRANSPORT* filter_transport) {
 		Logic_func_TRANSPORT* func_transport; g_object_get(filter_union_transport, "func", &func_transport, NULL);
 		struct Logic_func* func = malloc(sizeof(struct Logic_func));
 		GPtrArray* filters_transport;
-		g_object_get(func, "type", &(func->type), "filters", &filters_transport, NULL);
+		g_object_get(func_transport, "type", &(func->type), "filters", &filters_transport, NULL);
 		func->filters_count = filters_transport->len;
 		func->filters = malloc(sizeof(struct Filter) * func->filters_count);
 		

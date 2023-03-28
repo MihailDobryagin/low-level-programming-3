@@ -91,10 +91,10 @@ struct Answer answer_from_transport(Answer_TRANSPORT* answer_transport) {
 
 static struct Header_TRANSPORT* header_for_transport(struct Header header) {
 	struct Header_TRANSPORT* header_transport = _g_object_new(header);
-	printf("HEADER TAG -> %s\n", header.tag);
+	//printf("HEADER TAG -> %s\n", header.tag);
 	g_object_set(header_transport, "tag", header.tag, "filter_not_null", header.filter_not_null, NULL);
 	char* getted_header_tag; g_object_get(header_transport, "tag", &getted_header_tag, NULL);
-	printf("GETTED HEADER TAG -> %s\n", getted_header_tag);
+	//printf("GETTED HEADER TAG -> %s\n", getted_header_tag);
 	
 	if(header.filter_not_null) {
 		struct Filter_TRANSPORT* filter_transport = filter_for_transport(header.filter);
@@ -116,7 +116,7 @@ static struct Filter_TRANSPORT* filter_for_transport(struct Filter filter) {
 		g_object_set(native_filter_transport, 
 			"name", native_filter->name, "opcode", native_filter->opcode, "value", value_for_transport(native_filter->value), NULL
 		);
-		g_object_set(filter_union_transport, "native_filter", native_filter_transport, NULL);
+		g_object_set(filter_union_transport, "filter", native_filter_transport, NULL);
 	} else {
 		g_object_set(filter_union_transport, "func", logic_func_for_transport(filter.func), NULL);
 	}

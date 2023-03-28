@@ -12,6 +12,7 @@ static Properties_filter _map_request_filter_to_properties_filter(struct Filter 
 static Array_node _do_select_request(Database* db, struct View view);
 static Array_node _do_insert_request(Database* db, struct View view);
 static Array_node _do_delete_request(Database* db, struct View view);
+static Array_node _do_update_request(Database* db, struct View view);
 
 static Field _map_request_value_to_field(struct Value value) {
 	Field result = {};
@@ -64,6 +65,10 @@ struct Answer do_request(Database* db, struct View view) {
 		case CRUD_REMOVE:
 			printf("DELETE OPERATION\n");
 			output_nodes = _do_delete_request(db, view);
+			break;
+		case CRUD_UPDATE:
+			printf("UPDATE OPERATION\n");
+			output_nodes = _do_update_request(db, view);
 			break;
 		default:
 			printf("UNKNOWN CRUD OPERATION\n");
@@ -287,4 +292,45 @@ static Array_node _do_delete_request(Database* db, struct View view) {
 	printf("NODES DELETED\n");
 	
 	return to_delete_nodes;
+}
+
+static Array_node _do_update_request(Database* db, struct View view) {
+	Select_nodes select_node_query = {
+		.selection_mode = ALL_NODES,
+		.tag_name = view.header.tag,
+		.filter.has_filter = view.header.filter_not_null
+	};
+	
+	assert(select_node_query.filter.has_filter);
+	if(select_node_query.filter.has_filter) {
+		select_node_query.filter.container = (Filter_container){
+			.type = PROPERTY_FILTER, 
+			.properties_filter = _map_request_filter_to_properties_filter(view.header.filter)
+		};
+	}
+	
+	Array_node node_to_update_as_array = nodes(db, select_node_query);
+	
+	if(node_to_update_as_array.size == 0) return (Array_node){0, NULL};
+	if(node_to_update_as_array.size != 1) {
+		printf("Too many NODES to update (%d)\n", node_to_update_as_array.size);
+		return (Array_node){0, NULL};
+	}
+	
+	Node node = node_to_update_as_array.values[0];
+	
+	for(size_t i = 0; i < view.native_fields_count; i++) {
+		for(size_t prop_idx = 0; prop_idx < node.properties_size; prop_idx++) {
+			if(strcmp(node.properties[prop_idx].name, view.native_fields[i].name) == 0) {
+				node.properties[prop_idx].field = _map_request_value_to_field(view.native_fields[i].value);
+				break;
+			}
+		}
+	}
+	
+	printf("UPDATE NODE...\n");
+	change_node(db, (Change_node){.changed_node = node});
+	printf("NODE updated\n");
+	
+	return (Array_node){.size = 0, .values = (Node[1]){node}};
 }
