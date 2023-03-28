@@ -81,7 +81,7 @@ struct Answer do_request(Database* db, struct View view) {
 	printf("ANSWER built\n");
 	
 	for(size_t i = 0; i < output_nodes.size; i++) free_node_internal(output_nodes.values[i]);
-	free(output_nodes.values);
+	if(output_nodes.size) free(output_nodes.values);
 	
 	return answer;
 }
