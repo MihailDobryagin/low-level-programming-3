@@ -86,8 +86,8 @@ int main(int argc, char * argv[]) {
 						 NULL);
 
 	do {
-		//char* query = _scan_query();
-		char* query = "query{Books(){a,b}}";
+		char* query = _scan_query();
+		//char* query = "query{Books(){a,b}}";
 		//char* query = "insert{Books(){id: 1, a:123, b:321}}";
 		printf("Query -> %s\n", query);
 		yy_scan_string(query);
@@ -110,7 +110,7 @@ int main(int argc, char * argv[]) {
 			free(answer_as_str);
 		}
 
-		return 0;
+		//return 0;
 	} while(!error && d_b_request_if_ping(client, &error));
 
 

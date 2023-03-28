@@ -226,5 +226,34 @@ static Array_node _do_insert_request(Database* db, struct View view) {
 	
 	create_node(db, (Create_node){.node = new_node});
 	
+	for(size_t i = 0; i < view.related_nodes_count; i++) {
+		if(!view.related_nodes[i].header.filter_not_null) {
+			printf("filter for bounded node is null\n");
+			continue;
+		}
+		Properties_filter related_node_filter = _map_request_filter_to_properties_filter(view.related_nodes[i].header.filter);
+		Select_nodes related_nodes_query = {
+			.tag_name = view.related_nodes[i].header.tag,
+			.selection_mode = ALL_NODES,
+			.filter = {
+				.has_filter = true,
+				.container = (Filter_container){.type = PROPERTY_FILTER, .properties_filter = related_node_filter}
+			}
+		};
+		
+		Array_node related_nodes = nodes(db, related_nodes_query);
+		for(size_t i = 0; i < related_nodes.size; i++) {
+			Edge new_edge = {
+				.tag = "edges",
+				.id = (Field) {.type = STRING, .string = "<edge-common-id>"},
+				.node1_id = new_node.id,
+				.node2_id = related_nodes.values[i].id,
+				.properties_size = 0,
+				.properties = NULL
+			};
+			create_edge(db, (Create_edge){.edge = new_edge});
+		}
+	}
+	
 	return (Array_node){0, NULL}; // STUB
 }

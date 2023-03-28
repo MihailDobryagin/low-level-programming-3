@@ -63,7 +63,7 @@ Answer_TRANSPORT* answer_for_transport(struct Answer answer) {
 		GPtrArray* fields_transport = g_ptr_array_new();
 		const struct Node_view node = answer.nodes[i];
 		for(size_t field_idx = 0; field_idx < node.native_fields_count; field_idx++) {
-			struct Native_field field = node.native_fields[i];
+			struct Native_field field = node.native_fields[field_idx];
 			Native_field_TRANSPORT* field_transport = _g_object_new(native_field);
 			g_object_set(field_transport,
 				"name", field.name,
