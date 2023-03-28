@@ -147,42 +147,6 @@ insert {
 
 insert {
 	Country {
-		id: 497,
-		code: "SGP",
-		name: "Singapore",
-		srid: 4326,
-		x: 103,
-		y: 1,
-		tld: "SG"
-	}
-}
-
-insert {
-	Country {
-		id: 338,
-		code: "CHN",
-		name: "China",
-		srid: 4326,
-		x: 105,
-		y: 35,
-		tld: "CN"
-	}
-}
-
-insert {
-	Country {
-		id: 338,
-		code: "CHN",
-		name: "China",
-		srid: 4326,
-		x: 105,
-		y: 35,
-		tld: "CN"
-	}
-}
-
-insert {
-	Country {
 		id: 409,
 		code: "KAZ",
 		name: "Kazakhstan",
@@ -214,18 +178,6 @@ insert {
 		x: 54,
 		y: 24,
 		tld: "AE"
-	}
-}
-
-insert {
-	Country {
-		id: 497,
-		code: "SGP",
-		name: "Singapore",
-		srid: 4326,
-		x: 103,
-		y: 1,
-		tld: "SG"
 	}
 }
 
@@ -290,18 +242,6 @@ insert {
 
 insert {
 	Country {
-		id: 451,
-		code: "NLD",
-		name: "Netherlands",
-		srid: 4326,
-		x: 5,
-		y: 52,
-		tld: "NL"
-	}
-}
-
-insert {
-	Country {
 		id: 429,
 		code: "MYS",
 		name: "Malaysia",
@@ -309,18 +249,6 @@ insert {
 		x: 112,
 		y: 2,
 		tld: "MY"
-	}
-}
-
-insert {
-	Country {
-		id: 478,
-		code: "RUS",
-		name: "Russia",
-		srid: 4326,
-		x: 100,
-		y: 60,
-		tld: "RU"
 	}
 }
 
@@ -350,18 +278,6 @@ insert {
 
 insert {
 	Country {
-		id: 338,
-		code: "CHN",
-		name: "China",
-		srid: 4326,
-		x: 105,
-		y: 35,
-		tld: "CN"
-	}
-}
-
-insert {
-	Country {
 		id: 527,
 		code: "TUR",
 		name: "Turkey",
@@ -369,18 +285,6 @@ insert {
 		x: 35,
 		y: 39,
 		tld: "TR"
-	}
-}
-
-insert {
-	Country {
-		id: 533,
-		code: "ARE",
-		name: "United Arab Emirates",
-		srid: 4326,
-		x: 54,
-		y: 24,
-		tld: "AE"
 	}
 }
 
@@ -398,78 +302,6 @@ insert {
 
 insert {
 	Country {
-		id: 397,
-		code: "IND",
-		name: "India",
-		srid: 4326,
-		x: 77,
-		y: 20,
-		tld: "IN"
-	}
-}
-
-insert {
-	Country {
-		id: 394,
-		code: "HKG",
-		name: "Hong Kong",
-		srid: 4326,
-		x: 114,
-		y: 22,
-		tld: "HK"
-	}
-}
-
-insert {
-	Country {
-		id: 478,
-		code: "RUS",
-		name: "Russia",
-		srid: 4326,
-		x: 100,
-		y: 60,
-		tld: "RU"
-	}
-}
-
-insert {
-	Country {
-		id: 527,
-		code: "TUR",
-		name: "Turkey",
-		srid: 4326,
-		x: 35,
-		y: 39,
-		tld: "TR"
-	}
-}
-
-insert {
-	Country {
-		id: 527,
-		code: "TUR",
-		name: "Turkey",
-		srid: 4326,
-		x: 35,
-		y: 39,
-		tld: "TR"
-	}
-}
-
-insert {
-	Country {
-		id: 527,
-		code: "TUR",
-		name: "Turkey",
-		srid: 4326,
-		x: 35,
-		y: 39,
-		tld: "TR"
-	}
-}
-
-insert {
-	Country {
 		id: 406,
 		code: "JPN",
 		name: "Japan",
@@ -477,17 +309,5 @@ insert {
 		x: 138,
 		y: 36,
 		tld: "JP"
-	}
-}
-
-insert {
-	Country {
-		id: 478,
-		code: "RUS",
-		name: "Russia",
-		srid: 4326,
-		x: 100,
-		y: 60,
-		tld: "RU"
 	}
 }
