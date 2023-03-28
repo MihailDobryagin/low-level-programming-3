@@ -1334,7 +1334,7 @@ yyreduce:
     {
         case 2:
 #line 64 "graphQL.y" /* yacc.c:1646  */
-    {*result_view = tree;}
+    {print_tree();*result_view = tree;}
 #line 1339 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1358,7 +1358,7 @@ yyreduce:
 
   case 7:
 #line 71 "graphQL.y" /* yacc.c:1646  */
-    {set_opcode(3);}
+    {printf("YEEESSS\n");set_opcode(3);}
 #line 1363 "y.tab.c" /* yacc.c:1646  */
     break;
 
