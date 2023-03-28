@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 typedef enum {
-	BYTE = 0,
+	BYTE,
 	STRING,
 	NUMBER, // int32
 	BOOLEAN,

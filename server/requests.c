@@ -128,11 +128,11 @@ static Array_node _do_select_request(Database* db, struct View view) {
 	Array_node main_node_as_array = nodes(db, main_node_query);
 	printf("MAIN node selected\n");
 	if(main_node_as_array.size == 0) {
-		printf("No main nodes found");
+		printf("No main nodes found\n");
 		return main_node_as_array;
 	}
 	if(main_node_as_array.size != 1) {
-		printf("Too many main nodes");
+		printf("Too many main nodes\n");
 		return main_node_as_array;
 	}
 	
