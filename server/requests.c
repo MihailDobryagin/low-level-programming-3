@@ -11,6 +11,7 @@ static struct Answer _answer_from_array_node(Array_node nodes);
 static Properties_filter _map_request_filter_to_properties_filter(struct Filter req_filter);
 static Array_node _do_select_request(Database* db, struct View view);
 static Array_node _do_insert_request(Database* db, struct View view);
+static Array_node _do_delete_request(Database* db, struct View view);
 
 static Field _map_request_value_to_field(struct Value value) {
 	Field result = {};
@@ -60,6 +61,10 @@ struct Answer do_request(Database* db, struct View view) {
 			printf("INSERT OPERATION\n");
 			output_nodes = _do_insert_request(db, view);
 			break;
+		case CRUD_REMOVE:
+			printf("DELETE OPERATION\n");
+			output_nodes = _do_delete_request(db, view);
+			break;
 		default:
 			printf("UNKNOWN CRUD OPERATION\n");
 			output_nodes = (Array_node){0, NULL};
@@ -104,6 +109,8 @@ static Array_node _do_select_request(Database* db, struct View view) {
 		.tag_name = view.header.tag,
 		.filter.has_filter = view.header.filter_not_null
 	};
+	
+	printf("FILTER NOT NULL -> %d\n", main_node_query.filter.has_filter);
 	
 	if(main_node_query.filter.has_filter) {
 		main_node_query.filter.container = (Filter_container){
@@ -256,4 +263,28 @@ static Array_node _do_insert_request(Database* db, struct View view) {
 	}
 	
 	return (Array_node){0, NULL}; // STUB
+}
+
+static Array_node _do_delete_request(Database* db, struct View view) {
+	Select_nodes delete_query = {
+		.selection_mode = ALL_NODES,
+		.tag_name = view.header.tag,
+		.filter.has_filter = view.header.filter_not_null
+	};
+	
+	if(delete_query.filter.has_filter) {
+		delete_query.filter.container = (Filter_container){
+			.type = PROPERTY_FILTER, 
+			.properties_filter = _map_request_filter_to_properties_filter(view.header.filter)
+		};
+	}
+	
+	printf("Start searching NODES to DELETE...\n");
+	Array_node to_delete_nodes = nodes(db, delete_query);
+	printf("NODES to DELETED selected (%d)\n", to_delete_nodes);
+	printf("DELETE nodes...\n");
+	delete_nodes(db, delete_query);
+	printf("NODES DELETED\n");
+	
+	return to_delete_nodes;
 }
