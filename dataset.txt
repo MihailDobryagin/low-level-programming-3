@@ -1,0 +1,448 @@
+MATCH p=(a)-[r:COUNTRY]-(b) WHERE id(a) >= 4900 AND id(a) <=5100 RETURN a,r,b
+
+insert{
+	Entity(){
+		id:5059,
+		country: "",
+		name:"Deutsche Bank AG", 
+		srid: 4326,
+		x: -74,
+		y: 41,
+		local_id: "deutsche-bank-ag"
+	}
+}
+
+
+insert{
+	Entity(){
+		id:5068,
+		country: "CHN",
+		name: "China Construction Bank Corporation", 
+		srid: 4326,
+		x: 105,
+		y: 35,
+		local_id: "china-construction-bank-corporation-beijing-china-chn"
+	}
+}
+
+insert{
+	Entity(){
+		id:5069,
+		country: "CYP",
+		name: "Societe Generale Bank Cyprus Ltd", 
+		srid: 4326,
+		x: 33,
+		y: 35,
+		local_id: "societe-generale-bank-cyprus-ltd-sg-cyprus-cyp"
+	}
+}
+
+insert{
+	Entity(){
+		id:5070,
+		country: "NZL",
+		name: "Asb Bank Limited", 
+		srid: 4326,
+		x: 174,
+		y: -41,
+		local_id: "asb-bank-limited-auckland-new-zealand-nzl"
+	}
+}
+
+insert{
+	Entity(){
+		id:5071,
+		country: "KHM",
+		name: "CIMB Bank Plc", 
+		srid: 4326,
+		x: 105,
+		y: 13,
+		local_id: "cimb-bank-plc-phnom-penh-cambodia-khm"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5072,
+		country: "SGP",
+		name: "United Overseas Bank Limited",
+		srid: 4326,
+		x: 104,
+		y: 1,
+		local_id: "united-overseas-bank-limited-singapore-sgp"
+	}
+}
+insert {
+	Entity() {
+		id: 5073,
+		country: "CHN",
+		name: "Bank of Communications",
+		srid: 4326,
+		x: 105,
+		y: 35,
+		local_id: "bank-of-communications-shanghai-china-chn"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5074,
+		country: "CHN",
+		name: "Hebei Tangshan Branch",
+		srid: 4326,
+		x: 105,
+		y: 35,
+		local_id: "hebei-tangshan-branch-tangshan-china-chn"
+  }
+}
+
+insert {
+	Entity() {
+		id: 5075,
+		country: "KAZ",
+		name: "Kazkommertsbank",
+		srid: 4326,
+		x: 68,
+		y: 48,
+		local_id: "kazkommertsbank-almaty-kazakhstan-kaz"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5076,
+		country: "EGY",
+		name: "Banque Du Caire",
+		srid: 4326,
+		x: 30,
+		y: 27,
+		local_id: "banque-du-caire-cairo-egypt-egy"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5077,
+		country: "ARE",
+		name: "National Bank of Ras Al Kaimah",
+		srid: 4326,
+		x: 54,
+		y: 24,
+		local_id: "national-bank-of-ras-al-kaimah-ras-al-khaimah-united-arab-emirates-are"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5078,
+		country: "SGP",
+		name: "Standard Chartered Bank",
+		srid: 4326,
+		x: 104,
+		y: 1,
+		local_id: "standard-chartered-bank-singapore-sgp"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5079,
+		country: "BEL",
+		name: "ING Belgium S A",
+		srid: 4326,
+		x: 4,
+		y: 51,
+		local_id: "ing-belgium-s-a-brussels-belgium-bel"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5080,
+		country: "CHE",
+		name: "VP Bank",
+		srid: 4326,
+		x: 8,
+		y: 47,
+		local_id: "vp-bank-schweiz-ag-zurich-switzerland-che"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5081,
+		country: "CYM",
+		name: "Maples And Calder",
+		srid: 4326,
+		x: -81,
+		y: 20,
+		local_id: "maples-and-calder-cayman-islands-cym"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5082,
+		country: "RUS",
+		name: "Primorye Bank",
+		srid: 4326,
+		x: 100,
+		y: 60,
+		local_id: "primorye-bank-vladivostok-russia-rus"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5083,
+		country: "POL",
+		name: "Alior Bank S.A. ",
+		srid: 4326,
+		x: 20,
+		y: 52,
+		local_id: "alior-bank-sa-warsaw-poland-pol"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5084,
+		country: "NLD",
+		name: "ABN Amro Bank NV",
+		srid: 4326,
+		x: 5,
+		y: 52,
+		local_id: "abn-amro-bank-nv-netherlands-nld"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5085,
+		country: "MYS",
+		name: "Ocbc Bank",
+		srid: 4326,
+		x: 112,
+		y: 2,
+		local_id: "ocbc-bank-malaysia-berhad-kuala-lumpur-malaysia-mys"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5086,
+		country: "RUS",
+		name: "VTB Bank",
+		srid: 4326,
+		x: 100,
+		y: 60,
+		local_id: "vtb-bank-moscow-russia-rus"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5087,
+		country: "PAK",
+		name: "Bank Al Habib Ltd",
+		srid: 4326,
+		x: 70,
+		y: 30,
+		local_id: "bank-al-habib-ltd-karachi-pakistan-pak"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5088,
+		country: "UKR",
+		name: "PJSC Credit Agricole Bank",
+		srid: 4326,
+		x: 32,
+		y: 49,
+		local_id: "pjsc-credit-agricole-bank-kiev-ukraine-ukr"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5089,
+		country: "CHN",
+		name: "China Merchant Bank Co Ltd",
+		srid: 4326,
+		x: 105,
+		y: 35,
+		local_id: "china-merchant-bank-co-ltd-shenzhen-china-chn"
+	}
+}
+
+insert {
+	Entity() {
+		id: 5090,
+		country: "TUR",
+		name: "Turkiye Garanti Bankasi A S",
+
+		srid: 4326,
+		x: 35,
+		y: 39,
+
+		local_id: "turkiye-garanti-bankasi-a-s-istanbul-turkey-tur"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5091,
+		country: "ARE",
+		name: "Standard Chartered Bank Treasury",
+
+		srid: 4326,
+		x: 54,
+		y: 24,
+
+		local_id: "standard-chartered-bank-treasury-dubai-united-arab-emirates-are"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5092,
+		country: "KOR",
+		name: "Kookmin Bank",
+
+		srid: 4326,
+		x: 127,
+		y: 37,
+
+		local_id: "kookmin-bank-korea-kor"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5093,
+		country: "IND",
+		name: "Standard Chartered Bank",
+
+		srid: 4326,
+		x: 77,
+		y: 20,
+
+		local_id: "standard-chartered-bank-india-ind"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5094,
+		country: "HKG",
+		name: "JPMorgan Chase Bank Na - Hong Kong Branch",
+
+		srid: 4326,
+		x: 114,
+		y: 22,
+
+		local_id: "jpmorgan-chase-bank-na-hong-kong-branch-hong-kong-hkg"
+	}
+}
+
+
+insert {
+	Entity() {
+		id: 5095,
+		country: "RUS",
+		name: "Sberbank",
+
+		srid: 4326,
+		x: 100,
+		y: 60,
+
+		local_id: "sberbank-russia-rus"
+	}
+}
+
+
+insert {
+	Entity() {
+		id:5096,
+		country: "TUR",
+		name: "Turkiye Garanti Bankasi A.S.",
+
+		srid: 4326,
+		x: 35,
+		y: 39,
+
+		local_id: "turkiye-garanti-bankasi-as-istanbul-turkey-tur"
+	}
+}
+
+
+insert {
+	Entity() {
+		id:5097,
+		country: "TUR",
+		name: "Anadolubank A.S.",
+
+		srid: 4326,
+		x: 35,
+		y: 39,
+
+		local_id: "anadolubank-as-istanbul-turkey-tur"
+	}
+}
+
+
+insert {
+	Entity() {
+	id:5098,
+	country: "TUR",
+	name: "Albaraka Turk Participation Bank",
+
+	srid: 4326,
+	x: 35,
+	y: 39,
+
+	local_id: "albaraka-turk-participation-bank-istanbul-turkey-tur"
+	}
+}
+
+
+insert {
+	Entity() {
+	id:5099,
+	country: "JPN",
+	name: "Yokohama Shinkin Bank",
+
+	srid: 4326,
+	x: 138,
+	y: 36,
+
+	local_id: "yokohama-shinkin-bank-ltd-yokohama-japan-jpn"
+	}
+}
+
+
+insert {
+	Entity() {
+		id:5100,
+		country: "RUS",
+		name: "Sberbank",
+
+		srid: 4326,
+		x: 100,
+		y: 60,
+
+		local_id: "sberbank-moscow-russia-rus"
+	}
+}

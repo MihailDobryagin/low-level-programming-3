@@ -332,5 +332,35 @@ static Array_node _do_update_request(Database* db, struct View view) {
 	change_node(db, (Change_node){.changed_node = node});
 	printf("NODE updated\n");
 	
+	printf("Insert RELATIONS (%d) ...\n", view.related_nodes_count);
+	for(size_t i = 0; i < view.related_nodes_count; i++) {
+		Properties_filter related_node_filter = _map_request_filter_to_properties_filter(view.related_nodes[i].header.filter);
+		
+		Select_nodes related_node_query = {
+			.selection_mode = ALL_NODES,
+			.filter = {
+				.has_filter = true,
+				.container = (Filter_container) {.type = PROPERTY_FILTER, .properties_filter = related_node_filter}
+			},
+			.tag_name = view.related_nodes[i].header.tag
+		};
+		Array_node related_node_as_array = nodes(db, related_node_query);
+		assert(related_node_as_array.size == 1);
+		Node related_node = related_node_as_array.values[0];
+		
+		Edge relation = {
+			.tag = "edges",
+			.id = (Field){.type = STRING, .string = "<edges-id>"},
+			.node1_id = node.id,
+			.node2_id = related_node.id,
+			.properties_size = 0,
+			.properties = NULL
+		};
+		create_edge(db, (Create_edge){.edge = relation});
+		printf("%d..", i);
+	}
+	printf("\n");
+	printf("RELATIONS inserted\n");
+	
 	return (Array_node){.size = 0, .values = (Node[1]){node}};
 }

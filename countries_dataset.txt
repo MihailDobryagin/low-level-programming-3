@@ -1,0 +1,493 @@
+MATCH p=(a)-[r:COUNTRY]-(b) WHERE id(a) >= 4900 AND id(a) <=5100 RETURN b
+
+
+insert {
+	Country {
+		id: 394,
+		code: "HKG",
+		name: "Hong Kong",
+		srid: 4326,
+		x: 114,
+		y: 22,
+		tld: "HK"
+	}
+}
+
+insert {
+	Country {
+		id: 352,
+		code: "CZE",
+		name: "Czech Republic",
+		srid: 4326,
+		x: 15,
+		y: 49,
+		tld: "CZ"
+	}
+}
+
+insert {
+	Country {
+		id: 375,
+		code: "DEU",
+		name: "Germany",
+		srid: 4326,
+		x: 9,
+		y: 51,
+		tld: "DE"
+	}
+}
+
+insert {
+	Country {
+		id: 534,
+		code: "GBR",
+		name: "United Kingdom",
+		srid: 4326,
+		x: -2,
+		y: 54,
+		tld: "GB"
+	}
+}
+
+insert {
+	Country {
+		id: 535,
+		code: "USA",
+		name: "United States",
+		srid: 4326,
+		x: -97,
+		y: 38,
+		tld: "US"
+	}
+}
+
+insert {
+	Country {
+		id: 397,
+		code: "IND",
+		name: "India",
+		srid: 4326,
+		x: 77,
+		y: 20,
+		tld: "IN"
+	}
+}
+
+insert {
+	Country {
+		id: 451,
+		code: "NLD",
+		name: "Netherlands",
+		srid: 4326,
+		x: 5,
+		y: 52,
+		tld: "NL"
+	}
+}
+
+insert {
+	Country {
+		id: 497,
+		code: "SGP",
+		name: "Singapore",
+		srid: 4326,
+		x: 103,
+		y: 1,
+		tld: "SG"
+	}
+}
+
+insert {
+	Country {
+		id: 338,
+		code: "CHN",
+		name: "China",
+		srid: 4326,
+		x: 105,
+		y: 35,
+		tld: "CN"
+	}
+}
+
+insert {
+	Country {
+		id: 350,
+		code: "CYP",
+		name: "Cyprus",
+		srid: 4326,
+		x: 33,
+		y: 35,
+		tld: "CY"
+	}
+}
+
+insert {
+	Country {
+		id: 454,
+		code: "NZL",
+		name: "New Zealand",
+		srid: 4326,
+		x: 174,
+		y: -41,
+		tld: "NZ"
+	}
+}
+
+insert {
+	Country {
+		id: 330,
+		code: "KHM",
+		name: "Cambodia",
+		srid: 4326,
+		x: 105,
+		y: 13,
+		tld: "KH"
+	}
+}
+
+insert {
+	Country {
+		id: 497,
+		code: "SGP",
+		name: "Singapore",
+		srid: 4326,
+		x: 103,
+		y: 1,
+		tld: "SG"
+	}
+}
+
+insert {
+	Country {
+		id: 338,
+		code: "CHN",
+		name: "China",
+		srid: 4326,
+		x: 105,
+		y: 35,
+		tld: "CN"
+	}
+}
+
+insert {
+	Country {
+		id: 338,
+		code: "CHN",
+		name: "China",
+		srid: 4326,
+		x: 105,
+		y: 35,
+		tld: "CN"
+	}
+}
+
+insert {
+	Country {
+		id: 409,
+		code: "KAZ",
+		name: "Kazakhstan",
+		srid: 4326,
+		x: 68,
+		y: 48,
+		tld: "KZ"
+	}
+}
+
+insert {
+	Country {
+		id: 358,
+		code: "EGY",
+		name: "Egypt",
+		srid: 4326,
+		x: 30,
+		y: 27,
+		tld: "EG"
+	}
+}
+
+insert {
+	Country {
+		id: 533,
+		code: "ARE",
+		name: "United Arab Emirates",
+		srid: 4326,
+		x: 54,
+		y: 24,
+		tld: "AE"
+	}
+}
+
+insert {
+	Country {
+		id: 497,
+		code: "SGP",
+		name: "Singapore",
+		srid: 4326,
+		x: 103,
+		y: 1,
+		tld: "SG"
+	}
+}
+
+insert {
+	Country {
+		id: 315,
+		code: "BEL",
+		name: "Belgium",
+		srid: 4326,
+		x: 4,
+		y: 50,
+		tld: "BE"
+	}
+}
+
+insert {
+	Country {
+		id: 515,
+		code: "CHE",
+		name: "Switzerland",
+		srid: 4326,
+		x: 8,
+		y: 47,
+		tld: "CH"
+	}
+}
+
+insert {
+	Country {
+		id: 334,
+		code: "CYM",
+		name: "Channel Islands",
+		srid: 4326,
+		x: -2,
+		y: 49.36097
+	}
+}
+
+insert {
+	Country {
+		id: 478,
+		code: "RUS",
+		name: "Russia",
+		srid: 4326,
+		x: 100,
+		y: 60,
+		tld: "RU"
+	}
+}
+
+insert {
+	Country {
+		id: 472,
+		code: "POL",
+		name: "Poland",
+		srid: 4326,
+		x: 20,
+		y: 52,
+		tld: "PL"
+	}
+}
+
+insert {
+	Country {
+		id: 451,
+		code: "NLD",
+		name: "Netherlands",
+		srid: 4326,
+		x: 5,
+		y: 52,
+		tld: "NL"
+	}
+}
+
+insert {
+	Country {
+		id: 429,
+		code: "MYS",
+		name: "Malaysia",
+		srid: 4326,
+		x: 112,
+		y: 2,
+		tld: "MY"
+	}
+}
+
+insert {
+	Country {
+		id: 478,
+		code: "RUS",
+		name: "Russia",
+		srid: 4326,
+		x: 100,
+		y: 60,
+		tld: "RU"
+	}
+}
+
+insert {
+	Country {
+		id: 463,
+		code: "PAK",
+		name: "Pakistan",
+		srid: 4326,
+		x: 70,
+		y: 30,
+		tld: "PK"
+	}
+}
+
+insert {
+	Country {
+		id: 532,
+		code: "UKR",
+		name: "Ukraine",
+		srid: 4326,
+		x: 32,
+		y: 49,
+		tld: "UA"
+	}
+}
+
+insert {
+	Country {
+		id: 338,
+		code: "CHN",
+		name: "China",
+		srid: 4326,
+		x: 105,
+		y: 35,
+		tld: "CN"
+	}
+}
+
+insert {
+	Country {
+		id: 527,
+		code: "TUR",
+		name: "Turkey",
+		srid: 4326,
+		x: 35,
+		y: 39,
+		tld: "TR"
+	}
+}
+
+insert {
+	Country {
+		id: 533,
+		code: "ARE",
+		name: "United Arab Emirates",
+		srid: 4326,
+		x: 54,
+		y: 24,
+		tld: "AE"
+	}
+}
+
+insert {
+	Country {
+		id: 413,
+		code: "KOR",
+		name: "South Korea",
+		srid: 4326,
+		x: 127,
+		y: 37,
+		tld: "KR"
+	}
+}
+
+insert {
+	Country {
+		id: 397,
+		code: "IND",
+		name: "India",
+		srid: 4326,
+		x: 77,
+		y: 20,
+		tld: "IN"
+	}
+}
+
+insert {
+	Country {
+		id: 394,
+		code: "HKG",
+		name: "Hong Kong",
+		srid: 4326,
+		x: 114,
+		y: 22,
+		tld: "HK"
+	}
+}
+
+insert {
+	Country {
+		id: 478,
+		code: "RUS",
+		name: "Russia",
+		srid: 4326,
+		x: 100,
+		y: 60,
+		tld: "RU"
+	}
+}
+
+insert {
+	Country {
+		id: 527,
+		code: "TUR",
+		name: "Turkey",
+		srid: 4326,
+		x: 35,
+		y: 39,
+		tld: "TR"
+	}
+}
+
+insert {
+	Country {
+		id: 527,
+		code: "TUR",
+		name: "Turkey",
+		srid: 4326,
+		x: 35,
+		y: 39,
+		tld: "TR"
+	}
+}
+
+insert {
+	Country {
+		id: 527,
+		code: "TUR",
+		name: "Turkey",
+		srid: 4326,
+		x: 35,
+		y: 39,
+		tld: "TR"
+	}
+}
+
+insert {
+	Country {
+		id: 406,
+		code: "JPN",
+		name: "Japan",
+		srid: 4326,
+		x: 138,
+		y: 36,
+		tld: "JP"
+	}
+}
+
+insert {
+	Country {
+		id: 478,
+		code: "RUS",
+		name: "Russia",
+		srid: 4326,
+		x: 100,
+		y: 60,
+		tld: "RU"
+	}
+}

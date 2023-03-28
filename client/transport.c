@@ -114,8 +114,8 @@ static struct Filter_TRANSPORT* filter_for_transport(struct Filter filter) {
 		struct Native_filter_TRANSPORT* native_filter_transport = _g_object_new(native_filter);
 		struct Native_filter* native_filter = filter.filter;
 		g_object_set(native_filter_transport, 
-			"name", native_filter->name, "opcode", native_filter->opcode, "value", value_for_transport(native_filter->value), NULL
-		);
+			"name", native_filter->name, "opcode", native_filter->opcode, "value", value_for_transport(native_filter->value),
+		NULL);
 		g_object_set(filter_union_transport, "filter", native_filter_transport, NULL);
 	} else {
 		g_object_set(filter_union_transport, "func", logic_func_for_transport(filter.func), NULL);
