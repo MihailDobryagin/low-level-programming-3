@@ -91,10 +91,7 @@ struct Answer answer_from_transport(Answer_TRANSPORT* answer_transport) {
 
 static struct Header_TRANSPORT* header_for_transport(struct Header header) {
 	struct Header_TRANSPORT* header_transport = _g_object_new(header);
-	//printf("HEADER TAG -> %s\n", header.tag);
 	g_object_set(header_transport, "tag", header.tag, "filter_not_null", header.filter_not_null, NULL);
-	char* getted_header_tag; g_object_get(header_transport, "tag", &getted_header_tag, NULL);
-	//printf("GETTED HEADER TAG -> %s\n", getted_header_tag);
 	
 	if(header.filter_not_null) {
 		struct Filter_TRANSPORT* filter_transport = filter_for_transport(header.filter);
